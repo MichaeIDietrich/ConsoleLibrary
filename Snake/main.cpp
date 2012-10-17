@@ -3,7 +3,8 @@
 
 #include "stdafx.h"
 #include <Windows.h>
-#include "Console.h"
+#include "../ConsoleLibrary/Console.h"
+//#include "Console.h"
 #include "Snake.h"
 
 #include <iostream>
