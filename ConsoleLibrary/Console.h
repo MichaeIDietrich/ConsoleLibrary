@@ -8,6 +8,8 @@
 
 enum colors { black = 0, red = 4, green = 2, blue = 1, yellow = 6, magenta = 5, cyan = 3, white = 7 };
 
+typedef LPCWSTR UNICODE_STR;
+
 #else
 
 // weitere UNIX Header
@@ -61,7 +63,7 @@ public:
     // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers
     // Initialisiert die Schrift einer quadratischen Schriftart (8x8)
     // Blendet den Text-Cursor aus
-    Console(LPCWSTR title, int width, int height);
+    Console(UNICODE_STR title, int width, int height);
 
     // Destruktor
     ~Console();
@@ -70,7 +72,7 @@ public:
     void clear();
 
     // Ändert den Konsolentitel
-    void setTitle(LPCWSTR title);
+    void setTitle(UNICODE_STR title);
 
     // Eintragen einer Callback-Funktion für KeyDown-Events
     void registerKeyDownEvent(keyDownEvent event) { keyDown = event; }
