@@ -11,8 +11,11 @@
 *.la
 *.a
 
+# System dependend locations + files
 Snake.sdf
 Snake.opensdf
 Debug/
 ipch/
 Snake/Debug/
+build/
+*~
