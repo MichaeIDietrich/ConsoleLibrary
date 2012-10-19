@@ -1,19 +1,27 @@
 // Snake.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
 //
 
-#include "stdafx.h"
-#include <Windows.h>
-#include "../ConsoleLibrary/Console.h"
+//#include "stdafx.h"
+//#include <Windows.h>
+#include "../ConsoleLibrary/LinuxConsole.h"
 //#include "Console.h"
 #include "Snake.h"
+#include <time.h>
+#include <stdlib.h>
 
 #include <iostream>
 #include <fstream>
 
-#define WIDTH 50
-#define HEIGHT 50
+#define WIDTH 10
+#define HEIGHT 10
 
 #define NEW_RANDOM_POINT new Point(rand() % WIDTH, rand() % HEIGHT)
+
+#define VK_LEFT   0x25
+#define VK_UP     0x26
+#define VK_RIGHT  0x27
+#define VK_DOWN   0x28
+#define VK_ESCAPE 0x1B
 
 
 void keyUpFunction(WORD keyCode, DWORD modifier);
@@ -26,13 +34,13 @@ Point* food;
 
 ofstream logFile;
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char** argv)
 {
     logFile.open("snake.log");
 
-    srand ( GetTickCount() );
+    srand ( time_t(NULL) );
 
-    console = new Console(L"Snake", WIDTH, HEIGHT);
+    console = new Console("Snake", WIDTH, HEIGHT);
     console->registerKeyUpEvent(&keyUpFunction);
     console->registerTimerEvent(&timerFunction, 50);
 

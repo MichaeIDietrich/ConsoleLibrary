@@ -1,16 +1,21 @@
 #include "LinuxConsole.h"
 #include <curses.h>
+#include <iostream>
 
 
 Console::Console(UNICODE_STR title, int width, int height)
 {
+  //std::cout << "\x1b]50;" << "Courier New" << "\a" << std::flush;
+
+
+  
     initscr();
     start_color();
     
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     bkgd(COLOR_PAIR(1));
     
-    resize_term(width, height);
+    //resize_term(width, height);
     
     setTitle(title);
 }

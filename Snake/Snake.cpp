@@ -1,5 +1,7 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "Snake.h"
+
+#define NULL 0
 
 
 Snake::Snake()
@@ -45,17 +47,17 @@ Point* Snake::getTail()
     return NULL;
 }
 
-void Snake::add(WORD index, Point& point)
+void Snake::add(WORD index, const Point& point)
 {
     points->insert(points->begin() + index, point);
 }
 
-void Snake::addHead(Point& point)
+void Snake::addHead(const Point& point)
 {
     points->insert(points->begin(), point);
 }
 
-void Snake::addTail(Point& point)
+void Snake::addTail(const Point& point)
 {
     points->insert(points->end(), point);
 }
