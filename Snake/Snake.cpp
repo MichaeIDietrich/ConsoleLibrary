@@ -1,5 +1,7 @@
 #include "Snake.h"
 
+#define NULL 0
+
 
 Snake::Snake()
     :dirVec(0, 0), dir(Direction::NONE)
@@ -44,17 +46,17 @@ Point* const Snake::getTail()
     return NULL;
 }
 
-void Snake::add(WORD index, Point& point)
+void Snake::add(WORD index, const Point& point)
 {
     points->insert(points->begin() + index, point);
 }
 
-void Snake::addHead(Point& point)
+void Snake::addHead(const Point& point)
 {
     points->insert(points->begin(), point);
 }
 
-void Snake::addTail(Point& point)
+void Snake::addTail(const Point& point)
 {
     points->insert(points->end(), point);
 }

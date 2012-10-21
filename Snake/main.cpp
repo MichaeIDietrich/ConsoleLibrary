@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 {
     logFile.open("snake.log");
 
-    srand ( GetTickCount() );
+    srand ( time_t(NULL) );
 
     console = new Console(L"Snake", WIDTH, HEIGHT, WHITE, BLACK);
 

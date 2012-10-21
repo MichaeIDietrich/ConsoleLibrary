@@ -37,13 +37,14 @@ public:
     Snake();
     Snake(WORD x, WORD y, WORD length);
     ~Snake();
-    Point* const get(WORD index);
-    Point* const getHead();
-    Point* const getTail();
-    WORD const getLength() { return points->size(); }
-    void add(WORD index, Point& point);
-    void addHead(Point& newHead);
-    void addTail(Point& newTail);
+
+    Point* get(WORD index);
+    Point* getHead();
+    Point* getTail();
+    WORD getLength() { return points->size(); }
+    void add(WORD index, const Point& point);
+    void addHead(const Point& newHead);
+    void addTail(const Point& newTail);
     void remove(WORD index);
     void removeHead() { remove(0); }
     void removeTail() { remove(points->size() - 1); }
