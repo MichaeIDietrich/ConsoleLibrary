@@ -22,7 +22,7 @@ Snake::~Snake()
     delete points;
 }
 
-Point* const Snake::get(WORD index)
+Point* Snake::get(WORD index)
 {
     if (points != NULL && points->size() > index)
         return &((*points)[index]);
@@ -30,7 +30,7 @@ Point* const Snake::get(WORD index)
     return NULL;
 }
 
-Point* const Snake::getHead()
+Point* Snake::getHead()
 {
     if (points != NULL && points->size() > 0)
         return &((*points)[0]);
@@ -38,7 +38,7 @@ Point* const Snake::getHead()
     return NULL;
 }
 
-Point* const Snake::getTail()
+Point* Snake::getTail()
 {
     if (points != NULL && points->size() > 0)
         return &((*points)[points->size() -1]);
