@@ -11,8 +11,8 @@
 *.la
 *.a
 
-Snake.sdf
-Snake.opensdf
+*.sdf
+*.opensdf
 Debug/
 ipch/
 Snake/Debug/

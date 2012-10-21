@@ -6,7 +6,7 @@
 
 #define CALC_NEXT_TICK nextTickEvent = GetTickCount() + intervallTime;
 
-enum colors { black = 0, red = 4, green = 2, blue = 1, yellow = 6, magenta = 5, cyan = 3, white = 7 };
+enum Colors { BLACK = 0, RED = 4, GREEN = 2, BLUE = 1, YELLOW = 6, MAGENTA = 5, CYAN = 3, WHITE = 7 };
 
 typedef LPCWSTR UNICODE_STR;
 
@@ -16,7 +16,7 @@ typedef LPCWSTR UNICODE_STR;
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
 
-enum colors { black = 0, red = 1, green = 2, blue = 4, yellow = 3, magenta = 5, cyan = 5, white = 7 };
+enum Colors { BLACK = 0, RED = 1, GREEN = 2, BLUE = 4, YELLOW = 3, MAGENTA = 5, CYAN = 5, WHITE = 7 };
 
 #endif
 
@@ -42,6 +42,7 @@ private:
     DWORD nextTickEvent;
 
     WORD color;
+    WORD clearColor;
 
     HANDLE wHnd;
     HANDLE rHnd;
@@ -63,7 +64,7 @@ public:
     // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers
     // Initialisiert die Schrift einer quadratischen Schriftart (8x8)
     // Blendet den Text-Cursor aus
-    Console(UNICODE_STR title, int width, int height);
+    Console(UNICODE_STR title, int width, int height, Colors clearForeground, Colors clearBackground);
 
     // Destruktor
     ~Console();
@@ -90,10 +91,16 @@ public:
     void stop();
 
     // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setColor(colors forground, colors background);
+    void setColor(Colors forground, Colors background);
+
+    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
+    void setClearColor(Colors forground, Colors background);
 
     // Setzt einen einzelnen Character in der Konsole am angegebenen Punkt
     void setTile(int x, int y, char tile);
+
+    // Zeigt alle Änderungen an
+    void refresh();
 
     // Schreibt einen Text auf die Konsole am angegebenen Punkt
     void printText(int x, int y, char* text);

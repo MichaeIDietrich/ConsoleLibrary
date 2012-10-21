@@ -6,6 +6,8 @@ typedef unsigned short WORD;
 
 using namespace std;
 
+enum Direction { NONE, NORTH, EAST, SOUTH, WEST };
+
 struct Point
 {
     int x;
@@ -17,9 +19,9 @@ struct Point
         this->y = y;
     }
 
-    bool operator==(Point& point)
+    bool operator==(Point* point)
     {
-        return this->x == point.x && this->y == point.y;
+        return this->x == point->x && this->y == point->y;
     }
 };
 
@@ -27,16 +29,18 @@ class Snake
 {
 private:
     vector<Point>* points;
-    Point direction;
+    Direction dir;
+    Point dirVec;
+    bool moved;
 
 public:
     Snake();
     Snake(WORD x, WORD y, WORD length);
     ~Snake();
-    Point* get(WORD index);
-    Point* getHead();
-    Point* getTail();
-    WORD getLength() { return points->size(); }
+    Point* const get(WORD index);
+    Point* const getHead();
+    Point* const getTail();
+    WORD const getLength() { return points->size(); }
     void add(WORD index, Point& point);
     void addHead(Point& newHead);
     void addTail(Point& newTail);
@@ -45,9 +49,11 @@ public:
     void removeTail() { remove(points->size() - 1); }
     void clear() { points->clear(); }
 
+    Point* getNextPosition();
     void move(bool cutTail = true);
-    Point& getDirection() { return direction; }
-    void setDirection(Point& direction) { this->direction = direction; }
-    void checkLength();
+    Direction getDirection() { return dir; }
+    Point& getDirectionVector() { return dirVec; }
+    void setDirection(Direction dir, bool force = false);
     bool checkBounds(WORD left, WORD top, WORD right, WORD bottom);
+    bool checkCollisionWith(Snake* snake);
 };

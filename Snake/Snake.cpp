@@ -1,15 +1,14 @@
-#include "stdafx.h"
 #include "Snake.h"
 
 
 Snake::Snake()
-    :direction(0, 0)
+    :dirVec(0, 0), dir(Direction::NONE)
 {
     points = new vector<Point>();
 }
 
 Snake::Snake(WORD x, WORD y, WORD length)
-    :direction(0, 0)
+    :dirVec(0, 0), dir(Direction::NONE)
 {
     points = new vector<Point>();
 
@@ -21,7 +20,7 @@ Snake::~Snake()
     delete points;
 }
 
-Point* Snake::get(WORD index)
+Point* const Snake::get(WORD index)
 {
     if (points != NULL && points->size() > index)
         return &((*points)[index]);
@@ -29,7 +28,7 @@ Point* Snake::get(WORD index)
     return NULL;
 }
 
-Point* Snake::getHead()
+Point* const Snake::getHead()
 {
     if (points != NULL && points->size() > 0)
         return &((*points)[0]);
@@ -37,7 +36,7 @@ Point* Snake::getHead()
     return NULL;
 }
 
-Point* Snake::getTail()
+Point* const Snake::getTail()
 {
     if (points != NULL && points->size() > 0)
         return &((*points)[points->size() -1]);
@@ -65,14 +64,54 @@ void Snake::remove(WORD index)
     points->erase(points->begin() + index);
 }
 
-void Snake::move(bool cutTail)
+Point* Snake::getNextPosition()
 {
     Point* head = getHead();
-    addHead(Point(head->x + direction.x, head->y + direction.y));
+    return new Point(head->x + dirVec.x, head->y + dirVec.y);
+}
+
+void Snake::move(bool cutTail)
+{
+    addHead(*getNextPosition());
 
     if (cutTail)
     {
         removeTail();
+    }
+
+    moved = true;
+}
+
+void Snake::setDirection(Direction dir, bool force)
+{
+    if (force || moved)
+    {
+        // reset moved
+        moved = false;
+
+        this->dir = dir;
+        switch (dir)
+        {
+        case Direction::NONE:
+            dirVec = Point(0, 0);
+            break;
+
+        case Direction::NORTH:
+            dirVec = Point(0, -1);
+            break;
+
+        case Direction::EAST:
+            dirVec = Point(1, 0);
+            break;
+
+        case Direction::SOUTH:
+            dirVec = Point(0, 1);
+            break;
+
+        case Direction::WEST:
+            dirVec = Point(-1, 0);
+            break;
+        }
     }
 }
 
@@ -97,6 +136,21 @@ bool Snake::checkBounds(WORD left, WORD top, WORD right, WORD bottom)
     {
         getHead()->y = top;
         return true;
+    }
+
+    return false;
+}
+
+bool Snake::checkCollisionWith(Snake* snake)
+{
+    Point* head = this->getHead();
+
+    for (WORD i = 1; i < snake->getLength(); i++)
+    {
+        if (*head == snake->get(i))
+        {
+            return true;
+        }
     }
 
     return false;
