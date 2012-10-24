@@ -1,51 +1,48 @@
-// Snake.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
-//
+// Entry Point for the Snake Application
 
-//#include "stdafx.h"
-//#include <Windows.h>
-#include "../ConsoleLibrary/LinuxConsole.h"
-//#include "Console.h"
+#include "../ConsoleLibrary/Console.h"
 #include "Snake.h"
-#include <time.h>
-#include <stdlib.h>
+#include "Menu.h"
 
-#include <iostream>
 #include <fstream>
 
-#define WIDTH 10
-#define HEIGHT 10
+#define WIDTH 50
+#define HEIGHT 50
 
 #define NEW_RANDOM_POINT new Point(rand() % WIDTH, rand() % HEIGHT)
 
-#define VK_LEFT   0x25
-#define VK_UP     0x26
-#define VK_RIGHT  0x27
-#define VK_DOWN   0x28
-#define VK_ESCAPE 0x1B
+enum States { MENU, RUN, PAUSE };
 
 
 void keyUpFunction(WORD keyCode, DWORD modifier);
 void timerFunction();
 
-Console* console;
-Snake* snake;
+void initMenu();
+void render();
 
+Console* console;
+
+States state = States::MENU;
+Menu* menu;
+
+Snake* snake;
 Point* food;
 
+// DEBUG
 ofstream logFile;
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
     logFile.open("snake.log");
 
     srand ( time_t(NULL) );
 
-    console = new Console("Snake", WIDTH, HEIGHT);
-    console->registerKeyUpEvent(&keyUpFunction);
-    console->registerTimerEvent(&timerFunction, 50);
+    console = new Console(L"Snake", WIDTH, HEIGHT, WHITE, BLACK);
 
-    snake = new Snake(10, 10, 10);
-    food = NEW_RANDOM_POINT;
+    initMenu();
+    render();
+
+    console->registerKeyUpEvent(&keyUpFunction);
 
     console->run();
 
@@ -57,53 +54,178 @@ int main(int argc, char** argv)
 
 void keyUpFunction(WORD keyCode, DWORD modifier)
 {
-    switch (keyCode)
+    switch (state)
     {
-    case VK_LEFT:
-        snake->setDirection(Point(-1, 0));
+    case MENU:
+
+        if (keyCode == VK_UP)
+        {
+            menu->selectPrevious();
+        }
+        else if (keyCode == VK_DOWN)
+        {
+            menu->selectNext();
+        }
+        else if (keyCode == VK_RETURN)
+        {
+            switch (menu->getSelectedItem())
+            {
+            case 0:
+                state = States::RUN;
+                console->registerTimerEvent(&timerFunction, 50);
+
+                snake = new Snake(10, 10, 10);
+                food = NEW_RANDOM_POINT;
+                break;
+
+            case 1:
+                // fehlt;
+                break;
+
+            case 2:
+                console->stop();
+                break;
+            }
+            return;
+        }
+        else if (keyCode == VK_ESCAPE)
+        {
+            console->stop();
+            return;
+        }
+
+        render();
+
         break;
 
-    case VK_DOWN:
-        snake->setDirection(Point(0, 1));
+
+    case RUN:
+
+        if (keyCode == VK_UP && snake->getDirection() != SOUTH)
+        {
+            snake->setDirection(NORTH);
+        }
+        else if (keyCode == VK_RIGHT && snake->getDirection() != WEST)
+        {
+            snake->setDirection(EAST);
+        }
+        else if (keyCode == VK_DOWN && snake->getDirection() != NORTH)
+        {
+            snake->setDirection(SOUTH);
+        }
+        else if (keyCode == VK_LEFT && snake->getDirection() != EAST)
+        {
+            snake->setDirection(WEST);
+        }
+        else if (keyCode == VK_ESCAPE)
+        {
+            state = MENU;
+            console->registerTimerEvent(NULL, 0);
+        }
+        else
+        {
+            return;
+        }
         break;
 
-    case VK_RIGHT:
-        snake->setDirection(Point(1, 0));
+    case PAUSE:
+
+        if (keyCode == VK_SPACE)
+        {
+            state = RUN;
+        }
         break;
-
-    case VK_UP:
-        snake->setDirection(Point(0, -1));
-        break;
-
-    case VK_ESCAPE:
-        console->stop();
-        return;
-
-    default:
-        return;
     }
-    
+
 }
 
 void timerFunction()
 {
-    snake->move();
-    snake->checkBounds(0, 0, WIDTH -1, HEIGHT - 1);
-
-    if (*(snake->getHead()) == *food)
+    // get next position
+    Point* next = snake->getNextPosition();
+    
+    // check for collision with food and compute
+    if (*(next) == food)
     {
-        snake->addTail(*(snake->getTail()));
+        snake->move(false);
         delete food;
         food = NEW_RANDOM_POINT;
     }
-
-    console->clear();
-    //console->setTile(food->x, food->y, '+');
-    console->printText(food->x, food->y, "+");
-
-    for (WORD i = 0; i < snake->getLength(); i++)
+    else
     {
-        console->printText(snake->get(i)->x, snake->get(i)->y, "o");
-        //console->setTile(snake->get(i)->x, snake->get(i)->y, 'o');
+        // move snake normally
+        snake->move();
+        snake->checkBounds(0, 0, WIDTH -1, HEIGHT - 1);
     }
+
+    //delete the next point
+    delete next;
+
+    // check for collision
+    if (snake->checkCollisionWith(snake))
+    {
+        state = MENU;
+        console->registerTimerEvent(NULL, 0);
+    }
+    else
+    {
+        render();
+    }
+}
+
+void initMenu()
+{
+    menu = new Menu(console, YELLOW, RED);
+    menu->addItem("Start", 22, 20, WHITE, BLACK);
+    menu->addItem("Settings", 22, 25, WHITE, BLACK);
+    menu->addItem("Quit", 22, 30, WHITE, BLACK);
+
+    menu->select(0);
+}
+
+void render()
+{
+    console->clear();
+
+    switch (state)
+    {
+    case MENU:
+
+        console->setColor(BLUE, BLACK);
+        console->printText(10, 3, "****  *  *   **   *  *  ****");
+        console->printText(10, 4, "*     ** *  *  *  * *   *");
+        console->printText(10, 5, "****  ** *  ****  **    ***");
+        console->printText(10, 6, "   *  * **  *  *  * *   *");
+        console->printText(10, 7, "****  *  *  *  *  *  *  ****");
+
+        menu->show();
+        break;
+
+
+    case RUN:
+
+        // place food
+        console->setColor(YELLOW, BLACK);
+        console->setTile(food->x, food->y, '+');
+
+        // render snakes
+        console->setColor(RED, BLACK);
+        for (WORD i = 0; i < snake->getLength(); i++)
+        {
+            console->setTile(snake->get(i)->x, snake->get(i)->y, 'o');
+        }
+        break;
+
+
+    case PAUSE:
+
+        console->setColor(WHITE, BLACK);
+        console->printText(20, 19, "#########");
+        console->printText(20, 20, "# PAUSE #");
+        console->printText(20, 21, "#########");
+
+        break;
+    }
+
+    console->refresh();
 }

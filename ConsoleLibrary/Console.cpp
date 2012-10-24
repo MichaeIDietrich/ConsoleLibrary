@@ -13,12 +13,13 @@ COORD topLeft = { 0, 0 };
 COORD bufferSize;
 CHAR_INFO* buffer;
 
-Console::Console(LPCWSTR title, int width, int height)
+Console::Console(LPCWSTR title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
     keyDown = NULL;
     keyUp = NULL;
     timer = NULL;
-    color = white | FOREGROUND_INTENSITY; // weiﬂe Schrift, schwarzer Hintergrund
+    color = WHITE | FOREGROUND_INTENSITY; // weiﬂe Schrift, schwarzer Hintergrund
+    setClearColor(clearForeground, clearBackground);
 
     setTitle(title);
     
@@ -53,6 +54,7 @@ Console::Console(LPCWSTR title, int width, int height)
     topLeft.Y = 0;
 
     clear();
+    refresh();
 }
 
 void Console::clear()
@@ -60,9 +62,8 @@ void Console::clear()
     for (int i = 0; i < bufferSize.X * bufferSize.Y; i++)
     {
         buffer[i].Char.AsciiChar = ' ';
-        buffer[i].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+        buffer[i].Attributes = clearColor;
     }
-    WriteConsoleOutputA(wHnd, buffer, bufferSize, topLeft, &windowSize);
 }
 
 
@@ -141,9 +142,14 @@ void Console::stop()
     running = false;
 }
 
-void Console::setColor(colors foreground, colors background)
+void Console::setColor(Colors foreground, Colors background)
 {
     color = foreground | FOREGROUND_INTENSITY | background << 4;
+}
+
+void Console::setClearColor(Colors foreground, Colors background)
+{
+    clearColor = foreground | FOREGROUND_INTENSITY | background << 4;
 }
 
 void Console::setTile(int x, int y, char c)
@@ -151,17 +157,36 @@ void Console::setTile(int x, int y, char c)
     int index = y * bufferSize.X + x;
 
     buffer[index].Char.AsciiChar = c;
+    buffer[index].Attributes = color;
+}
 
+void Console::refresh()
+{
     WriteConsoleOutputA(wHnd, buffer, bufferSize, topLeft, &windowSize);
 }
 
 void Console::printText(int x, int y, char* text)
 {
-    COORD position = { x, y };
-    SetConsoleCursorPosition(wHnd, position);
+    //COORD position = { x, y };
+    //SetConsoleCursorPosition(wHnd, position);
 
-    SetConsoleTextAttribute(wHnd, color);
-    puts(text);
+    //SetConsoleTextAttribute(wHnd, color);
+    //puts(text);
+
+    int index = y * bufferSize.X + x;
+    int max = bufferSize.X * bufferSize.Y;
+    char* c = text;
+
+    while (*c != 0 && index < max)
+    {
+        buffer[index].Char.AsciiChar = *c;
+        buffer[index].Attributes = color;
+
+        c++;
+        index++;
+    }
+
+    //delete[] text;
 }
 
 Console::~Console()
