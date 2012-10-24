@@ -1,6 +1,9 @@
 #include "LinuxConsole.h"
 #include <curses.h>
 #include <iostream>
+#include <time.h>
+
+#define CALC_NEXT_TICK nextTickEvent = clock() + intervallTime;
 
 
 Console::Console(UNICODE_STR title, int width, int height)
@@ -10,12 +13,14 @@ Console::Console(UNICODE_STR title, int width, int height)
 
   
     initscr();
+    noecho();
     start_color();
     
     init_pair(1, COLOR_BLACK, COLOR_WHITE);
     bkgd(COLOR_PAIR(1));
+    refresh();
     
-    //resize_term(width, height);
+    resize_term(width, height);
     
     setTitle(title);
 }
@@ -33,12 +38,43 @@ void Console::setTitle(UNICODE_STR title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
-    
+    if (intervall > 0)
+    {
+        timer = event;
+        intervallTime = intervall;
+
+        CALC_NEXT_TICK
+    }
 }
 
 void Console::run()
 {
+  running = true;
+  
+  /*DWORD numEvents = 0;
+  DWORD numEventsRead = 0;
     
+    if (timer != NULL)
+    {
+        CALC_NEXT_TICK
+    }
+    */
+    while (running)
+    {
+      int in;
+      int i = 10;
+      timeout(10);
+      in = getch();
+        mvprintw(10, i++, "Test");
+        refresh();
+        sleep(10);
+      if(in == 1){
+        flash();
+        mvprintw(10, 10, "Test");
+        refresh();
+        //break;
+      }
+    }
 }
 
 void Console::stop()

@@ -50,7 +50,8 @@ int main(int argc, char** argv)
     console->run();
 
     logFile.close();
-
+    
+    delete console;
     return 0;
 }
 

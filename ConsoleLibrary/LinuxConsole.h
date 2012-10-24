@@ -25,6 +25,9 @@ private:
     keyDownEvent keyDown;
     keyUpEvent keyUp;
     timerEvent timer;
+    
+    DWORD intervallTime;
+    DWORD nextTickEvent;
 
 
 
