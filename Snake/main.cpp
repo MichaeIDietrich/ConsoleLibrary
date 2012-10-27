@@ -69,6 +69,7 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
     switch (state)
     {
     case MENU:
+      console->fastUpdate = FALSE;
 
         if (keyCode == VK_UP)
         {
@@ -112,6 +113,7 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
 
 
     case RUN:
+      console->fastUpdate = TRUE;
 
         if (keyCode == VK_UP && snake->getDirection() != SOUTH)
         {
@@ -146,6 +148,7 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
         break;
 
     case PAUSE:
+      console->fastUpdate = FALSE;
 
         if (keyCode == VK_SPACE)
         {

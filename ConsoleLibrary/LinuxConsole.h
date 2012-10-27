@@ -52,6 +52,7 @@ private:
     int colors;
 
 public:
+    bool fastUpdate;
     // Konstruktor
     // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers
     // Initialisiert die Schrift einer quadratischen Schriftart (8x8)

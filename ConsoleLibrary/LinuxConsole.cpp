@@ -5,7 +5,7 @@ Console::Console(UNICODE_STR title, int width, int height, Colors clearForegroun
   //std::cout << "\x1b]50;" << "Courier New" << "\a" << std::flush;
 
   //printf("\033[8;%d;%dt", height, width);
-
+    fastUpdate = FALSE;
     colors = 1;
     initscr();
     //resizeterm(height, width);
@@ -59,9 +59,13 @@ void Console::run()
     {
       int in;
       int i = 10;
-      timeout(1);
+      timeout(0);
       in = getch();
       keyUp(in, 0);
+      if(fastUpdate == FALSE)
+        usleep(1000);
+      else
+        usleep(500);
       if (timer != NULL) {
         if (clock() >= nextTickEvent)
         {
