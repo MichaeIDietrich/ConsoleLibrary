@@ -1,32 +1,29 @@
 #pragma once
 
+#ifdef WIN32
+
+#include <Windows.h>
+
+#define CALC_NEXT_TICK nextTickEvent = GetTickCount() + intervallTime;
+
+enum Colors { BLACK = 0, RED = 4, GREEN = 2, BLUE = 1, YELLOW = 6, MAGENTA = 5, CYAN = 3, WHITE = 7 };
+
+typedef LPCWSTR UNICODE_STR;
+
+#else
+
 #include <curses.h>
 
-#include <iostream>
-#include <functional>
-#include <time.h>
-#include <unistd.h>
-
-#define CALC_NEXT_TICK nextTickEvent = clock() + intervallTime;
-
-//TODO:
-#define VK_UP KEY_UP
-#define VK_DOWN KEY_DOWN
-#define VK_RIGHT KEY_RIGHT
-#define VK_LEFT KEY_LEFT
-#define VK_RETURN (int)'\n'
-#define VK_ESCAPE 27
-#define VK_SPACE 32
-
+// weitere UNIX Header
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
 typedef char* UNICODE_STR;
 
-//enum colors { black = COLOR_BLACK, red = COLOR_RED, green = COLOR_GREEN, blue = COLOR_BLUE, 
-	      //yellow = COLOR_YELLOW, magenta = COLOR_MAGENTA, cyan = COLOR_CYAN, white = COLOR_WHITE };
-
 enum Colors { BLACK = COLOR_BLACK, RED = COLOR_RED, GREEN = COLOR_GREEN, BLUE = COLOR_BLUE, 
           YELLOW = COLOR_YELLOW, MAGENTA = COLOR_MAGENTA, CYAN = COLOR_CYAN, WHITE = COLOR_WHITE };
+
+#endif
+
 
 
 typedef void (*keyDownEvent) (WORD keyCode, DWORD modifier);
@@ -42,18 +39,43 @@ private:
     keyDownEvent keyDown;
     keyUpEvent keyUp;
     timerEvent timer;
-    
+
     DWORD intervallTime;
     DWORD nextTickEvent;
 
     WORD color;
     WORD clearColor;
 
-    int colors;
+#ifdef WIN32
+
+    HANDLE wHnd;
+    HANDLE rHnd;
+
+    CONSOLE_CURSOR_INFO info;
+    SMALL_RECT windowSize;
+    COORD topLeft;
+    COORD bufferSize;
+    CHAR_INFO* buffer;
+
+#else
+
+    // UNIX Member hinzufügen
+
+    //TODO:
+
+#define VK_UP 0x1B5B41
+#define VK_DOWN 0x1B5B42
+#define VK_RIGHT 0x1B5B43
+#define VK_LEFT 0x1B5B44
+#define VK_RETURN 0x0
+#define VK_ESCAPE 0x0
+#define VK_SPACE 0x0
+    
+#endif
 
 public:
     // Konstruktor
-    // Initialisiert die Konsole mit einem Titel und der HÃ¶he und Breite des Fenster + Puffers
+    // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers
     // Initialisiert die Schrift einer quadratischen Schriftart (8x8)
     // Blendet den Text-Cursor aus
     Console(UNICODE_STR title, int width, int height, Colors clearForeground, Colors clearBackground);
@@ -61,19 +83,19 @@ public:
     // Destruktor
     ~Console();
 
-    // LÃ¶scht die Konsole zu Leerzeichen
-    void clearConsole();
+    // Löscht die Konsole zu Leerzeichen
+    void clear();
 
-    // Ã„ndert den Konsolentitel
+    // Ändert den Konsolentitel
     void setTitle(UNICODE_STR title);
 
-    // Eintragen einer Callback-Funktion fÃ¼r KeyDown-Events
+    // Eintragen einer Callback-Funktion für KeyDown-Events
     void registerKeyDownEvent(keyDownEvent event) { keyDown = event; }
 
-    // Eintragen einer Callback-Funktion fÃ¼r KeyUp-Events
+    // Eintragen einer Callback-Funktion für KeyUp-Events
     void registerKeyUpEvent(keyUpEvent event) { keyUp = event; }
 
-    // Eintragen einer Callback-Funktion fÃ¼r Timer-Events
+    // Eintragen einer Callback-Funktion für Timer-Events
     void registerTimerEvent(timerEvent event, DWORD intervall);
 
     // Startet den Lebenszyklus der Abarbeitung der Events
@@ -81,30 +103,19 @@ public:
 
     // Stoppt den Lebenszyklus
     void stop();
-    
-    int createColor(Colors forground, Colors background);
 
-    void setColor(int color);
-
-    void setBgColor(int color);
-
-    // Setzt die Vorder- und Hintergrundfarbe fÃ¼r die folgenden Schreiboperationen
+    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
     void setColor(Colors forground, Colors background);
-    
-    // Setzt die Vorder- und Hintergrundfarbe fÃ¼r die folgenden Schreiboperationen
+
+    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
     void setClearColor(Colors forground, Colors background);
-    
+
     // Setzt einen einzelnen Character in der Konsole am angegebenen Punkt
     void setTile(int x, int y, char tile);
 
-    void setTile(int x, int y, char tile, int colorId);
+    // Zeigt alle Änderungen an
+    void refresh();
 
     // Schreibt einen Text auf die Konsole am angegebenen Punkt
     void printText(int x, int y, char* text);
-
-    void printText(int x, int y, char* text, int colorId);
-    
-    // Zeigt alle Ã„nderungen an
-    void redraw();
-
 };

@@ -11,21 +11,32 @@ class Menu
 {
 
 private:
+    struct Color
+    {
+      int id;
+      Colors fgColor;
+      Colors bkColor;
+
+      Color(Colors forground, Colors background, Console* console) {
+            this->fgColor = forground;
+            this->bkColor = background;
+            id = console->createColor(forground, background);
+      }
+    };
+  
     struct Text
     {
         char* text;
         int posX;
         int posY;
-        Colors fgColor;
-        Colors bkColor;
+        int colorId;
         
-        Text(char* text, int x, int y, Colors foreground, Colors background)
+        Text(char* text, int x, int y, int colorId)
         {
             this->text = text;
             posX = x;
             posY = y;
-            this->fgColor = foreground;
-            this->bkColor = background;
+            this->colorId = colorId;
         }
 
     };
@@ -35,16 +46,17 @@ private:
     vector<Text*>* items;
 
     WORD selIndex;
+    int selColorId;
     Colors selFgColor;
     Colors selBgColor;
 
 public:
-    Menu(Console* console, Colors selectionForeground, Colors selectionBackground);
+    Menu(Console* console, Colors selectionForground, Colors selectionBackground);
     ~Menu();
 
-    void setSelectionColor(Colors foreground, Colors background) { selFgColor = foreground; selBgColor = background; }
+    void setSelectionColor(Colors forground, Colors background) { selFgColor = forground; selBgColor = background; }
 
-    WORD addItem(char* text, int x, int y, Colors foreground, Colors background);
+    WORD addItem(char* text, int x, int y, Colors forground, Colors background);
     void removeItem(WORD index);
     WORD getLength() { return items->size(); }
     WORD getSelectedItem() { return selIndex; }

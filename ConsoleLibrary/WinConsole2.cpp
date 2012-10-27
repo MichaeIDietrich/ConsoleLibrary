@@ -1,4 +1,4 @@
-#include "Console.h"
+#include "WinConsole2.h"
 
 #ifdef WIN32
 

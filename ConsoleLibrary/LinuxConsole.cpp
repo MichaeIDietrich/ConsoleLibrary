@@ -1,31 +1,26 @@
 #include "LinuxConsole.h"
-#include <curses.h>
-#include <iostream>
-#include <time.h>
 
-#define CALC_NEXT_TICK nextTickEvent = clock() + intervallTime;
-
-
-Console::Console(UNICODE_STR title, int width, int height)
+Console::Console(UNICODE_STR title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
   //std::cout << "\x1b]50;" << "Courier New" << "\a" << std::flush;
 
+  //printf("\033[8;%d;%dt", height, width);
 
-  
+    colors = 1;
     initscr();
+    //resizeterm(height, width);
+    //resize_term(width, height);
     noecho();
+    keypad(stdscr,TRUE);
+    //raw();
+    //nonl();
     start_color();
-    
-    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    setClearColor(clearForeground, clearBackground);
     bkgd(COLOR_PAIR(1));
-    refresh();
-    
-    resize_term(width, height);
-    
     setTitle(title);
 }
 
-void Console::clear()
+void Console::clearConsole()
 {
     clear();
 }
@@ -50,29 +45,30 @@ void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 void Console::run()
 {
   running = true;
-  
+
+  //sleep(10);
   /*DWORD numEvents = 0;
   DWORD numEventsRead = 0;
-    
+    */
     if (timer != NULL)
     {
         CALC_NEXT_TICK
     }
-    */
+    
     while (running)
     {
       int in;
       int i = 10;
-      timeout(10);
+      timeout(1);
       in = getch();
-        mvprintw(10, i++, "Test");
-        refresh();
-        sleep(10);
-      if(in == 1){
-        flash();
-        mvprintw(10, 10, "Test");
-        refresh();
-        //break;
+      keyUp(in, 0);
+      if (timer != NULL) {
+        if (clock() >= nextTickEvent)
+        {
+          timer();
+
+          CALC_NEXT_TICK
+        }
       }
     }
 }
@@ -82,10 +78,30 @@ void Console::stop()
     running = false;
 }
 
-void Console::setColor(colors foreground, colors background)
+int Console::createColor(Colors forground, Colors background)
 {
-    init_pair(1, foreground, background);
-    color_set(1, NULL);
+    init_pair(colors, forground, background);
+    return colors++;
+}
+
+void Console::setColor(int color) {
+  color_set(color, 0);
+}
+
+void Console::setBgColor(int color) {
+  bkgd(COLOR_PAIR(color));
+}
+
+void Console::setColor(Colors forground, Colors background)
+{
+    init_pair(color, forground, background);
+    color_set(color++, 0);
+}
+
+void Console::setClearColor(Colors forground, Colors background)
+{
+    init_pair(color, forground, background);
+    color_set(color++, 0);
 }
 
 void Console::setTile(int x, int y, char c)
@@ -96,9 +112,27 @@ void Console::setTile(int x, int y, char c)
     printText(x, y, zero_str);
 }
 
+void Console::setTile(int x, int y, char c, int colorId)
+{
+  color_set(colorId, 0);
+  setTile(x, y,c);
+}
+
 void Console::printText(int x, int y, char* text)
 {
-    mvprintw(x, y, text);
+    mvaddstr(y, x, text);
+    //mvprintw(y, x, text);
+}
+
+void Console::printText(int x, int y, char* text, int colorId)
+{
+    color_set(colorId, 0);
+    mvaddstr(y, x, text);
+    //mvprintw(y, x, text);
+}
+
+void Console::redraw()
+{
     refresh();
 }
 

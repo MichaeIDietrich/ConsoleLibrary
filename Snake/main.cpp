@@ -5,6 +5,7 @@
 #include "Menu.h"
 
 #include <fstream>
+#include <stdlib.h>
 
 #define WIDTH 50
 #define HEIGHT 50
@@ -22,23 +23,33 @@ void render();
 
 Console* console;
 
-States state = States::MENU;
+States state = MENU;
 Menu* menu;
 
 Snake* snake;
 Point* food;
 
+int titleColor;
+int pauseColor;
+int foodColor;
+int snakeColor;
+
 // DEBUG
-ofstream logFile;
+//ofstream logFile;
 
 int main(int argc, char* argv[])
 {
-    logFile.open("snake.log");
+    //logFile.open("snake.log");
 
     srand ( time_t(NULL) );
 
-    console = new Console(L"Snake", WIDTH, HEIGHT, WHITE, BLACK);
+    console = new Console("Snake", WIDTH, HEIGHT, WHITE, BLACK);
 
+    titleColor = console->createColor(BLUE, BLACK);
+    pauseColor = console->createColor(WHITE, BLACK);
+    foodColor = console->createColor(YELLOW, BLACK);
+    snakeColor = console->createColor(RED, BLACK);
+        
     initMenu();
     render();
 
@@ -46,9 +57,10 @@ int main(int argc, char* argv[])
 
     console->run();
 
-    logFile.close();
+    //logFile.close();
     
     delete console;
+    
     return 0;
 }
 
@@ -71,7 +83,7 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
             switch (menu->getSelectedItem())
             {
             case 0:
-                state = States::RUN;
+                state = RUN;
                 console->registerTimerEvent(&timerFunction, 50);
 
                 snake = new Snake(10, 10, 10);
@@ -120,6 +132,11 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
         else if (keyCode == VK_ESCAPE)
         {
             state = MENU;
+            console->registerTimerEvent(NULL, 0);
+        }
+        else if (keyCode == VK_SPACE)
+        {
+            state = PAUSE;
             console->registerTimerEvent(NULL, 0);
         }
         else
@@ -185,14 +202,12 @@ void initMenu()
 
 void render()
 {
-    console->clear();
-
+    console->clearConsole();
     switch (state)
     {
     case MENU:
 
-        console->setColor(BLUE, BLACK);
-        console->printText(10, 3, "****  *  *   **   *  *  ****");
+        console->printText(10, 3, "****  *  *   **   *  *  ****", titleColor);
         console->printText(10, 4, "*     ** *  *  *  * *   *");
         console->printText(10, 5, "****  ** *  ****  **    ***");
         console->printText(10, 6, "   *  * **  *  *  * *   *");
@@ -205,27 +220,27 @@ void render()
     case RUN:
 
         // place food
-        console->setColor(YELLOW, BLACK);
-        console->setTile(food->x, food->y, '+');
+        //console->setColor(YELLOW, BLACK);
+        console->setTile(food->x, food->y, '+', foodColor);
 
         // render snakes
-        console->setColor(RED, BLACK);
+        //console->setColor(RED, BLACK);
         for (WORD i = 0; i < snake->getLength(); i++)
         {
-            console->setTile(snake->get(i)->x, snake->get(i)->y, 'o');
+            console->setTile(snake->get(i)->x, snake->get(i)->y, 'o', snakeColor);
         }
         break;
 
 
     case PAUSE:
 
-        console->setColor(WHITE, BLACK);
-        console->printText(20, 19, "#########");
+        //console->setColor(WHITE, BLACK);
+        console->printText(20, 19, "#########", pauseColor);
         console->printText(20, 20, "# PAUSE #");
         console->printText(20, 21, "#########");
 
         break;
     }
 
-    console->refresh();
+    console->redraw();
 }

@@ -4,13 +4,13 @@
 
 
 Snake::Snake()
-    :dirVec(0, 0), dir(Direction::NONE)
+    :dirVec(0, 0), dir(NONE)
 {
     points = new vector<Point>();
 }
 
 Snake::Snake(WORD x, WORD y, WORD length)
-    :dirVec(0, 0), dir(Direction::NONE)
+    :dirVec(0, 0), dir(NONE)
 {
     points = new vector<Point>();
 
@@ -94,23 +94,23 @@ void Snake::setDirection(Direction dir, bool force)
         this->dir = dir;
         switch (dir)
         {
-        case Direction::NONE:
+        case NONE:
             dirVec = Point(0, 0);
             break;
 
-        case Direction::NORTH:
+        case NORTH:
             dirVec = Point(0, -1);
             break;
 
-        case Direction::EAST:
+        case EAST:
             dirVec = Point(1, 0);
             break;
 
-        case Direction::SOUTH:
+        case SOUTH:
             dirVec = Point(0, 1);
             break;
 
-        case Direction::WEST:
+        case WEST:
             dirVec = Point(-1, 0);
             break;
         }

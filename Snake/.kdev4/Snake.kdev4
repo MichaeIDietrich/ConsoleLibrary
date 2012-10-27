@@ -2,14 +2,20 @@
 BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x00\x00\x01\x00\x00\x00\n\x00S\x00n\x00a\x00k\x00e)
 
 [CMake]
-BuildDirs=/home/micha/Development/KDevelop/ConsoleLibrary/Snake/build
+Build Directory Count=2
 CMakeDir=/usr/share/cmake-2.8/Modules
-Current CMake Binary=file:///usr/bin/cmake
-CurrentBuildDir=file:///home/micha/Development/KDevelop/ConsoleLibrary/Snake/build
-CurrentBuildType=Debug
-CurrentInstallDir=
-Extra Arguments=
+Current Build Directory Index=1
+Environment Profile=default
 ProjectRootRelative=./
+
+[CMake][CMake Build Directory 0]
+Build Directory Path=file:///home/micha/Development/KDevelop/ConsoleLibrary/Snake/build
+
+[CMake][CMake Build Directory 1]
+Build Directory Path=file:///home/johannes/Dokumente/Info-studium/projekte/ConsoleLibrary/Snake/build
+Build Type=Debug
+CMake Binary=file:///usr/bin/cmake
+Install Directory=file:///usr/local
 
 [Launch]
 Launch Configurations=Launch Configuration 0
@@ -31,6 +37,9 @@ Project Target=Snake,Snake
 Use External Terminal=true
 Working Directory=
 isExecutable=false
+
+[MakeBuilder]
+Number Of Jobs=1
 
 [Project]
 VersionControlSupport=kdevgit

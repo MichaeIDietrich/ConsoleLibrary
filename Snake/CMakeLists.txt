@@ -5,11 +5,14 @@ project(Snake)
 set(SOURCE
   main.cpp
   Snake.cpp
+  Menu.cpp
   ../ConsoleLibrary/LinuxConsole.cpp
 )
 
 set(HEADERS
   Snake.h
+  Menu.h
+  ../ConsoleLibrary/Console.h
   ../ConsoleLibrary/LinuxConsole.h
 )
 
