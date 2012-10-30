@@ -78,17 +78,17 @@ void Console::stop()
     running = false;
 }
 
-int Console::createColor(Colors forground, Colors background)
+COLOR_ID Console::createColor(Colors forground, Colors background)
 {
     init_pair(colors, forground, background);
     return colors++;
 }
 
-void Console::setColor(int color) {
+void Console::setColor(COLOR_ID color) {
   color_set(color, 0);
 }
 
-void Console::setBgColor(int color) {
+void Console::setBgColor(COLOR_ID color) {
   bkgd(COLOR_PAIR(color));
 }
 

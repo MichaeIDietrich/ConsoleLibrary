@@ -1,7 +1,5 @@
 #include "WinConsole2.h"
 
-#ifdef WIN32
-
 #include <stdio.h>
 
 HANDLE wHnd;    // Handle to write to the console.
@@ -13,13 +11,15 @@ COORD topLeft = { 0, 0 };
 COORD bufferSize;
 CHAR_INFO* buffer;
 
-Console::Console(LPCWSTR title, int width, int height, Colors clearForeground, Colors clearBackground)
+Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
     keyDown = NULL;
     keyUp = NULL;
     timer = NULL;
-    color = WHITE | FOREGROUND_INTENSITY; // weiﬂe Schrift, schwarzer Hintergrund
+    color = COLOR(WHITE, BLACK);
     setClearColor(clearForeground, clearBackground);
+
+    colorPairs = new vector<WORD>();
 
     setTitle(title);
     
@@ -53,11 +53,11 @@ Console::Console(LPCWSTR title, int width, int height, Colors clearForeground, C
     topLeft.X = 0;
     topLeft.Y = 0;
 
-    clear();
-    refresh();
+    clearConsole();
+    redraw();
 }
 
-void Console::clear()
+void Console::clearConsole()
 {
     for (int i = 0; i < bufferSize.X * bufferSize.Y; i++)
     {
@@ -67,9 +67,9 @@ void Console::clear()
 }
 
 
-void Console::setTitle(LPCWSTR title)
+void Console::setTitle(const char* title)
 {
-    SetConsoleTitle(title);
+    SetConsoleTitleA(title);
 }
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
@@ -142,14 +142,39 @@ void Console::stop()
     running = false;
 }
 
+int Console::createColor(Colors foreground, Colors background)
+{
+    colorPairs->insert(colorPairs->end(), COLOR(foreground, background));
+    return colorPairs->size() - 1;
+}
+
+void Console::setColor(COLOR_ID colorId)
+{
+    if (colorId < (int) colorPairs->size())
+    {
+        color = (*colorPairs)[colorId];
+    }
+}
+
+void Console::setBgColor(int colorId)
+{
+    // TODO
+}
+
 void Console::setColor(Colors foreground, Colors background)
 {
-    color = foreground | FOREGROUND_INTENSITY | background << 4;
+    color = COLOR(foreground, background);
 }
 
 void Console::setClearColor(Colors foreground, Colors background)
 {
-    clearColor = foreground | FOREGROUND_INTENSITY | background << 4;
+    clearColor = COLOR(foreground, background);
+}
+
+void Console::setTile(int x, int y, char c, COLOR_ID colorId)
+{
+    this->setColor(colorId);
+    this->setTile(x, y, c);
 }
 
 void Console::setTile(int x, int y, char c)
@@ -160,22 +185,22 @@ void Console::setTile(int x, int y, char c)
     buffer[index].Attributes = color;
 }
 
-void Console::refresh()
+void Console::redraw()
 {
     WriteConsoleOutputA(wHnd, buffer, bufferSize, topLeft, &windowSize);
 }
 
-void Console::printText(int x, int y, char* text)
+void Console::printText(int x, int y, const char* text, COLOR_ID colorId)
 {
-    //COORD position = { x, y };
-    //SetConsoleCursorPosition(wHnd, position);
+    this->setColor(colorId);
+    this->printText(x, y, text);
+}
 
-    //SetConsoleTextAttribute(wHnd, color);
-    //puts(text);
-
+void Console::printText(int x, int y, const char* text)
+{
     int index = y * bufferSize.X + x;
     int max = bufferSize.X * bufferSize.Y;
-    char* c = text;
+    char* c = (char*) text;
 
     while (*c != 0 && index < max)
     {
@@ -185,17 +210,10 @@ void Console::printText(int x, int y, char* text)
         c++;
         index++;
     }
-
-    //delete[] text;
 }
 
 Console::~Console()
 {
     delete[] buffer;
+    delete colorPairs;
 }
-
-#else
-
-// UNIX Implementierung
-
-#endif
