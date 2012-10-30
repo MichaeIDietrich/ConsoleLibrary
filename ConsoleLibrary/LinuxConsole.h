@@ -7,7 +7,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define CALC_NEXT_TICK nextTickEvent = clock() + intervallTime;
+#define CALC_NEXT_TICK nextTickEvent = clock() + intervallTime * 1000;
 
 //TODO:
 #define VK_UP KEY_UP
@@ -20,7 +20,6 @@
 
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
-typedef char* UNICODE_STR;
 
 //enum colors { black = COLOR_BLACK, red = COLOR_RED, green = COLOR_GREEN, blue = COLOR_BLUE, 
 	      //yellow = COLOR_YELLOW, magenta = COLOR_MAGENTA, cyan = COLOR_CYAN, white = COLOR_WHITE };
@@ -52,12 +51,11 @@ private:
     int colors;
 
 public:
-    bool fastUpdate;
     // Konstruktor
     // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers
     // Initialisiert die Schrift einer quadratischen Schriftart (8x8)
     // Blendet den Text-Cursor aus
-    Console(UNICODE_STR title, int width, int height, Colors clearForeground, Colors clearBackground);
+    Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground);
 
     // Destruktor
     ~Console();
@@ -66,7 +64,7 @@ public:
     void clearConsole();
 
     // Ändert den Konsolentitel
-    void setTitle(UNICODE_STR title);
+    void setTitle(const char* title);
 
     // Eintragen einer Callback-Funktion für KeyDown-Events
     void registerKeyDownEvent(keyDownEvent event) { keyDown = event; }
@@ -101,11 +99,10 @@ public:
     void setTile(int x, int y, char tile, int colorId);
 
     // Schreibt einen Text auf die Konsole am angegebenen Punkt
-    void printText(int x, int y, char* text);
+    void printText(int x, int y, const char* text);
 
-    void printText(int x, int y, char* text, int colorId);
+    void printText(int x, int y, const char* text, int colorId);
     
     // Zeigt alle Änderungen an
     void redraw();
-
 };

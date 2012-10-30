@@ -1,16 +1,16 @@
 #include "LinuxConsole.h"
 
-Console::Console(UNICODE_STR title, int width, int height, Colors clearForeground, Colors clearBackground)
+Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
   //std::cout << "\x1b]50;" << "Courier New" << "\a" << std::flush;
 
   //printf("\033[8;%d;%dt", height, width);
-    fastUpdate = FALSE;
     colors = 1;
     initscr();
     //resizeterm(height, width);
     //resize_term(width, height);
     noecho();
+    curs_set(0);
     keypad(stdscr,TRUE);
     //raw();
     //nonl();
@@ -25,7 +25,7 @@ void Console::clearConsole()
     clear();
 }
 
-void Console::setTitle(UNICODE_STR title)
+void Console::setTitle(const char* title)
 {
     
     // ?
@@ -44,12 +44,8 @@ void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 
 void Console::run()
 {
-  running = true;
+    running = true;
 
-  //sleep(10);
-  /*DWORD numEvents = 0;
-  DWORD numEventsRead = 0;
-    */
     if (timer != NULL)
     {
         CALC_NEXT_TICK
@@ -61,11 +57,11 @@ void Console::run()
       int i = 10;
       timeout(0);
       in = getch();
-      keyUp(in, 0);
-      if(fastUpdate == FALSE)
-        usleep(1000);
-      else
-        usleep(500);
+      if (in > 0)
+      {
+	  keyUp(in, 0);
+      }
+      usleep(1000);
       if (timer != NULL) {
         if (clock() >= nextTickEvent)
         {
@@ -119,16 +115,16 @@ void Console::setTile(int x, int y, char c)
 void Console::setTile(int x, int y, char c, int colorId)
 {
   color_set(colorId, 0);
-  setTile(x, y,c);
+  setTile(x * 2, y, c);
 }
 
-void Console::printText(int x, int y, char* text)
+void Console::printText(int x, int y, const char* text)
 {
     mvaddstr(y, x, text);
     //mvprintw(y, x, text);
 }
 
-void Console::printText(int x, int y, char* text, int colorId)
+void Console::printText(int x, int y, const char* text, int colorId)
 {
     color_set(colorId, 0);
     mvaddstr(y, x, text);
@@ -142,5 +138,6 @@ void Console::redraw()
 
 Console::~Console()
 {
+    curs_set(1);
     endwin();
 }
