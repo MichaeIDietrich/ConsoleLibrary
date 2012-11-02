@@ -1,4 +1,4 @@
-#include "WinConsole2.h"
+#include "WinConsole.h"
 
 #include <stdio.h>
 
@@ -74,9 +74,10 @@ void Console::setTitle(const char* title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
+	timer = event;
+
     if (intervall > 0)
     {
-        timer = event;
         intervallTime = intervall;
 
         CALC_NEXT_TICK
@@ -128,7 +129,7 @@ void Console::run()
             delete[] eventBuffer;
         }
 
-        if (GetTickCount() >= nextTickEvent)
+        if (timer != NULL && GetTickCount() >= nextTickEvent)
         {
             timer();
             

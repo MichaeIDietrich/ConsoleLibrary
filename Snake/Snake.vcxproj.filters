@@ -27,7 +27,7 @@
     <ClInclude Include="Menu.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\ConsoleLibrary\WinConsole2.h">
+    <ClInclude Include="..\ConsoleLibrary\WinConsole.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -41,7 +41,7 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\ConsoleLibrary\WinConsole2.cpp">
+    <ClCompile Include="..\ConsoleLibrary\WinConsole.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

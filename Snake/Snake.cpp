@@ -26,7 +26,6 @@ Point* Snake::get(WORD index)
 {
     if (points != NULL && points->size() > index)
         return &((*points)[index]);
-
     return NULL;
 }
 

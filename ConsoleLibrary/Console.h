@@ -1,6 +1,6 @@
 #ifdef WIN32
 
-#include "WinConsole2.h"
+#include "WinConsole.h"
 
 #else
 

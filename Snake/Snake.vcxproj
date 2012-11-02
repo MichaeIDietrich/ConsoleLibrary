@@ -80,12 +80,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ConsoleLibrary\Console.h" />
-    <ClInclude Include="..\ConsoleLibrary\WinConsole2.h" />
+    <ClInclude Include="..\ConsoleLibrary\WinConsole.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Snake.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ConsoleLibrary\WinConsole2.cpp" />
+    <ClCompile Include="..\ConsoleLibrary\WinConsole.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Snake.cpp" />

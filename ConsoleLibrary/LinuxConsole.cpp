@@ -33,9 +33,10 @@ void Console::setTitle(const char* title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
+	timer = event;
+
     if (intervall > 0)
     {
-        timer = event;
         intervallTime = intervall;
 
         CALC_NEXT_TICK
