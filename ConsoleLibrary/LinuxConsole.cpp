@@ -61,7 +61,7 @@ void Console::run()
       {
 	  keyUp(in, 0);
       }
-      usleep(1000);
+      usleep(100);
       if (timer != NULL) {
         if (clock() >= nextTickEvent)
         {
@@ -78,9 +78,9 @@ void Console::stop()
     running = false;
 }
 
-COLOR_ID Console::createColor(Colors forground, Colors background)
+COLOR_ID Console::createColor(Colors foreground, Colors background)
 {
-    init_pair(colors, forground, background);
+    init_pair(colors, foreground, background);
     return colors++;
 }
 
@@ -92,15 +92,15 @@ void Console::setBgColor(COLOR_ID color) {
   bkgd(COLOR_PAIR(color));
 }
 
-void Console::setColor(Colors forground, Colors background)
+void Console::setColor(Colors foreground, Colors background)
 {
-    init_pair(color, forground, background);
+    init_pair(color, foreground, background);
     color_set(color++, 0);
 }
 
-void Console::setClearColor(Colors forground, Colors background)
+void Console::setClearColor(Colors foreground, Colors background)
 {
-    init_pair(color, forground, background);
+    init_pair(color, foreground, background);
     color_set(color++, 0);
 }
 
@@ -112,7 +112,7 @@ void Console::setTile(int x, int y, char c)
     printText(x, y, zero_str);
 }
 
-void Console::setTile(int x, int y, char c, int colorId)
+void Console::setTile(int x, int y, char c, COLOR_ID colorId)
 {
   color_set(colorId, 0);
   setTile(x * 2, y, c);
@@ -124,7 +124,7 @@ void Console::printText(int x, int y, const char* text)
     //mvprintw(y, x, text);
 }
 
-void Console::printText(int x, int y, const char* text, int colorId)
+void Console::printText(int x, int y, const char* text, COLOR_ID colorId)
 {
     color_set(colorId, 0);
     mvaddstr(y, x, text);

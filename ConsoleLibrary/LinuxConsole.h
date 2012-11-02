@@ -20,6 +20,7 @@
 
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
+typedef unsigned int COLOR_ID;
 
 //enum colors { black = COLOR_BLACK, red = COLOR_RED, green = COLOR_GREEN, blue = COLOR_BLUE, 
 	      //yellow = COLOR_YELLOW, magenta = COLOR_MAGENTA, cyan = COLOR_CYAN, white = COLOR_WHITE };
@@ -81,27 +82,27 @@ public:
     // Stoppt den Lebenszyklus
     void stop();
     
-    int createColor(Colors forground, Colors background);
+    COLOR_ID createColor(Colors foreground, Colors background);
 
-    void setColor(int color);
+    void setColor(COLOR_ID color);
 
-    void setBgColor(int color);
+    void setBgColor(COLOR_ID color);
 
     // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setColor(Colors forground, Colors background);
+    void setColor(Colors foreground, Colors background);
     
     // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setClearColor(Colors forground, Colors background);
+    void setClearColor(Colors foreground, Colors background);
     
     // Setzt einen einzelnen Character in der Konsole am angegebenen Punkt
     void setTile(int x, int y, char tile);
 
-    void setTile(int x, int y, char tile, int colorId);
+    void setTile(int x, int y, char tile, COLOR_ID colorId);
 
     // Schreibt einen Text auf die Konsole am angegebenen Punkt
     void printText(int x, int y, const char* text);
 
-    void printText(int x, int y, const char* text, int colorId);
+    void printText(int x, int y, const char* text, COLOR_ID colorId);
     
     // Zeigt alle Änderungen an
     void redraw();
