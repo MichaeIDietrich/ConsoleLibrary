@@ -3,11 +3,11 @@ BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x
 
 [CMake]
 Build Directory Count=2
-BuildDirs=/home/micha/Development/KDevelop/ConsoleLibrary/Snake/build
+BuildDirs=/home/sephfire/projects/ConsoleLibrary/Snake/build
 CMakeDir=/usr/share/cmake-2.8/Modules
 Current Build Directory Index=1
 Current CMake Binary=file:///usr/bin/cmake
-CurrentBuildDir=file:///home/micha/Development/KDevelop/ConsoleLibrary/Snake/build
+CurrentBuildDir=file:///home/sephfire/projects/ConsoleLibrary/Snake/build
 CurrentBuildType=Debug
 CurrentInstallDir=
 Environment Profile=default
@@ -24,24 +24,25 @@ CMake Binary=file:///usr/bin/cmake
 Install Directory=file:///usr/local
 
 [Launch]
-Launch Configurations=Launch Configuration 0
+Launch Configurations=Launch Configuration 1
 
-[Launch][Launch Configuration 0]
+[Launch][Launch Configuration 1]
 Configured Launch Modes=execute
 Configured Launchers=nativeAppLauncher
-Name=Neue Konfiguration für Native Anwendung
+Name=Snake
 Type=Native Application
 
-[Launch][Launch Configuration 0][Data]
+[Launch][Launch Configuration 1][Data]
 Arguments=
+Configured from ProjectItem=Snake,Snake
 Dependencies=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x00)
 Dependency Action=Nothing
 EnvironmentGroup=default
 Executable=
-External Terminal=xterm -hold -e %exe
+External Terminal=gnome-terminal -e %exe
 Project Target=Snake,Snake
 Use External Terminal=true
-Working Directory=
+Working Directory=file:///home/sephfire/projects/ConsoleLibrary/Snake/build/
 isExecutable=false
 
 [MakeBuilder]
