@@ -134,11 +134,13 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
         {
             state = MENU;
             console->registerTimerEvent(NULL, 0);
+	    render();
         }
         else if (keyCode == VK_SPACE)
         {
             state = PAUSE;
             console->registerTimerEvent(NULL, 0);
+	    render();
         }
         else
         {
@@ -151,6 +153,7 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
         if (keyCode == VK_SPACE)
         {
             state = RUN;
+	    console->registerTimerEvent(&timerFunction, 50);
         }
         break;
     }

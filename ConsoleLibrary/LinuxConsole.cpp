@@ -16,7 +16,9 @@ Console::Console(const char* title, int width, int height, Colors clearForegroun
     //nonl();
     start_color();
     setClearColor(clearForeground, clearBackground);
-    bkgd(COLOR_PAIR(1));
+    //bkgd(COLOR_PAIR(1));
+    COLOR_ID id = this->createColor(GREEN, YELLOW);
+    bkgd(COLOR_PAIR(id));
     setTitle(title);
 }
 
@@ -33,11 +35,11 @@ void Console::setTitle(const char* title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
-    if (intervall > 0)
+    timer = event;
+    intervallTime = intervall;
+    
+    if (timer != NULL && intervall > 0)
     {
-        timer = event;
-        intervallTime = intervall;
-
         CALC_NEXT_TICK
     }
 }
@@ -61,7 +63,7 @@ void Console::run()
       {
 	  keyUp(in, 0);
       }
-      usleep(1000);
+      //usleep(1000);
       if (timer != NULL) {
         if (clock() >= nextTickEvent)
         {
@@ -112,7 +114,7 @@ void Console::setTile(int x, int y, char c)
     printText(x, y, zero_str);
 }
 
-void Console::setTile(int x, int y, char c, int colorId)
+void Console::setTile(int x, int y, char c, COLOR_ID colorId)
 {
   color_set(colorId, 0);
   setTile(x * 2, y, c);
@@ -124,7 +126,7 @@ void Console::printText(int x, int y, const char* text)
     //mvprintw(y, x, text);
 }
 
-void Console::printText(int x, int y, const char* text, int colorId)
+void Console::printText(int x, int y, const char* text, COLOR_ID colorId)
 {
     color_set(colorId, 0);
     mvaddstr(y, x, text);

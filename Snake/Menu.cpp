@@ -24,7 +24,7 @@ Menu::~Menu()
     delete items;
 }
 
-WORD Menu::addItem(char* text, int x, int y, Colors forground, Colors background)
+WORD Menu::addItem(const char* text, int x, int y, Colors forground, Colors background)
 {
     items->insert(items->end(), new Text(text, x, y, console->createColor(forground, background)));
 

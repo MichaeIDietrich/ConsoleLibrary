@@ -3,9 +3,15 @@ BuildItems=@Variant(\x00\x00\x00\t\x00\x00\x00\x00\x01\x00\x00\x00\x0b\x00\x00\x
 
 [CMake]
 Build Directory Count=2
+BuildDirs=/home/micha/Development/KDevelop/ConsoleLibrary/Snake/build
 CMakeDir=/usr/share/cmake-2.8/Modules
 Current Build Directory Index=1
+Current CMake Binary=file:///usr/bin/cmake
+CurrentBuildDir=file:///home/micha/Development/KDevelop/ConsoleLibrary/Snake/build
+CurrentBuildType=Debug
+CurrentInstallDir=
 Environment Profile=default
+Extra Arguments=
 ProjectRootRelative=./
 
 [CMake][CMake Build Directory 0]

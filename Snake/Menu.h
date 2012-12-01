@@ -26,12 +26,12 @@ private:
   
     struct Text
     {
-        char* text;
+        const char* text;
         int posX;
         int posY;
         int colorId;
         
-        Text(char* text, int x, int y, int colorId)
+        Text(const char* text, int x, int y, int colorId)
         {
             this->text = text;
             posX = x;
@@ -56,7 +56,7 @@ public:
 
     void setSelectionColor(Colors forground, Colors background) { selFgColor = forground; selBgColor = background; }
 
-    WORD addItem(char* text, int x, int y, Colors forground, Colors background);
+    WORD addItem(const char* text, int x, int y, Colors forground, Colors background);
     void removeItem(WORD index);
     WORD getLength() { return items->size(); }
     WORD getSelectedItem() { return selIndex; }

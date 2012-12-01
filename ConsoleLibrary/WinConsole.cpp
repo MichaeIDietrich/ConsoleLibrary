@@ -1,4 +1,4 @@
-#include "WinConsole2.h"
+#include "WinConsole.h"
 
 #include <stdio.h>
 
@@ -74,11 +74,11 @@ void Console::setTitle(const char* title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
-    if (intervall > 0)
+    timer = event;
+    intervallTime = intervall;
+    
+    if (timer != NULL && intervall > 0)
     {
-        timer = event;
-        intervallTime = intervall;
-
         CALC_NEXT_TICK
     }
 }
