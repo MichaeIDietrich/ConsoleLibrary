@@ -35,6 +35,9 @@ class Console
 {
 private:
     bool running;
+    
+    WORD width;
+    WORD height;
 
     keyDownEvent keyDown;
     keyUpEvent keyUp;
@@ -47,6 +50,8 @@ private:
     WORD clearColor;
 
     int colors;
+    
+    void drawBorder();
 
 public:
     // Konstruktor
@@ -79,17 +84,17 @@ public:
     // Stoppt den Lebenszyklus
     void stop();
     
-    COLOR_ID createColor(Colors forground, Colors background);
+    COLOR_ID createColor(Colors foreground, Colors background);
 
     void setColor(COLOR_ID color);
 
     void setBgColor(COLOR_ID color);
 
     // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setColor(Colors forground, Colors background);
+    void setColor(Colors foreground, Colors background);
     
     // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setClearColor(Colors forground, Colors background);
+    void setClearColor(Colors foreground, Colors background);
     
     // Setzt einen einzelnen Character in der Konsole am angegebenen Punkt
     void setTile(int x, int y, char tile);

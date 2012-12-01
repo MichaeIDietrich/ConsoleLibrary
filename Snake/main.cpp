@@ -8,8 +8,8 @@
 #include <stdlib.h>
 
 
-#define WIDTH 50
-#define HEIGHT 50
+#define WIDTH 40
+#define HEIGHT 40
 
 #define NEW_RANDOM_POINT new Point(rand() % WIDTH, rand() % HEIGHT)
 
