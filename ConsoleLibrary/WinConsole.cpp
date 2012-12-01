@@ -180,10 +180,15 @@ void Console::setTile(int x, int y, char c, COLOR_ID colorId)
 
 void Console::setTile(int x, int y, char c)
 {
+    int max = bufferSize.X * bufferSize.Y;
+
     int index = y * bufferSize.X + x;
 
-    buffer[index].Char.AsciiChar = c;
-    buffer[index].Attributes = color;
+    if (index >= 0 && index < max)
+    {
+        buffer[index].Char.AsciiChar = c;
+        buffer[index].Attributes = color;
+    }
 }
 
 void Console::redraw()
