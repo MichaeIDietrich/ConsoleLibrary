@@ -9,7 +9,7 @@
 #include <cstring>
 #include <string>
 
-#define WIDTH 40
+#define WIDTH 50
 #define HEIGHT 40
 
 #define BUFFER_SIZE 1024
@@ -58,14 +58,14 @@ int main(int argc, char* argv[])
 
             if (index != string::npos)
             {
-                menu->addItem(copyString(line.substr(0, index).c_str()), 15, 20 + i++ * 4, itemColor);
+                menu->addItem(copyString(line.substr(0, index).c_str()), 20, 15 + i++ * 4, itemColor);
                 programPaths.insert(programPaths.begin(), new string(line.substr(index + 1)));
             }
         }
 
         manifestFile.close();
 
-        menu->addItem("Exit", 15, 25 + menu->getLength() * 4, itemColor);
+        menu->addItem("Exit", 20, 15 + menu->getLength() * 4, itemColor);
         menu->select(0);
 
         console->registerKeyEvent(&keyFunction);
@@ -123,11 +123,11 @@ void timerFunction()
 {
     console->clearConsole();
 
-    console->printText(1, 4, "#    ##  #  # #  #  ## #  # #### ###");
-    console->printText(1, 5, "#   #  # #  # ## # #   #  # #    #  #");
-    console->printText(1, 6, "#   #### #  # ## # #   #### ###  ###");
-    console->printText(1, 7, "#   #  # #  # # ## #   #  # #    # #");
-    console->printText(1, 8, "### #  #  ##  #  #  ## #  # #### #  #");
+    console->printText(6, 4, "#    ##  #  # #  #  ## #  # #### ###");
+    console->printText(6, 5, "#   #  # #  # ## # #   #  # #    #  #");
+    console->printText(6, 6, "#   #### #  # ## # #   #### ###  ###");
+    console->printText(6, 7, "#   #  # #  # # ## #   #  # #    # #");
+    console->printText(6, 8, "### #  #  ##  #  #  ## #  # #### #  #");
     
     menu->show();
 

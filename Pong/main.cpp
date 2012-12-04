@@ -1,7 +1,7 @@
 #include "../ConsoleLibrary/Console.h"
 #include "Ball.h"
 
-#define WIDTH 40
+#define WIDTH 50
 #define HEIGHT 40
 
 #define PAD_SIZE 8

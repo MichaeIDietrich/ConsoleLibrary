@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 
-#define WIDTH 40
+#define WIDTH 50
 #define HEIGHT 40
 
 #define NEW_RANDOM_POINT new Point(rand() % WIDTH, rand() % HEIGHT)
@@ -144,12 +144,12 @@ void keyFunction(WORD keyCode)
         {
             return;
         }
-		
+
         render();
-		
+
         break;
 
-		
+
     case PAUSE:
 
         if (keyCode == VK_SPACE)
