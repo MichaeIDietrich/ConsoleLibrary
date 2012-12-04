@@ -33,6 +33,8 @@ int main(int argc, char* argv[])
 {
     //ofstream logFile;
 
+    int* a = nullptr;
+
     ifstream manifestFile;
     char buffer[BUFFER_SIZE];
     
