@@ -11,32 +11,19 @@ class Menu
 {
 
 private:
-    struct Color
-    {
-      int id;
-      Colors fgColor;
-      Colors bkColor;
-
-      Color(Colors forground, Colors background, Console* console) {
-            this->fgColor = forground;
-            this->bkColor = background;
-            id = console->createColor(forground, background);
-      }
-    };
-  
     struct Text
     {
         char* text;
         int posX;
         int posY;
-        int colorId;
+        COLOR_ID color;
         
-        Text(char* text, int x, int y, int colorId)
+        Text(char* text, int x, int y, COLOR_ID itemColor)
         {
             this->text = text;
             posX = x;
             posY = y;
-            this->colorId = colorId;
+            color = itemColor;
         }
 
     };
@@ -47,16 +34,15 @@ private:
 
     WORD selIndex;
     int selColorId;
-    Colors selFgColor;
-    Colors selBgColor;
+    COLOR_ID selColor;
 
 public:
-    Menu(Console* console, Colors selectionForground, Colors selectionBackground);
+    Menu(Console* console, COLOR_ID selectedItemColor);
     ~Menu();
 
-    void setSelectionColor(Colors forground, Colors background) { selFgColor = forground; selBgColor = background; }
+    void setSelectionColor(COLOR_ID color) { selColor = color; }
 
-    WORD addItem(char* text, int x, int y, Colors forground, Colors background);
+    WORD addItem(char* text, int x, int y, COLOR_ID defaultColor);
     void removeItem(WORD index);
     WORD getLength() { return items->size(); }
     WORD getSelectedItem() { return selIndex; }

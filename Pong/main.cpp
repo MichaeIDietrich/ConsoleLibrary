@@ -14,7 +14,7 @@ struct Vector
     float y;
 };
 
-void keyUpFunction(WORD keyCode, DWORD modifier);
+void keyFunction(WORD keyCode);
 void timerFunction();
 
 void initRound();
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 
     initRound();
 
-    console->registerKeyUpEvent(&keyUpFunction);
+    console->registerKeyEvent(&keyFunction);
     console->registerTimerEvent(&timerFunction, 50);
 
     console->run();
@@ -76,7 +76,7 @@ void initRound()
     lostCounter = 0;
 }
 
-void keyUpFunction(WORD keyCode, DWORD modifier)
+void keyFunction(WORD keyCode)
 {
     if (keyCode == VK_ESCAPE)
     {

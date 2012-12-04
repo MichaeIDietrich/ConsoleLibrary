@@ -14,8 +14,7 @@ using namespace std;
 enum Colors { BLACK = 0, RED = 4, GREEN = 2, BLUE = 1, YELLOW = 6, MAGENTA = 5, CYAN = 3, WHITE = 7 };
 
 
-typedef void (*keyDownEvent) (WORD keyCode, DWORD modifier);
-typedef void (*keyUpEvent) (WORD keyCode, DWORD modifier);
+typedef void (*keyEvent) (WORD keyCode);
 typedef void (*timerEvent) ();
 
 
@@ -24,8 +23,7 @@ class Console
 private:
     bool running;
 
-    keyDownEvent keyDown;
-    keyUpEvent keyUp;
+    keyEvent keyDown;
     timerEvent timer;
 
     DWORD intervallTime;
@@ -62,10 +60,7 @@ public:
     void setTitle(const char* title);
 
     // Eintragen einer Callback-Funktion für KeyDown-Events
-    void registerKeyDownEvent(keyDownEvent event) { keyDown = event; }
-
-    // Eintragen einer Callback-Funktion für KeyUp-Events
-    void registerKeyUpEvent(keyUpEvent event) { keyUp = event; }
+    void registerKeyEvent(keyEvent event) { keyDown = event; }
 
     // Eintragen einer Callback-Funktion für Timer-Events
     void registerTimerEvent(timerEvent event, DWORD intervall);

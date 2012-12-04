@@ -14,7 +14,6 @@ CHAR_INFO* buffer;
 Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
     keyDown = NULL;
-    keyUp = NULL;
     timer = NULL;
     color = COLOR(WHITE, BLACK);
     setClearColor(clearForeground, clearBackground);
@@ -114,15 +113,7 @@ void Console::run()
                     if (eventBuffer[i].Event.KeyEvent.bKeyDown == TRUE &&
                         keyDown != NULL)
                     {
-                        keyDown(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode,
-                            eventBuffer[i].Event.KeyEvent.dwControlKeyState);
-                    }
-
-                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == FALSE &&
-                        keyUp != NULL)
-                    {
-                        keyUp(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode,
-                            eventBuffer[i].Event.KeyEvent.dwControlKeyState);
+                        keyDown(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode);
                     }
                 }
             }
