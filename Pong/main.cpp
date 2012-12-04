@@ -1,8 +1,8 @@
 #include "../ConsoleLibrary/Console.h"
 #include "Ball.h"
 
-#define WIDTH 50
-#define HEIGHT 50
+#define WIDTH 40
+#define HEIGHT 40
 
 #define PAD_SIZE 8
 #define PAD_STEP_SIZE 2
@@ -42,12 +42,12 @@ int lostCounter;
 
 int main(int argc, char* argv[])
 {
-    console = new Console("Pong", WIDTH, HEIGHT, WHITE, BLACK);
+    console = new Console("Pong", WIDTH, HEIGHT, BLACK, WHITE);
 
     botColor = console->createColor(GREEN, YELLOW);
     playerColor = console->createColor(RED, YELLOW);
-    scoreColor = console->createColor(WHITE, BLACK);
-    ballColor = console->createColor(BLUE, BLACK);
+    scoreColor = console->createColor(BLACK, WHITE);
+    ballColor = console->createColor(BLUE, WHITE);
 
     botScore = 0;
     playerScore = 0;

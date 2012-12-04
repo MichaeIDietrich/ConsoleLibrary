@@ -2,12 +2,13 @@
 
 Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
-  //std::cout << "\x1b]50;" << "Courier New" << "\a" << std::flush;
-
-  //printf("\033[8;%d;%dt", height, width);
+    this->width = width * 2;
+    this->height = height;
+  
     colors = 1;
     initscr();
-    //resizeterm(height, width);
+    
+    //resizeterm(width, height);
     //resize_term(width, height);
     noecho();
     curs_set(0);
@@ -15,14 +16,58 @@ Console::Console(const char* title, int width, int height, Colors clearForegroun
     //raw();
     //nonl();
     start_color();
-    setClearColor(clearForeground, clearBackground);
-    bkgd(COLOR_PAIR(1));
+    
+    COLOR_ID id = this->createColor(clearForeground, clearBackground);
+    
+    bkgd(COLOR_PAIR(id));
+    
     setTitle(title);
 }
 
 void Console::clearConsole()
 {
     clear();
+    drawBorder();
+}
+
+void Console::drawBorder()
+{
+    color_set(1, 0);
+    attrset(A_REVERSE);
+    
+    if (getmaxx(stdscr) > width)
+    {
+        WORD xDiff = getmaxx(stdscr) - width + 1;
+        char* filler = new char[xDiff];
+        
+        for (WORD i = 0; i < xDiff; i++)
+        {
+            filler[i]= ' ';
+        }
+        
+        for (WORD i = 0; i < height; i++)
+        {
+            mvaddstr(i, width - 1, filler);
+        }
+    }
+    
+    if (getmaxy(stdscr) > height)
+    {
+        WORD yDiff = getmaxy(stdscr) - height + 1;
+        char* filler = new char[getmaxx(stdscr)];
+        
+        for (WORD i = 0; i < getmaxx(stdscr); i++)
+        {
+            filler[i]= ' ';
+        }
+        
+        for (WORD i = 0; i < yDiff; i++)
+        {
+            mvaddstr(height + i, 0, filler);
+        }
+    }
+    
+    attrset(A_NORMAL);
 }
 
 void Console::setTitle(const char* title)
@@ -33,12 +78,11 @@ void Console::setTitle(const char* title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
-	timer = event;
-
-    if (intervall > 0)
+    timer = event;
+    intervallTime = intervall;
+    
+    if (timer != NULL && intervall > 0)
     {
-        intervallTime = intervall;
-
         CALC_NEXT_TICK
     }
 }
@@ -62,7 +106,7 @@ void Console::run()
       {
 	  keyUp(in, 0);
       }
-      usleep(100);
+      //usleep(1000);
       if (timer != NULL) {
         if (clock() >= nextTickEvent)
         {
@@ -79,9 +123,9 @@ void Console::stop()
     running = false;
 }
 
-COLOR_ID Console::createColor(Colors foreground, Colors background)
+COLOR_ID Console::createColor(Colors forground, Colors background)
 {
-    init_pair(colors, foreground, background);
+    init_pair(colors, forground, background);
     return colors++;
 }
 

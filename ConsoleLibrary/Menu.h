@@ -13,12 +13,12 @@ class Menu
 private:
     struct Text
     {
-        char* text;
+        const char* text;
         int posX;
         int posY;
         COLOR_ID color;
         
-        Text(char* text, int x, int y, COLOR_ID itemColor)
+        Text(const char* text, int x, int y, COLOR_ID itemColor)
         {
             this->text = text;
             posX = x;
@@ -42,7 +42,7 @@ public:
 
     void setSelectionColor(COLOR_ID color) { selColor = color; }
 
-    WORD addItem(char* text, int x, int y, COLOR_ID defaultColor);
+    WORD addItem(const char* text, int x, int y, COLOR_ID defaultColor);
     void removeItem(WORD index);
     WORD getLength() { return items->size(); }
     WORD getSelectedItem() { return selIndex; }

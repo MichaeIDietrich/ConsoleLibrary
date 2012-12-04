@@ -8,8 +8,8 @@
 #include <stdlib.h>
 
 
-#define WIDTH 50
-#define HEIGHT 50
+#define WIDTH 40
+#define HEIGHT 40
 
 #define NEW_RANDOM_POINT new Point(rand() % WIDTH, rand() % HEIGHT)
 
@@ -30,10 +30,10 @@ Menu* menu;
 Snake* snake;
 Point* food;
 
-COLOR_ID titleColor;
-COLOR_ID pauseColor;
-COLOR_ID foodColor;
-COLOR_ID snakeColor;
+int titleColor;
+int pauseColor;
+int foodColor;
+int snakeColor;
 
 // DEBUG
 ofstream logFile;
@@ -134,20 +134,22 @@ void keyFunction(WORD keyCode)
         {
             state = MENU;
             console->registerTimerEvent(NULL, 0);
-            render();
         }
         else if (keyCode == VK_SPACE)
         {
             state = PAUSE;
             console->registerTimerEvent(NULL, 0);
-            render();
         }
         else
         {
             return;
         }
+		
+        render();
+		
         break;
 
+		
     case PAUSE:
 
         if (keyCode == VK_SPACE)

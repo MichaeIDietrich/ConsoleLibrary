@@ -73,12 +73,11 @@ void Console::setTitle(const char* title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
-	timer = event;
-
-    if (intervall > 0)
+    timer = event;
+    intervallTime = intervall;
+    
+    if (timer != NULL && intervall > 0)
     {
-        intervallTime = intervall;
-
         CALC_NEXT_TICK
     }
 }
@@ -120,7 +119,7 @@ void Console::run()
             delete[] eventBuffer;
         }
 
-        if (timer != NULL && GetTickCount() >= nextTickEvent)
+        if (GetTickCount() >= nextTickEvent)
         {
             timer();
             
@@ -171,15 +170,10 @@ void Console::setTile(int x, int y, char c, COLOR_ID colorId)
 
 void Console::setTile(int x, int y, char c)
 {
-    int max = bufferSize.X * bufferSize.Y;
-
     int index = y * bufferSize.X + x;
 
-    if (index >= 0 && index < max)
-    {
-        buffer[index].Char.AsciiChar = c;
-        buffer[index].Attributes = color;
-    }
+    buffer[index].Char.AsciiChar = c;
+    buffer[index].Attributes = color;
 }
 
 void Console::redraw()

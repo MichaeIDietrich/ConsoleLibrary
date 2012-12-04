@@ -22,7 +22,7 @@ Menu::~Menu()
     delete items;
 }
 
-WORD Menu::addItem(char* text, int x, int y, COLOR_ID defaultColor)
+WORD Menu::addItem(const char* text, int x, int y, COLOR_ID defaultColor)
 {
     items->insert(items->end(), new Text(text, x, y, defaultColor));
 

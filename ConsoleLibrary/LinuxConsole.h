@@ -20,10 +20,7 @@
 
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
-typedef unsigned int COLOR_ID;
-
-//enum colors { black = COLOR_BLACK, red = COLOR_RED, green = COLOR_GREEN, blue = COLOR_BLUE, 
-	      //yellow = COLOR_YELLOW, magenta = COLOR_MAGENTA, cyan = COLOR_CYAN, white = COLOR_WHITE };
+typedef int COLOR_ID;
 
 enum Colors { BLACK = COLOR_BLACK, RED = COLOR_RED, GREEN = COLOR_GREEN, BLUE = COLOR_BLUE, 
           YELLOW = COLOR_YELLOW, MAGENTA = COLOR_MAGENTA, CYAN = COLOR_CYAN, WHITE = COLOR_WHITE };
@@ -38,6 +35,9 @@ class Console
 {
 private:
     bool running;
+    
+    WORD width;
+    WORD height;
 
     keyDownEvent keyDown;
     keyUpEvent keyUp;
@@ -50,6 +50,8 @@ private:
     WORD clearColor;
 
     int colors;
+    
+    void drawBorder();
 
 public:
     // Konstruktor
