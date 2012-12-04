@@ -1,5 +1,3 @@
-#pragma once
-
 #include "../ConsoleLibrary/Console.h"
 #include "../ConsoleLibrary/Menu.h"
 
@@ -8,11 +6,16 @@
 #include <vector>
 #include <cstring>
 #include <string>
+#include <stdlib.h>
 
 #define WIDTH 50
 #define HEIGHT 40
 
 #define BUFFER_SIZE 1024
+
+#ifndef WIN32
+#define strncpy_s(src, size, dest, length) strncpy(src, dest, length);
+#endif
 
 using namespace std;
 

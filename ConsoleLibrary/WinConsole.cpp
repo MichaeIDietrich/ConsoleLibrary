@@ -16,7 +16,9 @@ Console::Console(const char* title, int width, int height, Colors clearForegroun
     keyDown = NULL;
     timer = NULL;
     color = COLOR(WHITE, BLACK);
-    setClearColor(clearForeground, clearBackground);
+    
+    COLOR_ID id = createColor(clearForeground, clearBackground);
+    setBgColor(id);
 
     colorPairs = new vector<WORD>();
 
@@ -109,8 +111,7 @@ void Console::run()
                 if (eventBuffer[i].EventType == KEY_EVENT)
                 {
 
-                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == TRUE &&
-                        keyDown != NULL)
+                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == TRUE && keyDown != NULL)
                     {
                         keyDown(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode);
                     }
@@ -147,19 +148,12 @@ void Console::setColor(COLOR_ID colorId)
     }
 }
 
-void Console::setBgColor(int colorId)
+void Console::setBgColor(COLOR_ID colorId)
 {
-    // TODO
-}
-
-void Console::setColor(Colors foreground, Colors background)
-{
-    color = COLOR(foreground, background);
-}
-
-void Console::setClearColor(Colors foreground, Colors background)
-{
-    clearColor = COLOR(foreground, background);
+    if (colorId < (int) colorPairs->size())
+    {
+        clearColor = (*colorPairs)[colorId];
+    }
 }
 
 void Console::setTile(int x, int y, char c, COLOR_ID colorId)

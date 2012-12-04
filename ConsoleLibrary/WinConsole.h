@@ -76,12 +76,6 @@ public:
     void setColor(COLOR_ID colorId);
 
     void setBgColor(COLOR_ID colorId);
-
-    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setColor(Colors foreground, Colors background);
-    
-    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setClearColor(Colors foreground, Colors background);
     
     // Setzt einen einzelnen Character in der Konsole am angegebenen Punkt
     void setTile(int x, int y, char tile);

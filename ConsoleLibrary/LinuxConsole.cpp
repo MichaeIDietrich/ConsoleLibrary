@@ -12,7 +12,7 @@ Console::Console(const char* title, int width, int height, Colors clearForegroun
     //resize_term(width, height);
     noecho();
     curs_set(0);
-    keypad(stdscr,TRUE);
+    keypad(stdscr, TRUE);
     //raw();
     //nonl();
     start_color();
@@ -104,7 +104,7 @@ void Console::run()
       in = getch();
       if (in > 0)
       {
-	  keyUp(in, 0);
+	  keyDown(in);
       }
       //usleep(1000);
       if (timer != NULL) {
@@ -135,18 +135,6 @@ void Console::setColor(COLOR_ID color) {
 
 void Console::setBgColor(COLOR_ID color) {
   bkgd(COLOR_PAIR(color));
-}
-
-void Console::setColor(Colors foreground, Colors background)
-{
-    init_pair(color, foreground, background);
-    color_set(color++, 0);
-}
-
-void Console::setClearColor(Colors foreground, Colors background)
-{
-    init_pair(color, foreground, background);
-    color_set(color++, 0);
 }
 
 void Console::setTile(int x, int y, char c)
