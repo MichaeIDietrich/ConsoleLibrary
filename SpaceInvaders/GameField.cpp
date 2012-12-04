@@ -16,12 +16,14 @@ namespace Model
 
 		m_ScorePosition = new Vector2D(0, 40);
 		m_GameMatrixPosition = new Vector2D(0, 0);
+		m_LivesPosition = new Vector2D(40, 40);
 	}
 
 	GameField::~GameField()
 	{
 		delete m_ScorePosition;
 		delete m_GameMatrixPosition;
+		delete m_LivesPosition;
 
 		delete m_GameMatrix;
 	}
@@ -62,13 +64,18 @@ namespace Model
 		m_Speed = speed;
 	}
 
-	void GameField::setScorePosition(Vector2D* position)
+	void GameField::setScorePosition(int x, int y)
 	{
-		m_ScorePosition = position;
+		m_ScorePosition->setXY(x, y);
 	}
 
-	void GameField::setGameMatrixPosition(Vector2D* position)
+	void GameField::setGameMatrixPosition(int x, int y)
 	{
-		m_GameMatrixPosition = position;
+		m_GameMatrixPosition->setXY(x, y);
+	}
+
+	void GameField::setLivesPosition(int x, int y)
+	{
+		m_LivesPosition->setXY(x, y);
 	}
 }

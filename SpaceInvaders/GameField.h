@@ -20,6 +20,7 @@ namespace Model
 
 		Vector2D* m_ScorePosition;
 		Vector2D* m_GameMatrixPosition;
+		Vector2D* m_LivesPosition;
 
 		GameMatrix* m_GameMatrix;
 	public:
@@ -32,10 +33,12 @@ namespace Model
 		int getSpeed();
 		Vector2D& getScorePosition();
 		Vector2D& getGameMatrixPosition();
+		Vector2D& getLivesPosition();
 
 		void setScore(int score);
 		void setSpeed(int speed);
-		void setScorePosition(Vector2D* position);
-		void setGameMatrixPosition(Vector2D* position);
+		void setScorePosition(int x, int y);
+		void setGameMatrixPosition(int x, int y);
+		void setLivesPosition(int x, int y);
 	};
 }

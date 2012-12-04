@@ -39,7 +39,11 @@ void keyResponder(WORD keyCode)
     else if (keyCode == VK_RIGHT)
     {
 
-    }
+	} 
+	else if (keyCode == VK_SPACE)
+	{
+
+	}
 }
 
 void timerRoutine()
