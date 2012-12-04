@@ -12,9 +12,13 @@ namespace Model
 	{
 	private:
 		GameFigure* m_BulletOwner;
+		Vector2D* m_StartPosition;
 	public:
 		Bullet(Vector2D* position, Vector2D* direction, GameFigure* bulletOwner);
+		~Bullet();
 
 		GameFigure& getBulletOwner();
+
+		Vector2D& getStartPosition();
 	};
 }

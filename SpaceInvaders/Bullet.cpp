@@ -8,5 +8,16 @@ namespace Model
 		: GameFigure(position, direction, '|')
 	{
 		m_BulletOwner = bulletOwner;
+		m_StartPosition = new Vector2D(position->getX(), position->getY());
+	}
+
+	Bullet::~Bullet()
+	{
+		delete m_StartPosition;
+	}
+
+	Vector2D& Bullet::getStartPosition()
+	{
+		return *m_StartPosition;
 	}
 }

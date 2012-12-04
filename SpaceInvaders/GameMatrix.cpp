@@ -39,6 +39,11 @@ namespace Model
 		}
 	}
 
+	GameFigure& GameMatrix::getGameFigure(int x, int y)
+	{
+		return *((*m_GameFigureMatrix)[x + (y * m_Height)]);
+	}
+
 	int GameMatrix::getHeigth()
 	{
 		return m_Height;
