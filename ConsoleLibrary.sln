@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pong", "Pong\Pong.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProgramLauncher", "ProgramLauncher\ProgramLauncher.vcxproj", "{C45462D2-C5F3-4CD8-96A5-49DB3FA88649}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpaceInvaders", "SpaceInvaders\SpaceInvaders.vcxproj", "{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -25,6 +27,10 @@ Global
 		{C45462D2-C5F3-4CD8-96A5-49DB3FA88649}.Debug|Win32.Build.0 = Debug|Win32
 		{C45462D2-C5F3-4CD8-96A5-49DB3FA88649}.Release|Win32.ActiveCfg = Release|Win32
 		{C45462D2-C5F3-4CD8-96A5-49DB3FA88649}.Release|Win32.Build.0 = Release|Win32
+		{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}.Debug|Win32.Build.0 = Debug|Win32
+		{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}.Release|Win32.ActiveCfg = Release|Win32
+		{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
