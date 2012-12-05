@@ -13,14 +13,14 @@ CHAR_INFO* buffer;
 
 Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
-    keyDown = NULL;
-    timer = NULL;
+    keyDown = nullptr;
+    timer = nullptr;
     color = COLOR(WHITE, BLACK);
     
+    colorPairs = new vector<WORD>();
+
     COLOR_ID id = createColor(clearForeground, clearBackground);
     setBgColor(id);
-
-    colorPairs = new vector<WORD>();
 
     setTitle(title);
     
@@ -78,7 +78,7 @@ void Console::registerTimerEvent(timerEvent event, DWORD intervall)
     timer = event;
     intervallTime = intervall;
     
-    if (timer != NULL && intervall > 0)
+    if (timer != nullptr && intervall > 0)
     {
         CALC_NEXT_TICK
     }
@@ -91,7 +91,7 @@ void Console::run()
     DWORD numEvents = 0;
     DWORD numEventsRead = 0;
 
-    if (timer != NULL)
+    if (timer != nullptr)
     {
         CALC_NEXT_TICK
     }
@@ -111,7 +111,7 @@ void Console::run()
                 if (eventBuffer[i].EventType == KEY_EVENT)
                 {
 
-                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == TRUE && keyDown != NULL)
+                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == TRUE && keyDown != nullptr)
                     {
                         keyDown(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode);
                     }
@@ -120,7 +120,7 @@ void Console::run()
             delete[] eventBuffer;
         }
 
-        if (GetTickCount() >= nextTickEvent)
+        if (timer != nullptr && GetTickCount() >= nextTickEvent)
         {
             timer();
             

@@ -42,12 +42,12 @@ int lostCounter;
 
 int main(int argc, char* argv[])
 {
-    console = new Console("Pong", WIDTH, HEIGHT, BLACK, WHITE);
+    console = new Console("Pong", WIDTH, HEIGHT, WHITE, BLACK);
 
     botColor = console->createColor(GREEN, YELLOW);
     playerColor = console->createColor(RED, YELLOW);
-    scoreColor = console->createColor(BLACK, WHITE);
-    ballColor = console->createColor(BLUE, WHITE);
+    scoreColor = console->createColor(WHITE, BLACK);
+    ballColor = console->createColor(BLUE, BLACK);
 
     botScore = 0;
     playerScore = 0;

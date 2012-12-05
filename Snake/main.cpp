@@ -133,12 +133,12 @@ void keyFunction(WORD keyCode)
         else if (keyCode == VK_ESCAPE)
         {
             state = MENU;
-            console->registerTimerEvent(NULL, 0);
+            console->registerTimerEvent(nullptr, 0);
         }
         else if (keyCode == VK_SPACE)
         {
             state = PAUSE;
-            console->registerTimerEvent(NULL, 0);
+            console->registerTimerEvent(nullptr, 0);
         }
         else
         {
@@ -188,7 +188,7 @@ void timerFunction()
     if (snake->checkCollisionWith(snake))
     {
         state = MENU;
-        console->registerTimerEvent(NULL, 0);
+        console->registerTimerEvent(nullptr, 0);
     }
     else
     {
