@@ -60,6 +60,18 @@
     <ClCompile Include="GameMatrix.cpp">
       <Filter>Quelldateien\Model</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionDetectorController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFieldController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="InvaderController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ConsoleLibrary\WinConsole.h">
@@ -94,6 +106,18 @@
     </ClInclude>
     <ClInclude Include="GameField.h">
       <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="InvaderController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFieldController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetectorController.h">
+      <Filter>Headerdateien\Controller</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef INVADER_H
+#define INVADER_H
 #endif
 
 #include "GameFigure.h"

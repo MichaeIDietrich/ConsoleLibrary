@@ -81,12 +81,16 @@
   <ItemGroup>
     <ClCompile Include="..\ConsoleLibrary\WinConsole.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="CollisionDetectorController.cpp" />
     <ClCompile Include="GameField.cpp" />
+    <ClCompile Include="GameFieldController.cpp" />
     <ClCompile Include="GameFigure.cpp" />
     <ClCompile Include="GameMatrix.cpp" />
     <ClCompile Include="Invader.cpp" />
+    <ClCompile Include="InvaderController.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Vector2D.cpp" />
   </ItemGroup>
@@ -94,12 +98,16 @@
     <ClInclude Include="..\ConsoleLibrary\Console.h" />
     <ClInclude Include="..\ConsoleLibrary\WinConsole.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CollisionDetectorController.h" />
     <ClInclude Include="GameField.h" />
+    <ClInclude Include="GameFieldController.h" />
     <ClInclude Include="GameMatrix.h" />
     <ClInclude Include="Invader.h" />
     <ClInclude Include="GameFigure.h" />
+    <ClInclude Include="InvaderController.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerController.h" />
     <ClInclude Include="Shield.h" />
     <ClInclude Include="Vector2D.h" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef VECTOR2D_H
+#define VECTOR2D_H
 #endif
 
 namespace Model
