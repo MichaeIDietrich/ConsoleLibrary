@@ -56,6 +56,11 @@ namespace Model
 
 	void GameMatrix::setGameFigure(GameFigure* gameFigure, int x, int y)
 	{
+		if (gameFigure == nullptr)
+		{
+			(*m_GameFigureMatrix)[x + (y * m_Width)] = nullptr;
+		}
+
 		if ((*m_GameFigureMatrix)[x + (y * m_Width)] != nullptr)
 		{
 			delete (*m_GameFigureMatrix)[x + (y * m_Width)];

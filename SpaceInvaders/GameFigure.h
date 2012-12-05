@@ -10,6 +10,8 @@
 
 namespace Model
 {
+	enum GameFigureDirection { RIGHT = 0, DOWN = 1, LEFT = 2, TOP = 3 };
+
 	class GameFigure
 	{
 	protected:

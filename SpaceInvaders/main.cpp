@@ -5,8 +5,10 @@
 #include "../ConsoleLibrary/Console.h"
 
 // Controller
-#include "GameFieldController.h";
-#include "PlayerController.h";
+#include "GameFigure.h"
+#include "Player.h"
+#include "GameFieldController.h"
+#include "PlayerController.h"
 
 #include <stdlib.h>
 
@@ -20,9 +22,10 @@ Console* console;
 
 GameField* gameFieldModel;
 
+PlayerController* playerController;
 GameFieldController* gameFieldController;
 
-int timerInterval = 50;
+int timerInterval = 100;
 
 // Defining Prototypes
 void keyResponder(WORD keyCode);
@@ -37,6 +40,7 @@ int main(int argc, char* argv[])
 
 	// Initialize Controller
 	gameFieldController = new GameFieldController();
+	playerController = new PlayerController();
 
 	// Initialize Model
 	gameFieldModel = new GameField(GameFieldController::GAMEMATRIXWIDTH, GameFieldController::GAMEMATRIXHEIGTH);
@@ -64,11 +68,11 @@ void keyResponder(WORD keyCode)
     }
     else if (keyCode == VK_LEFT)
     {
-
+		playerController->movePlayer(&gameFieldModel->getPlayer(), LEFT, &gameFieldModel->getGameMatrix());
     }
     else if (keyCode == VK_RIGHT)
     {
-
+		playerController->movePlayer(&gameFieldModel->getPlayer(), RIGHT, &gameFieldModel->getGameMatrix());
 	} 
 	else if (keyCode == VK_SPACE)
 	{
@@ -82,12 +86,12 @@ void timerRoutine()
 	renderGameField();
 }
 
-void updateGameField()
+inline void updateGameField()
 {
 	gameFieldController->updateGameField();
 }
 
-void renderGameField()
+inline void renderGameField()
 {
 	console->clearConsole();
 

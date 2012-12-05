@@ -85,6 +85,7 @@
     <ClCompile Include="GameField.cpp" />
     <ClCompile Include="GameFieldController.cpp" />
     <ClCompile Include="GameFigure.cpp" />
+    <ClCompile Include="GameFigureController.cpp" />
     <ClCompile Include="GameMatrix.cpp" />
     <ClCompile Include="Invader.cpp" />
     <ClCompile Include="InvaderController.cpp" />
@@ -101,6 +102,7 @@
     <ClInclude Include="CollisionDetectorController.h" />
     <ClInclude Include="GameField.h" />
     <ClInclude Include="GameFieldController.h" />
+    <ClInclude Include="GameFigureController.h" />
     <ClInclude Include="GameMatrix.h" />
     <ClInclude Include="Invader.h" />
     <ClInclude Include="GameFigure.h" />
