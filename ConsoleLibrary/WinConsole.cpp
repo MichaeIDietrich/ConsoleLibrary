@@ -1,8 +1,6 @@
-#include "Console.h"
+#include "WinConsole.h"
+
 #include <stdio.h>
-
-
-#define CALC_NEXT_TICK nextTickEvent = GetTickCount() + intervallTime;
 
 HANDLE wHnd;    // Handle to write to the console.
 HANDLE rHnd;    // Handle to read from the console.
@@ -13,12 +11,16 @@ COORD topLeft = { 0, 0 };
 COORD bufferSize;
 CHAR_INFO* buffer;
 
-Console::Console(UNICODE_STR title, int width, int height)
+Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
-    keyDown = NULL;
-    keyUp = NULL;
-    timer = NULL;
-    color = white | FOREGROUND_INTENSITY; // weiﬂe Schrift, schwarzer Hintergrund
+    keyDown = nullptr;
+    timer = nullptr;
+    color = COLOR(WHITE, BLACK);
+    
+    colorPairs = new vector<WORD>();
+
+    COLOR_ID id = createColor(clearForeground, clearBackground);
+    setBgColor(id);
 
     setTitle(title);
     
@@ -52,32 +54,32 @@ Console::Console(UNICODE_STR title, int width, int height)
     topLeft.X = 0;
     topLeft.Y = 0;
 
-    clear();
+    clearConsole();
+    redraw();
 }
 
-void Console::clear()
+void Console::clearConsole()
 {
     for (int i = 0; i < bufferSize.X * bufferSize.Y; i++)
     {
         buffer[i].Char.AsciiChar = ' ';
-        buffer[i].Attributes = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+        buffer[i].Attributes = clearColor;
     }
-    WriteConsoleOutputA(wHnd, buffer, bufferSize, topLeft, &windowSize);
 }
 
 
-void Console::setTitle(UNICODE_STR title)
+void Console::setTitle(const char* title)
 {
-    SetConsoleTitle(title);
+    SetConsoleTitleA(title);
 }
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
-    if (intervall > 0)
+    timer = event;
+    intervallTime = intervall;
+    
+    if (timer != nullptr && intervall > 0)
     {
-        timer = event;
-        intervallTime = intervall;
-
         CALC_NEXT_TICK
     }
 }
@@ -89,7 +91,7 @@ void Console::run()
     DWORD numEvents = 0;
     DWORD numEventsRead = 0;
 
-    if (timer != NULL)
+    if (timer != nullptr)
     {
         CALC_NEXT_TICK
     }
@@ -109,25 +111,16 @@ void Console::run()
                 if (eventBuffer[i].EventType == KEY_EVENT)
                 {
 
-                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == TRUE &&
-                        keyDown != NULL)
+                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == TRUE && keyDown != nullptr)
                     {
-                        keyDown(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode,
-                            eventBuffer[i].Event.KeyEvent.dwControlKeyState);
-                    }
-
-                    if (eventBuffer[i].Event.KeyEvent.bKeyDown == FALSE &&
-                        keyUp != NULL)
-                    {
-                        keyUp(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode,
-                            eventBuffer[i].Event.KeyEvent.dwControlKeyState);
+                        keyDown(eventBuffer[i].Event.KeyEvent.wVirtualKeyCode);
                     }
                 }
             }
             delete[] eventBuffer;
         }
 
-        if (GetTickCount() >= nextTickEvent)
+        if (timer != nullptr && GetTickCount() >= nextTickEvent)
         {
             timer();
             
@@ -141,9 +134,32 @@ void Console::stop()
     running = false;
 }
 
-void Console::setColor(colors foreground, colors background)
+int Console::createColor(Colors foreground, Colors background)
 {
-    color = foreground | FOREGROUND_INTENSITY | background << 4;
+    colorPairs->insert(colorPairs->end(), COLOR(foreground, background));
+    return colorPairs->size() - 1;
+}
+
+void Console::setColor(COLOR_ID colorId)
+{
+    if (colorId < (int) colorPairs->size())
+    {
+        color = (*colorPairs)[colorId];
+    }
+}
+
+void Console::setBgColor(COLOR_ID colorId)
+{
+    if (colorId < (int) colorPairs->size())
+    {
+        clearColor = (*colorPairs)[colorId];
+    }
+}
+
+void Console::setTile(int x, int y, char c, COLOR_ID colorId)
+{
+    this->setColor(colorId);
+    this->setTile(x, y, c);
 }
 
 void Console::setTile(int x, int y, char c)
@@ -151,20 +167,38 @@ void Console::setTile(int x, int y, char c)
     int index = y * bufferSize.X + x;
 
     buffer[index].Char.AsciiChar = c;
+    buffer[index].Attributes = color;
+}
 
+void Console::redraw()
+{
     WriteConsoleOutputA(wHnd, buffer, bufferSize, topLeft, &windowSize);
 }
 
-void Console::printText(int x, int y, char* text)
+void Console::printText(int x, int y, const char* text, COLOR_ID colorId)
 {
-    COORD position = { x, y };
-    SetConsoleCursorPosition(wHnd, position);
+    this->setColor(colorId);
+    this->printText(x, y, text);
+}
 
-    SetConsoleTextAttribute(wHnd, color);
-    puts(text);
+void Console::printText(int x, int y, const char* text)
+{
+    int index = y * bufferSize.X + x;
+    int max = bufferSize.X * bufferSize.Y;
+    char* c = (char*) text;
+
+    while (*c != 0 && index < max)
+    {
+        buffer[index].Char.AsciiChar = *c;
+        buffer[index].Attributes = color;
+
+        c++;
+        index++;
+    }
 }
 
 Console::~Console()
 {
     delete[] buffer;
+    delete colorPairs;
 }

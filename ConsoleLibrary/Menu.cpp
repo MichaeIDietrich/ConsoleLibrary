@@ -1,12 +1,10 @@
 #include "Menu.h"
 
 
-Menu::Menu(Console* console, Colors selectionForground, Colors selectionBackground)
+Menu::Menu(Console* console, COLOR_ID selectedItemColor)
 {
     this->console = console;
-    selColorId = this->console->createColor(selectionForground, selectionBackground);
-    this->selFgColor = selectionForground;
-    this->selBgColor = selectionBackground;
+    this->selColor = selectedItemColor;
 
     items = new vector<Text*>();
 }
@@ -24,9 +22,9 @@ Menu::~Menu()
     delete items;
 }
 
-WORD Menu::addItem(char* text, int x, int y, Colors forground, Colors background)
+WORD Menu::addItem(const char* text, int x, int y, COLOR_ID defaultColor)
 {
-    items->insert(items->end(), new Text(text, x, y, console->createColor(forground, background)));
+    items->insert(items->end(), new Text(text, x, y, defaultColor));
 
     return items->size() - 1;
 }
@@ -44,16 +42,8 @@ void Menu::show()
     for (WORD i = 0; i < items->size(); i++)
     {
         Text* item = *(items->begin() + i);
-        int colorId;
 
-        if (selIndex == i)
-        {
-          colorId = selColorId;
-        }
-        else
-        {
-          colorId = item->colorId;
-        }
+        COLOR_ID colorId = selIndex == i ? selColor : item->color;
 
         console->printText(item->posX, item->posY, item->text, colorId);
     }

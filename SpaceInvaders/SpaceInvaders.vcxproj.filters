@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Quelldateien\Model">
+      <UniqueIdentifier>{80965597-a8f6-4ba3-b04f-736bb35d7976}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Model">
+      <UniqueIdentifier>{4cb353f4-889c-40f4-b389-5741165f05c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Controller">
+      <UniqueIdentifier>{f458675b-f611-4d1f-a23d-ae4b047223d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Controller">
+      <UniqueIdentifier>{65361a46-e99c-4f92-9e1f-e35fed8b97b5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ConsoleLibrary\WinConsole.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFigure.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2D.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Invader.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Shield.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GameField.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMatrix.cpp">
+      <Filter>Quelldateien\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetectorController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="GameFieldController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="InvaderController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ConsoleLibrary\WinConsole.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="main.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ConsoleLibrary\Console.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2D.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFigure.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Shield.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Invader.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMatrix.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GameField.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="InvaderController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFieldController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDetectorController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

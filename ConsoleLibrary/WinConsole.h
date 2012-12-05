@@ -1,17 +1,21 @@
 #pragma once
 
 #include <Windows.h>
+#include <vector>
+
+typedef int COLOR_ID;
+
+using namespace std;
+
+#define CALC_NEXT_TICK nextTickEvent = GetTickCount() + intervallTime;
+#define COLOR(foreground, background) foreground | FOREGROUND_INTENSITY | background << 4
 
 
-enum colors { black = 0, red = 4, green = 2, blue = 1, yellow = 6, magenta = 5, cyan = 3, white = 7 };
-
-typedef LPCWSTR UNICODE_STR;
+enum Colors { BLACK = 0, RED = 4, GREEN = 2, BLUE = 1, YELLOW = 6, MAGENTA = 5, CYAN = 3, WHITE = 7 };
 
 
-typedef void (*keyDownEvent) (WORD keyCode, DWORD modifier);
-typedef void (*keyUpEvent) (WORD keyCode, DWORD modifier);
+typedef void (*keyEvent) (WORD keyCode);
 typedef void (*timerEvent) ();
-
 
 
 class Console
@@ -19,15 +23,15 @@ class Console
 private:
     bool running;
 
-    keyDownEvent keyDown;
-    keyUpEvent keyUp;
+    keyEvent keyDown;
     timerEvent timer;
 
-    
     DWORD intervallTime;
     DWORD nextTickEvent;
 
     WORD color;
+    WORD clearColor;
+    vector<WORD>* colorPairs;
 
     HANDLE wHnd;
     HANDLE rHnd;
@@ -44,22 +48,19 @@ public:
     // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers
     // Initialisiert die Schrift einer quadratischen Schriftart (8x8)
     // Blendet den Text-Cursor aus
-    Console(UNICODE_STR title, int width, int height);
+    Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground);
 
     // Destruktor
     ~Console();
 
     // Löscht die Konsole zu Leerzeichen
-    void clear();
+    void clearConsole();
 
     // Ändert den Konsolentitel
-    void setTitle(UNICODE_STR title);
+    void setTitle(const char* title);
 
     // Eintragen einer Callback-Funktion für KeyDown-Events
-    void registerKeyDownEvent(keyDownEvent event) { keyDown = event; }
-
-    // Eintragen einer Callback-Funktion für KeyUp-Events
-    void registerKeyUpEvent(keyUpEvent event) { keyUp = event; }
+    void registerKeyEvent(keyEvent event) { keyDown = event; }
 
     // Eintragen einer Callback-Funktion für Timer-Events
     void registerTimerEvent(timerEvent event, DWORD intervall);
@@ -69,13 +70,23 @@ public:
 
     // Stoppt den Lebenszyklus
     void stop();
+    
+    COLOR_ID createColor(Colors foreground, Colors background);
 
-    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setColor(colors forground, colors background);
+    void setColor(COLOR_ID colorId);
 
+    void setBgColor(COLOR_ID colorId);
+    
     // Setzt einen einzelnen Character in der Konsole am angegebenen Punkt
     void setTile(int x, int y, char tile);
 
+    void setTile(int x, int y, char tile, COLOR_ID colorId);
+
     // Schreibt einen Text auf die Konsole am angegebenen Punkt
-    void printText(int x, int y, char* text);
+    void printText(int x, int y, const char* text);
+
+    void printText(int x, int y, const char* text, COLOR_ID colorId);
+    
+    // Zeigt alle Änderungen an
+    void redraw();
 };

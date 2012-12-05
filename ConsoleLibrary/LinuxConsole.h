@@ -7,7 +7,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#define CALC_NEXT_TICK nextTickEvent = clock() + intervallTime;
+#define CALC_NEXT_TICK nextTickEvent = clock() + intervallTime * 1000;
 
 //TODO:
 #define VK_UP KEY_UP
@@ -20,17 +20,13 @@
 
 typedef unsigned short WORD;
 typedef unsigned long DWORD;
-typedef char* UNICODE_STR;
-
-//enum colors { black = COLOR_BLACK, red = COLOR_RED, green = COLOR_GREEN, blue = COLOR_BLUE, 
-	      //yellow = COLOR_YELLOW, magenta = COLOR_MAGENTA, cyan = COLOR_CYAN, white = COLOR_WHITE };
+typedef int COLOR_ID;
 
 enum Colors { BLACK = COLOR_BLACK, RED = COLOR_RED, GREEN = COLOR_GREEN, BLUE = COLOR_BLUE, 
           YELLOW = COLOR_YELLOW, MAGENTA = COLOR_MAGENTA, CYAN = COLOR_CYAN, WHITE = COLOR_WHITE };
 
 
-typedef void (*keyDownEvent) (WORD keyCode, DWORD modifier);
-typedef void (*keyUpEvent) (WORD keyCode, DWORD modifier);
+typedef void (*keyEvent) (WORD keyCode);
 typedef void (*timerEvent) ();
 
 
@@ -38,9 +34,11 @@ class Console
 {
 private:
     bool running;
+    
+    WORD width;
+    WORD height;
 
-    keyDownEvent keyDown;
-    keyUpEvent keyUp;
+    keyEvent keyDown;
     timerEvent timer;
     
     DWORD intervallTime;
@@ -50,14 +48,14 @@ private:
     WORD clearColor;
 
     int colors;
+    
+    void drawBorder();
 
 public:
-    bool fastUpdate;
     // Konstruktor
     // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers
-    // Initialisiert die Schrift einer quadratischen Schriftart (8x8)
     // Blendet den Text-Cursor aus
-    Console(UNICODE_STR title, int width, int height, Colors clearForeground, Colors clearBackground);
+    Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground);
 
     // Destruktor
     ~Console();
@@ -66,13 +64,10 @@ public:
     void clearConsole();
 
     // Ändert den Konsolentitel
-    void setTitle(UNICODE_STR title);
+    void setTitle(const char* title);
 
     // Eintragen einer Callback-Funktion für KeyDown-Events
-    void registerKeyDownEvent(keyDownEvent event) { keyDown = event; }
-
-    // Eintragen einer Callback-Funktion für KeyUp-Events
-    void registerKeyUpEvent(keyUpEvent event) { keyUp = event; }
+    void registerKeyEvent(keyEvent event) { keyDown = event; }
 
     // Eintragen einer Callback-Funktion für Timer-Events
     void registerTimerEvent(timerEvent event, DWORD intervall);
@@ -83,29 +78,22 @@ public:
     // Stoppt den Lebenszyklus
     void stop();
     
-    int createColor(Colors forground, Colors background);
+    COLOR_ID createColor(Colors foreground, Colors background);
 
-    void setColor(int color);
+    void setColor(COLOR_ID color);
 
-    void setBgColor(int color);
-
-    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setColor(Colors forground, Colors background);
-    
-    // Setzt die Vorder- und Hintergrundfarbe für die folgenden Schreiboperationen
-    void setClearColor(Colors forground, Colors background);
+    void setBgColor(COLOR_ID color);
     
     // Setzt einen einzelnen Character in der Konsole am angegebenen Punkt
     void setTile(int x, int y, char tile);
 
-    void setTile(int x, int y, char tile, int colorId);
+    void setTile(int x, int y, char tile, COLOR_ID colorId);
 
     // Schreibt einen Text auf die Konsole am angegebenen Punkt
-    void printText(int x, int y, char* text);
+    void printText(int x, int y, const char* text);
 
-    void printText(int x, int y, char* text, int colorId);
+    void printText(int x, int y, const char* text, COLOR_ID colorId);
     
     // Zeigt alle Änderungen an
     void redraw();
-
 };

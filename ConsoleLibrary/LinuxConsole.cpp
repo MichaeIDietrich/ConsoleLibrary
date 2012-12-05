@@ -1,31 +1,76 @@
 #include "LinuxConsole.h"
 
-Console::Console(UNICODE_STR title, int width, int height, Colors clearForeground, Colors clearBackground)
+Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
-  //std::cout << "\x1b]50;" << "Courier New" << "\a" << std::flush;
-
-  //printf("\033[8;%d;%dt", height, width);
-    fastUpdate = FALSE;
+    this->width = width * 2;
+    this->height = height;
+  
     colors = 1;
     initscr();
-    //resizeterm(height, width);
+    
+    //resizeterm(width, height);
     //resize_term(width, height);
     noecho();
-    keypad(stdscr,TRUE);
+    curs_set(0);
+    keypad(stdscr, TRUE);
     //raw();
     //nonl();
     start_color();
-    setClearColor(clearForeground, clearBackground);
-    bkgd(COLOR_PAIR(1));
+    
+    COLOR_ID id = this->createColor(clearForeground, clearBackground);
+    
+    bkgd(COLOR_PAIR(id));
+    
     setTitle(title);
 }
 
 void Console::clearConsole()
 {
     clear();
+    drawBorder();
 }
 
-void Console::setTitle(UNICODE_STR title)
+void Console::drawBorder()
+{
+    color_set(1, 0);
+    attrset(A_REVERSE);
+    
+    if (getmaxx(stdscr) > width)
+    {
+        WORD xDiff = getmaxx(stdscr) - width + 1;
+        char* filler = new char[xDiff];
+        
+        for (WORD i = 0; i < xDiff; i++)
+        {
+            filler[i]= ' ';
+        }
+        
+        for (WORD i = 0; i < height; i++)
+        {
+            mvaddstr(i, width - 1, filler);
+        }
+    }
+    
+    if (getmaxy(stdscr) > height)
+    {
+        WORD yDiff = getmaxy(stdscr) - height + 1;
+        char* filler = new char[getmaxx(stdscr)];
+        
+        for (WORD i = 0; i < getmaxx(stdscr); i++)
+        {
+            filler[i]= ' ';
+        }
+        
+        for (WORD i = 0; i < yDiff; i++)
+        {
+            mvaddstr(height + i, 0, filler);
+        }
+    }
+    
+    attrset(A_NORMAL);
+}
+
+void Console::setTitle(const char* title)
 {
     
     // ?
@@ -33,23 +78,19 @@ void Console::setTitle(UNICODE_STR title)
 
 void Console::registerTimerEvent(timerEvent event, DWORD intervall)
 {
-    if (intervall > 0)
+    timer = event;
+    intervallTime = intervall;
+    
+    if (timer != NULL && intervall > 0)
     {
-        timer = event;
-        intervallTime = intervall;
-
         CALC_NEXT_TICK
     }
 }
 
 void Console::run()
 {
-  running = true;
+    running = true;
 
-  //sleep(10);
-  /*DWORD numEvents = 0;
-  DWORD numEventsRead = 0;
-    */
     if (timer != NULL)
     {
         CALC_NEXT_TICK
@@ -61,11 +102,11 @@ void Console::run()
       int i = 10;
       timeout(0);
       in = getch();
-      keyUp(in, 0);
-      if(fastUpdate == FALSE)
-        usleep(1000);
-      else
-        usleep(500);
+      if (in > 0)
+      {
+	  keyDown(in);
+      }
+      //usleep(1000);
       if (timer != NULL) {
         if (clock() >= nextTickEvent)
         {
@@ -82,30 +123,18 @@ void Console::stop()
     running = false;
 }
 
-int Console::createColor(Colors forground, Colors background)
+COLOR_ID Console::createColor(Colors forground, Colors background)
 {
     init_pair(colors, forground, background);
     return colors++;
 }
 
-void Console::setColor(int color) {
+void Console::setColor(COLOR_ID color) {
   color_set(color, 0);
 }
 
-void Console::setBgColor(int color) {
+void Console::setBgColor(COLOR_ID color) {
   bkgd(COLOR_PAIR(color));
-}
-
-void Console::setColor(Colors forground, Colors background)
-{
-    init_pair(color, forground, background);
-    color_set(color++, 0);
-}
-
-void Console::setClearColor(Colors forground, Colors background)
-{
-    init_pair(color, forground, background);
-    color_set(color++, 0);
 }
 
 void Console::setTile(int x, int y, char c)
@@ -116,19 +145,19 @@ void Console::setTile(int x, int y, char c)
     printText(x, y, zero_str);
 }
 
-void Console::setTile(int x, int y, char c, int colorId)
+void Console::setTile(int x, int y, char c, COLOR_ID colorId)
 {
   color_set(colorId, 0);
-  setTile(x, y,c);
+  setTile(x * 2, y, c);
 }
 
-void Console::printText(int x, int y, char* text)
+void Console::printText(int x, int y, const char* text)
 {
     mvaddstr(y, x, text);
     //mvprintw(y, x, text);
 }
 
-void Console::printText(int x, int y, char* text, int colorId)
+void Console::printText(int x, int y, const char* text, COLOR_ID colorId)
 {
     color_set(colorId, 0);
     mvaddstr(y, x, text);
@@ -142,5 +171,6 @@ void Console::redraw()
 
 Console::~Console()
 {
+    curs_set(1);
     endwin();
 }

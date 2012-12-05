@@ -1,7 +1,5 @@
 #include "Snake.h"
 
-#define NULL 0
-
 
 Snake::Snake()
     :dirVec(0, 0), dir(NONE)
@@ -24,26 +22,25 @@ Snake::~Snake()
 
 Point* Snake::get(WORD index)
 {
-    if (points != NULL && points->size() > index)
+    if (points != nullptr && points->size() > index)
         return &((*points)[index]);
-
-    return NULL;
+    return nullptr;
 }
 
 Point* Snake::getHead()
 {
-    if (points != NULL && points->size() > 0)
+    if (points != nullptr && points->size() > 0)
         return &((*points)[0]);
 
-    return NULL;
+    return nullptr;
 }
 
 Point* Snake::getTail()
 {
-    if (points != NULL && points->size() > 0)
+    if (points != nullptr && points->size() > 0)
         return &((*points)[points->size() -1]);
 
-    return NULL;
+    return nullptr;
 }
 
 void Snake::add(WORD index, const Point& point)

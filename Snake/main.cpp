@@ -2,20 +2,21 @@
 
 #include "../ConsoleLibrary/Console.h"
 #include "Snake.h"
-#include "Menu.h"
+#include "../ConsoleLibrary/Menu.h"
 
 #include <fstream>
 #include <stdlib.h>
 
+
 #define WIDTH 50
-#define HEIGHT 50
+#define HEIGHT 40
 
 #define NEW_RANDOM_POINT new Point(rand() % WIDTH, rand() % HEIGHT)
 
 enum States { MENU, RUN, PAUSE };
 
 
-void keyUpFunction(WORD keyCode, DWORD modifier);
+void keyFunction(WORD keyCode);
 void timerFunction();
 
 void initMenu();
@@ -35,11 +36,11 @@ int foodColor;
 int snakeColor;
 
 // DEBUG
-//ofstream logFile;
+ofstream logFile;
 
 int main(int argc, char* argv[])
 {
-    //logFile.open("snake.log");
+    logFile.open("snake.log");
 
     srand ( time_t(NULL) );
 
@@ -53,23 +54,22 @@ int main(int argc, char* argv[])
     initMenu();
     render();
 
-    console->registerKeyUpEvent(&keyUpFunction);
+    console->registerKeyEvent(&keyFunction);
 
     console->run();
 
-    //logFile.close();
+    logFile.close();
     
     delete console;
     
     return 0;
 }
 
-void keyUpFunction(WORD keyCode, DWORD modifier)
+void keyFunction(WORD keyCode)
 {
     switch (state)
     {
     case MENU:
-      console->fastUpdate = FALSE;
 
         if (keyCode == VK_UP)
         {
@@ -113,7 +113,6 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
 
 
     case RUN:
-      console->fastUpdate = TRUE;
 
         if (keyCode == VK_UP && snake->getDirection() != SOUTH)
         {
@@ -134,25 +133,29 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
         else if (keyCode == VK_ESCAPE)
         {
             state = MENU;
-            console->registerTimerEvent(NULL, 0);
+            console->registerTimerEvent(nullptr, 0);
         }
         else if (keyCode == VK_SPACE)
         {
             state = PAUSE;
-            console->registerTimerEvent(NULL, 0);
+            console->registerTimerEvent(nullptr, 0);
         }
         else
         {
             return;
         }
+
+        render();
+
         break;
 
+
     case PAUSE:
-      console->fastUpdate = FALSE;
 
         if (keyCode == VK_SPACE)
         {
             state = RUN;
+            console->registerTimerEvent(&timerFunction, 50);
         }
         break;
     }
@@ -185,7 +188,7 @@ void timerFunction()
     if (snake->checkCollisionWith(snake))
     {
         state = MENU;
-        console->registerTimerEvent(NULL, 0);
+        console->registerTimerEvent(nullptr, 0);
     }
     else
     {
@@ -195,10 +198,12 @@ void timerFunction()
 
 void initMenu()
 {
-    menu = new Menu(console, YELLOW, RED);
-    menu->addItem("Start", 22, 20, WHITE, BLACK);
-    menu->addItem("Settings", 22, 25, WHITE, BLACK);
-    menu->addItem("Quit", 22, 30, WHITE, BLACK);
+    COLOR_ID selColor = console->createColor(YELLOW, RED);
+    COLOR_ID itemColor = console->createColor(WHITE, BLACK);
+    menu = new Menu(console, selColor);
+    menu->addItem("Start", 22, 20, itemColor);
+    menu->addItem("Settings", 22, 25, itemColor);
+    menu->addItem("Quit", 22, 30, itemColor);
 
     menu->select(0);
 }
