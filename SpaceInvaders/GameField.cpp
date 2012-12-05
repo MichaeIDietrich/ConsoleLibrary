@@ -36,18 +36,24 @@ namespace Model
 		delete m_ScorePosition;
 		delete m_GameMatrixPosition;
 		delete m_LivesPosition;
-
-		delete m_InvaderArray;
-		delete m_ShieldArray;
-
-
-		delete m_BulletVector;
 		
+		for (std::vector<Invader*>::iterator iterator = m_InvaderVector->begin(); iterator != m_InvaderVector->end(); ++iterator)
+		{
+			delete *iterator;
+		}
+
+		for (std::vector<Shield*>::iterator iterator = m_ShieldVector->begin(); iterator != m_ShieldVector->end(); ++iterator)
+		{
+			delete *iterator;
+		}
+
 		for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
 		{
 			delete *iterator;
 		}
 
+		delete m_ShieldVector;
+		delete m_InvaderVector;
 		delete m_BulletVector;
 
 		delete m_Player;
@@ -83,14 +89,14 @@ namespace Model
 		return *m_GameMatrixPosition;
 	}
 
-	Invader* GameField::getInvaderArray()
+	std::vector<Invader*>& GameField::getInvaderVector()
 	{
-		return m_InvaderArray;
+		return *m_InvaderVector;
 	}
 
-	Shield* GameField::getShieldArray()
+	std::vector<Shield*>& GameField::getShieldVector()
 	{
-		return m_ShieldArray;
+		return *m_ShieldVector;
 	}
 
 	std::vector<Bullet*>& GameField::getBulletVector()
@@ -135,16 +141,34 @@ namespace Model
 		m_LivesPosition->setXY(x, y);
 	}
 
-	void GameField::setInvaderArray(Invader* invaderArray)
+	void GameField::setInvaderArray(std::vector<Invader*>*  invaderVector)
 	{
-		delete [] m_InvaderArray;
-		m_InvaderArray = invaderArray;
+		if (m_InvaderVector != nullptr)
+		{
+			for (std::vector<Invader*>::iterator iterator = m_InvaderVector->begin(); iterator != m_InvaderVector->end(); ++iterator)
+			{
+				delete *iterator;
+			}
+
+			delete m_InvaderVector;
+		}
+
+		m_InvaderVector = invaderVector;
 	}
 
-	void GameField::setShieldArray(Shield* shieldArray)
+	void GameField::setShieldArray(std::vector<Shield*>* shieldVector)
 	{
-		delete [] m_ShieldArray;
-		m_ShieldArray = shieldArray;
+		if (m_BulletVector != nullptr)
+		{
+			for (std::vector<Shield*>::iterator iterator = m_ShieldVector->begin(); iterator != m_ShieldVector->end(); ++iterator)
+			{
+				delete *iterator;
+			}
+
+			delete m_ShieldVector;
+		}
+
+		m_ShieldVector = shieldVector;
 	}
 
 	void GameField::setBulletVector(std::vector<Bullet*>* bulletVector)

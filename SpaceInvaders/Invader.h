@@ -8,7 +8,7 @@
 
 namespace Model
 {
-	class Invader : GameFigure
+	class Invader : public GameFigure
 	{
 	private:
 		int m_HitPoints;

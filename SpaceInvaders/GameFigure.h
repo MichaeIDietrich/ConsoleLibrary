@@ -4,6 +4,8 @@
 #define GAMEFIGURE_H
 #endif
 
+#include "../ConsoleLibrary/Console.h"
+
 #include "Vector2D.h"
 
 namespace Model
@@ -13,6 +15,8 @@ namespace Model
 	protected:
 		Vector2D* m_Position;
 		Vector2D* m_Direction;
+		Colors m_CharColor;
+		Colors m_BackgroundColor;
 
 		char m_Character;
 	public:
@@ -23,9 +27,13 @@ namespace Model
 		Vector2D& getPosition();
 		Vector2D& getDirection();
 		char getChar();
+		Colors getCharColor();
+		Colors getBackgroundColor();
 
 		void setPosition(Vector2D* position);
 		void setDirection(Vector2D* direction);
 		void setChar(char character);
+		void setCharColor(Colors characterColor);
+		void setBackgroundColor(Colors backgroundColor);
 	};
 }

@@ -105,7 +105,8 @@ void renderGameField()
 
 			if (currentGameFigure != nullptr)
 			{
-				console->setTile(x, y, currentGameFigure->getChar()); 
+				COLOR_ID currentGameFigureColor = console->createColor(currentGameFigure->getCharColor(), currentGameFigure->getBackgroundColor());
+				console->setTile(x, y, currentGameFigure->getChar(), currentGameFigureColor); 
 			}
 		}
 	}

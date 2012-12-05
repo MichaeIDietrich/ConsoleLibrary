@@ -8,7 +8,7 @@
 
 namespace Model
 {
-	class Player : GameFigure
+	class Player : public GameFigure
 	{
 	private:
 		int m_Lives;

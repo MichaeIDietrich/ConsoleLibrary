@@ -8,7 +8,7 @@
 
 namespace Model
 {
-	class Bullet : GameFigure
+	class Bullet : public GameFigure
 	{
 	private:
 		GameFigure* m_BulletOwner;

@@ -29,8 +29,8 @@ namespace Model
 		Vector2D* m_GameMatrixPosition;
 		Vector2D* m_LivesPosition;
 
-		Invader* m_InvaderArray;
-		Shield* m_ShieldArray;
+		std::vector<Invader*>* m_InvaderVector;
+		std::vector<Shield*>* m_ShieldVector;
 		std::vector<Bullet*>* m_BulletVector;
 		Player* m_Player;
 
@@ -48,8 +48,8 @@ namespace Model
 		Vector2D& getGameMatrixPosition();
 		Vector2D& getLivesPosition();
 
-		Invader* getInvaderArray();
-		Shield* getShieldArray();
+		std::vector<Invader*>& getInvaderVector();
+		std::vector<Shield*>& getShieldVector();
 		std::vector<Bullet*>& getBulletVector();
 		Player& getPlayer();
 
@@ -62,8 +62,8 @@ namespace Model
 		void setGameMatrixPosition(int x, int y);
 		void setLivesPosition(int x, int y);
 
-		void setInvaderArray(Invader* invaderArray);
-		void setShieldArray(Shield* shieldArray);
+		void setInvaderArray(std::vector<Invader*>* invaderVector);
+		void setShieldArray(std::vector<Shield*>* shieldVector);
 		void setBulletVector(std::vector<Bullet*>* bulletVector);
 		void setPlayer(Player* player);
 	};

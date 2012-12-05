@@ -8,7 +8,7 @@
 
 namespace Model
 {
-	class Shield : GameFigure
+	class Shield : public GameFigure
 	{
 	public:
 		Shield(Vector2D* position);

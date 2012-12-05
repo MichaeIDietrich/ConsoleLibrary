@@ -1,3 +1,4 @@
+#include "InvaderController.h"
 #include "GameFieldController.h"
 
 #include "GameField.h"
@@ -7,11 +8,15 @@ using namespace Model;
 
 namespace Controller
 {
-	static const int INVADERARRAYLENGTH = 50;
+	GameFieldController::GameFieldController()
+	{
+		m_InvaderController = new InvaderController();
+	}
 
 	GameFieldController::~GameFieldController()
 	{
 		delete m_GameFieldModel;
+		delete m_InvaderController;
 	}
 	
 	void GameFieldController::setGameFieldModel(GameField* gameField)
@@ -21,11 +26,17 @@ namespace Controller
 
 	void GameFieldController::initializeGameField()
 	{
-		Invader* invaderTest = new Invader(new Vector2D(5.0, 5.0), nullptr, 3);
-		m_GameFieldModel->getGameMatrix().setGameFigure((GameFigure*)invaderTest, 5, 5);
-
 		Player* playerTest = new Player(new Vector2D(35, 35));
 		m_GameFieldModel->getGameMatrix().setGameFigure((GameFigure*)playerTest, 35, 35);
+
+		std::vector<Invader*> invaderVector = *m_InvaderController->getDefaultInvaderArray();
+
+		for (int invaderCounter = 0; invaderCounter < InvaderController::INVADERARRAYLENGTH; invaderCounter++)
+		{
+			Invader* invader = invaderVector[invaderCounter];
+			Vector2D* position = &(invader->getPosition());
+			m_GameFieldModel->getGameMatrix().setGameFigure(invader, static_cast<int>(position->getX()), static_cast<int>(position->getY()));
+		}
 
 		// for (
 
@@ -36,10 +47,5 @@ namespace Controller
 	void GameFieldController::updateGameField()
 	{
 
-	}
-
-	void GameFieldController::setDefaultInvadersToGameFieldModel()
-	{
-		//m_GameFieldModel->getInvaderArray()
 	}
 }
