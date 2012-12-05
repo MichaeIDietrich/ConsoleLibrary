@@ -16,7 +16,11 @@ namespace Controller
 		GameField* m_GameFieldModel;
 	public:
 		~GameFieldController();
+		
+		// Setter
 		void setGameFieldModel(GameField* gameField);
+		void setDefaultInvadersToGameFieldModel();
+
 		void initializeGameField();
 		void updateGameField();
 	};

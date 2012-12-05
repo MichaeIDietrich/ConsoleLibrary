@@ -61,7 +61,11 @@ namespace Model
 
 	void GameMatrix::setGameFigure(GameFigure* gameFigure, int x, int y)
 	{
-		// delete (*m_GameFigureMatrix)[x + (y * m_Height)];
+		if ((*m_GameFigureMatrix)[x + (y * m_Width)] != nullptr)
+		{
+			delete (*m_GameFigureMatrix)[x + (y * m_Width)];
+		}
+
 		(*m_GameFigureMatrix)[x + (y * m_Width)] = gameFigure;
 	}
 }

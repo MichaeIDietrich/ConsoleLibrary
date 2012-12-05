@@ -149,19 +149,26 @@ namespace Model
 
 	void GameField::setBulletVector(std::vector<Bullet*>* bulletVector)
 	{
-		for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
+		if (m_BulletVector != nullptr)
 		{
-			delete *iterator;
-		}
+			for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
+			{
+				delete *iterator;
+			}
 
-		delete m_BulletVector;
+			delete m_BulletVector;
+		}
 
 		m_BulletVector = bulletVector;
 	}
 
 	void GameField::setPlayer(Player* player)
 	{
-		delete m_Player;
+		if (m_Player != nullptr)
+		{
+			delete m_Player;
+		}
+
 		m_Player = player;
 	}
 }

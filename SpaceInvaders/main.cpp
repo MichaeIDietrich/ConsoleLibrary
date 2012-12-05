@@ -110,5 +110,9 @@ void renderGameField()
 		}
 	}
 
+	// PlayerArea
+
+	// ShieldArea
+
 	console->redraw();
 }

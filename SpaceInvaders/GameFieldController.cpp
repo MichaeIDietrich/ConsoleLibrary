@@ -21,8 +21,12 @@ namespace Controller
 
 	void GameFieldController::initializeGameField()
 	{
-		Invader* invaderTest = new Invader(new Vector2D(5, 5), nullptr, 3);
+		Invader* invaderTest = new Invader(new Vector2D(5.0, 5.0), nullptr, 3);
 		m_GameFieldModel->getGameMatrix().setGameFigure((GameFigure*)invaderTest, 5, 5);
+
+		Player* playerTest = new Player(new Vector2D(35, 35));
+		m_GameFieldModel->getGameMatrix().setGameFigure((GameFigure*)playerTest, 35, 35);
+
 		// for (
 
 		// Invader invaderArray[INVADERARRAYLENGTH];
@@ -32,5 +36,10 @@ namespace Controller
 	void GameFieldController::updateGameField()
 	{
 
+	}
+
+	void GameFieldController::setDefaultInvadersToGameFieldModel()
+	{
+		//m_GameFieldModel->getInvaderArray()
 	}
 }
