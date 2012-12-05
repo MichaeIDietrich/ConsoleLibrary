@@ -13,10 +13,13 @@ using namespace Model;
 
 namespace Model
 {
+	const int gameMatrixWidth = 50;
+	const int gameMatrixHeigth = 38;
+
 	GameField::GameField()
 	{
 		m_DefaultScore = 0;
-		m_DefaultSpeed = 200; 
+		m_DefaultSpeed = 200;
 
 		m_Score = 0;
 		m_Speed = m_DefaultSpeed;
@@ -24,6 +27,8 @@ namespace Model
 		m_ScorePosition = new Vector2D(0, 40);
 		m_GameMatrixPosition = new Vector2D(0, 0);
 		m_LivesPosition = new Vector2D(40, 40);
+
+		m_GameMatrix = new GameMatrix(gameMatrixWidth, gameMatrixHeigth, gameMatrixHeigth);
 	}
 
 	GameField::~GameField()
