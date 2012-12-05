@@ -16,14 +16,14 @@
     <Filter Include="Quelldateien\Model">
       <UniqueIdentifier>{80965597-a8f6-4ba3-b04f-736bb35d7976}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Quelldateien\Presenter">
-      <UniqueIdentifier>{65361a46-e99c-4f92-9e1f-e35fed8b97b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Headerdateien\Model">
       <UniqueIdentifier>{4cb353f4-889c-40f4-b389-5741165f05c3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\Presenter">
+    <Filter Include="Headerdateien\Controller">
       <UniqueIdentifier>{f458675b-f611-4d1f-a23d-ae4b047223d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Controller">
+      <UniqueIdentifier>{65361a46-e99c-4f92-9e1f-e35fed8b97b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

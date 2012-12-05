@@ -13,6 +13,7 @@ namespace Model
 	protected:
 		Vector2D* m_Position;
 		Vector2D* m_Direction;
+
 		char m_Character;
 	public:
 		GameFigure();

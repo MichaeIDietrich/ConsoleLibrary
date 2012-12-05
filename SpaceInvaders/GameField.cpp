@@ -1,6 +1,13 @@
 #include "GameMatrix.h"
 
+#include "Invader.h"
+#include "Player.h"
+#include "Shield.h"
+#include "Bullet.h"
+
 #include "GameField.h"
+
+#include <vector>
 
 using namespace Model;
 
@@ -25,6 +32,21 @@ namespace Model
 		delete m_GameMatrixPosition;
 		delete m_LivesPosition;
 
+		delete m_InvaderArray;
+		delete m_ShieldArray;
+
+
+		delete m_BulletVector;
+		
+		for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
+		{
+			delete *iterator;
+		}
+
+		delete m_BulletVector;
+
+		delete m_Player;
+
 		delete m_GameMatrix;
 	}
 
@@ -33,6 +55,8 @@ namespace Model
 		m_Score = m_DefaultScore;
 		m_Speed = m_DefaultSpeed;
 	}
+
+	// Getter
 
 	int GameField::getScore()
 	{
@@ -53,6 +77,33 @@ namespace Model
 	{
 		return *m_GameMatrixPosition;
 	}
+
+	Invader* GameField::getInvaderArray()
+	{
+		return m_InvaderArray;
+	}
+
+	Shield* GameField::getShieldArray()
+	{
+		return m_ShieldArray;
+	}
+
+	std::vector<Bullet*>& GameField::getBulletVector()
+	{
+		return *m_BulletVector;
+	}
+
+	Player& GameField::getPlayer()
+	{
+		return *m_Player;
+	}
+
+	GameMatrix& GameField::getGameMatrix()
+	{
+		return *m_GameMatrix;
+	}
+
+	// Setter
 
 	void GameField::setScore(int score)
 	{
@@ -77,5 +128,35 @@ namespace Model
 	void GameField::setLivesPosition(int x, int y)
 	{
 		m_LivesPosition->setXY(x, y);
+	}
+
+	void GameField::setInvaderArray(Invader* invaderArray)
+	{
+		delete [] m_InvaderArray;
+		m_InvaderArray = invaderArray;
+	}
+
+	void GameField::setShieldArray(Shield* shieldArray)
+	{
+		delete [] m_ShieldArray;
+		m_ShieldArray = shieldArray;
+	}
+
+	void GameField::setBulletVector(std::vector<Bullet*>* bulletVector)
+	{
+		for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
+		{
+			delete *iterator;
+		}
+
+		delete m_BulletVector;
+
+		m_BulletVector = bulletVector;
+	}
+
+	void GameField::setPlayer(Player* player)
+	{
+		delete m_Player;
+		m_Player = player;
 	}
 }
