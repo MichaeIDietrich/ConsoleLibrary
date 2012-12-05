@@ -10,7 +10,7 @@ using namespace Model;
 
 namespace Controller
 {
-	std::vector<Invader*>* InvaderController::getDefaultInvaderArray()
+	std::vector<Invader*>* InvaderController::getDefaultInvaderVector()
 	{
 		vector<Invader*>* invaderVector = new vector<Invader*>(INVADERARRAYLENGTH);
 
@@ -19,7 +19,10 @@ namespace Controller
 
 		for (int invaderCounter = 0; invaderCounter < INVADERARRAYLENGTH; invaderCounter++)
 		{
-			if (invaderCounter % 10 == 0)
+			// for cleaning up initialization values
+			delete (*invaderVector)[invaderCounter];
+
+			if (invaderCounter % INVADERMAXPERROW == 0)
 			{
 				y += INVADEROFFSETY;
 				x = INVADEROFFSETX;

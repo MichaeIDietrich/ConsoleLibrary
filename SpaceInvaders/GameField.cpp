@@ -13,10 +13,7 @@ using namespace Model;
 
 namespace Model
 {
-	const int gameMatrixWidth = 50;
-	const int gameMatrixHeigth = 38;
-
-	GameField::GameField()
+	GameField::GameField(int gameMatrixWidth, int gameMatrixHeigth)
 	{
 		m_DefaultScore = 0;
 		m_DefaultSpeed = 200;
@@ -27,6 +24,12 @@ namespace Model
 		m_ScorePosition = new Vector2D(0, 40);
 		m_GameMatrixPosition = new Vector2D(0, 0);
 		m_LivesPosition = new Vector2D(40, 40);
+
+		m_InvaderVector = new std::vector<Invader*>();
+		m_ShieldVector = new std::vector<Shield*>();
+		m_BulletVector = new std::vector<Bullet*>();
+
+		m_Player = nullptr;
 
 		m_GameMatrix = new GameMatrix(gameMatrixWidth, gameMatrixHeigth, gameMatrixHeigth);
 	}
@@ -141,7 +144,7 @@ namespace Model
 		m_LivesPosition->setXY(x, y);
 	}
 
-	void GameField::setInvaderArray(std::vector<Invader*>*  invaderVector)
+	void GameField::setInvaderVector(std::vector<Invader*>*  invaderVector)
 	{
 		if (m_InvaderVector != nullptr)
 		{
@@ -156,7 +159,7 @@ namespace Model
 		m_InvaderVector = invaderVector;
 	}
 
-	void GameField::setShieldArray(std::vector<Shield*>* shieldVector)
+	void GameField::setShieldVector(std::vector<Shield*>* shieldVector)
 	{
 		if (m_BulletVector != nullptr)
 		{

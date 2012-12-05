@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 	gameFieldController = new GameFieldController();
 
 	// Initialize Model
-	gameFieldModel = new GameField();
+	gameFieldModel = new GameField(GameFieldController::GAMEMATRIXWIDTH, GameFieldController::GAMEMATRIXHEIGTH);
 	gameFieldController->setGameFieldModel(gameFieldModel);
 	gameFieldController->initializeGameField();
 

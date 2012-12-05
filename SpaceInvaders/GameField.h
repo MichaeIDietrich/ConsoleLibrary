@@ -36,7 +36,7 @@ namespace Model
 
 		GameMatrix* m_GameMatrix;
 	public:
-		GameField();
+		GameField(int gameMatrixWidth, int gameMatrixHeigth);
 		~GameField();
 
 		void resetToDefault();
@@ -62,8 +62,8 @@ namespace Model
 		void setGameMatrixPosition(int x, int y);
 		void setLivesPosition(int x, int y);
 
-		void setInvaderArray(std::vector<Invader*>* invaderVector);
-		void setShieldArray(std::vector<Shield*>* shieldVector);
+		void setInvaderVector(std::vector<Invader*>* invaderVector);
+		void setShieldVector(std::vector<Shield*>* shieldVector);
 		void setBulletVector(std::vector<Bullet*>* bulletVector);
 		void setPlayer(Player* player);
 	};

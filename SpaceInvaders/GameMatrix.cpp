@@ -54,11 +54,6 @@ namespace Model
 		return m_Width;
 	}
 
-	int GameMatrix::getPlayerZone()
-	{
-		return m_PlayerZone;
-	}
-
 	void GameMatrix::setGameFigure(GameFigure* gameFigure, int x, int y)
 	{
 		if ((*m_GameFigureMatrix)[x + (y * m_Width)] != nullptr)

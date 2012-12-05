@@ -26,17 +26,41 @@ namespace Controller
 
 	void GameFieldController::initializeGameField()
 	{
-		Player* playerTest = new Player(new Vector2D(35, 35));
-		m_GameFieldModel->getGameMatrix().setGameFigure((GameFigure*)playerTest, 35, 35);
+		GameMatrix* gameMatrix = &m_GameFieldModel->getGameMatrix();
 
-		std::vector<Invader*> invaderVector = *m_InvaderController->getDefaultInvaderArray();
+		// Invader Initialisation
+		std::vector<Invader*> invaderVector = *m_InvaderController->getDefaultInvaderVector();
 
 		for (int invaderCounter = 0; invaderCounter < InvaderController::INVADERARRAYLENGTH; invaderCounter++)
 		{
 			Invader* invader = invaderVector[invaderCounter];
-			Vector2D* position = &(invader->getPosition());
-			m_GameFieldModel->getGameMatrix().setGameFigure(invader, static_cast<int>(position->getX()), static_cast<int>(position->getY()));
+			Vector2D* positionInvader = &(invader->getPosition());
+			gameMatrix->setGameFigure(invader, positionInvader->getX(), positionInvader->getY());
 		}
+
+		m_GameFieldModel->setInvaderVector(&invaderVector);
+
+		// Shield Initialisation
+		std::vector<Shield*> shieldVector = *this->getDefaultShieldVector();
+
+		int shieldVectorLength = shieldVector.size();
+		for (int shieldCounter = 0; shieldCounter < shieldVectorLength; shieldCounter++)
+		{
+			Shield* shield = shieldVector[shieldCounter];
+			Vector2D* positionShield = &(shield->getPosition());
+			gameMatrix->setGameFigure(shield, positionShield->getX(), positionShield->getY());
+		}
+
+		m_GameFieldModel->setShieldVector(&shieldVector);
+
+		// Player Initialisation
+		Vector2D* positionPlayer = new Vector2D(PLAYERPOSITIONX, PLAYERPOSITIONY);
+		Player* player = new Player(positionPlayer);
+		player->setCharColor(CYAN);
+		
+		gameMatrix->setGameFigure((GameFigure*)player, positionPlayer->getX(), positionPlayer->getY());
+
+		m_GameFieldModel->setPlayer(player);
 
 		// for (
 
@@ -47,5 +71,39 @@ namespace Controller
 	void GameFieldController::updateGameField()
 	{
 
+	}
+
+	std::vector<Shield*>* GameFieldController::getDefaultShieldVector()
+	{
+		int totalShieldPieces = SHIELDWIDTH * SHIELDCOUNT;
+		std::vector<Shield*>* shieldVector = new vector<Shield*>(totalShieldPieces);
+
+		Colors charColor = BLUE;
+		Colors backgroundColor = MAGENTA; 
+
+		int x = SHIELDOFFSETX;
+
+		for (int shieldCounter = 0; shieldCounter < totalShieldPieces; shieldCounter++)
+		{
+			// for cleaning up initialization values
+			delete (*shieldVector)[shieldCounter];
+
+			Vector2D* position = new Vector2D(x, SHIELDPOSITIONY);
+			Shield* tempShield = new Shield(position);
+			tempShield->setCharColor(charColor);
+			tempShield->setBackgroundColor(backgroundColor);
+			(*shieldVector)[shieldCounter] = tempShield;
+
+			if (shieldCounter % SHIELDWIDTH == SHIELDWIDTH - 1)
+			{
+				x += SHIELDPADDINGX;
+			} 
+			else
+			{
+				x++;
+			}
+		}
+
+		return shieldVector;
 	}
 }

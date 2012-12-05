@@ -17,6 +17,7 @@ namespace Controller
 		static const int INVADEROFFSETX = 10;
 		static const int INVADEROFFSETY = 3;
 		static const int INVADERPADDING = 3;
-		std::vector<Invader*>* getDefaultInvaderArray();
+		static const int INVADERMAXPERROW = 10;
+		std::vector<Invader*>* getDefaultInvaderVector();
 	};
 }
