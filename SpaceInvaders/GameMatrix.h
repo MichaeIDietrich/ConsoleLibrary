@@ -18,6 +18,8 @@ namespace Model
 		int m_Width;
 		int m_Height;
 		int m_TotalLength;
+
+		// Can be used later for positioning the matrix
 		int m_offsetWidth;
 		int m_offsetHeigth;
 
