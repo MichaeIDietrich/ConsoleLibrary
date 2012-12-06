@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <stdlib.h>
 
 #define STEPS_TO_MOVE 100
 

@@ -138,6 +138,17 @@ void timerFunction()
     
     menu->show();
 
+    console->setTile(18, 15 + menu->getSelectedItem() * 3, '>', defaultColor);
+
+    console->printText(6, 19, " \\  |  /", defaultColor);
+    console->printText(6, 20, "  *****", defaultColor);
+    console->printText(6, 21, " *     *");
+    console->printText(6, 22, "*  o o  *");
+    console->printText(6, 23, "*       *");
+    console->printText(6, 24, "*   =   *");
+    console->printText(6, 25, " *     *");
+    console->printText(6, 26, "  *****");
+
     console->redraw();
 }
 

@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <time.h>
+#include <stdlib.h>
 
 
 #define WIDTH 50
@@ -13,33 +14,49 @@
 #define MATRIX_WIDTH 10
 #define MATRIX_HEIGHT 20
 
+#define SPEED 10
+
 
 void keyFunction(WORD keyCode);
 void timerFunction();
 
 void render();
 void checkForFullLines();
+void createNewBrick();
+void renderNextBrick();
 
 
 Console* console;
 Matrix* matrix;
 Shape* shape;
+Shape* nextShape;
+
+COLOR_ID defaultColor;
+COLOR_ID infoColor;
+COLOR_ID textColor;
 
 
 int main(int argc, char* argv[])
 {
-    srand(time_t(NULL));
+    srand( time_t(NULL) );
 
     console = new Console("Tetris", WIDTH, HEIGHT, WHITE, BLACK);
     matrix = new Matrix(MATRIX_WIDTH, MATRIX_HEIGHT);
 
+    defaultColor = console->createColor(WHITE, BLACK);
+    infoColor = console->createColor(WHITE, RED);
+    textColor = console->createColor(BLUE, RED);
+
     console->registerKeyEvent(&keyFunction);
     console->registerTimerEvent(&timerFunction, 50);
 
-    shape = new Shape(matrix, 10);
+    // init current and next shape
+    createNewBrick();
+    createNewBrick();
 
     console->run();
 
+    delete nextShape;
     delete matrix;
     delete console;
 }
@@ -80,13 +97,14 @@ void timerFunction()
     if (shape->checkForCollision(shape->x, shape->y))
     {
         matrix->reset();
-        shape = new Shape(matrix, 10);
+        createNewBrick();
         return;
     }
 
+    // if the brick wasn't updated create a new one
     if (!shape->update())
     {
-        shape = new Shape(matrix, 10);
+        createNewBrick();
     }
 
     checkForFullLines();
@@ -136,23 +154,46 @@ void render()
 {
     console->clearConsole();
 
+    int frameWidth = (WIDTH - 2 * MATRIX_WIDTH) / 2;
+
+    // draw interface
+    console->setColor(infoColor);
+    for (int x = 0; x < frameWidth; x++)
+    {
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            console->setTile(x, y, ' ');
+        }
+    }
+    for (int x = WIDTH - frameWidth; x < WIDTH; x++)
+    {
+        for (int y = 0; y < HEIGHT; y++)
+        {
+            console->setTile(x, y, ' ');
+        }
+    }
+
+
+
+    // brick matrix
+    console->setColor(defaultColor);
     for (int y = 0; y < MATRIX_HEIGHT; y++)
     {
         for (int x = 0; x < MATRIX_WIDTH; x++)
         {
             if (matrix->field[y][x])
             {
-                console->setTile(2 * x,     2 * y,     '#');
-                console->setTile(2 * x + 1, 2 * y,     '#');
-                console->setTile(2 * x,     2 * y + 1, '#');
-                console->setTile(2 * x + 1, 2 * y + 1, '#');
+                console->setTile(frameWidth + 2 * x,     2 * y,     '#');
+                console->setTile(frameWidth + 2 * x + 1, 2 * y,     '#');
+                console->setTile(frameWidth + 2 * x,     2 * y + 1, '#');
+                console->setTile(frameWidth + 2 * x + 1, 2 * y + 1, '#');
             }
         }
     }
 
     for (Point &point : *shape->blocks)
     {
-        int x = 2 * (shape->x + point.x);
+        int x = frameWidth + 2 * (shape->x + point.x);
         int y = 2 * (shape->y + point.y);
         console->setTile(x,     y,     '+');
         console->setTile(x + 1, y,     '+');
@@ -160,5 +201,27 @@ void render()
         console->setTile(x + 1, y + 1, '+');
     }
 
+    renderNextBrick();
+
     console->redraw();
+}
+
+
+void createNewBrick()
+{
+    shape = nextShape;
+    nextShape = new Shape(matrix, SPEED);
+}
+
+
+void renderNextBrick()
+{
+    int rightPanel = WIDTH - (WIDTH / 2 - MATRIX_WIDTH);
+
+    console->printText(rightPanel + 2, 2, "NEXT:", textColor);
+
+    for (Point &point : *nextShape->blocks)
+    {
+        console->setTile(rightPanel + 2 + point.x, 4 + point.y, '#');
+    }
 }
