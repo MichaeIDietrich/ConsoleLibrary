@@ -35,6 +35,7 @@ GameFieldController* gameFieldController;
 // 2 = BULLETCOLOR
 // 3 = HEAVYINVADERCOLOR
 // 4 = LIGHTINVADERCOLOR
+// 5 = PLAYERBULLETCOLOR
 std::vector<COLOR_ID>* gameColorIds;
 
 int timerInterval = 120;
@@ -49,13 +50,14 @@ void renderGameField();
 int main(int argc, char* argv[])
 {
 	console = new Console("Space Invaders", WIDTH, HEIGHT, WHITE, BLACK);
-	gameColorIds = new std::vector<COLOR_ID>(5);
+	gameColorIds = new std::vector<COLOR_ID>(6);
 
 	(*gameColorIds)[0] = console->createColor(CYAN, BLACK);
 	(*gameColorIds)[1] = console->createColor(BLUE, MAGENTA);
 	(*gameColorIds)[2] = console->createColor(WHITE, BLACK);
 	(*gameColorIds)[3] = console->createColor(RED, BLACK);
 	(*gameColorIds)[4] = console->createColor(GREEN, BLACK);
+	(*gameColorIds)[5] = console->createColor(YELLOW, BLACK);
 
 	// Initialize Controller
 	gameFieldController = new GameFieldController(gameColorIds);

@@ -213,9 +213,6 @@ namespace Controller
 		Invader* currentInvader = dynamic_cast<Model::Invader*>(gameFigure);
 		Player* currentPlayer = dynamic_cast<Model::Player*>(gameFigure);
 
-		Colors charColor = WHITE;
-		Colors backgroundColor = BLACK;
-
 		Bullet* bullet = nullptr;
 		long currentTime = clock();
 
@@ -225,6 +222,7 @@ namespace Controller
 			Vector2D* bulletPosition = new Vector2D(invaderPosition->getX(), invaderPosition->getY() + 1);
 			Vector2D* bulletDirection = new Vector2D(0, 1);
 			bullet = new Bullet(bulletPosition, bulletDirection, gameFigure);
+			bullet->setColor((*m_GameColorIds)[2]);
 		}
 		else if (currentPlayer != nullptr && (currentTime - m_PlayerBulletCooldown) > PLAYERBULLETCOOLDOWN)
 		{
@@ -232,12 +230,12 @@ namespace Controller
 			Vector2D* bulletPosition = new Vector2D(playerPosition->getX(), playerPosition->getY() - 1);
 			Vector2D* bulletDirection = new Vector2D(0, -1);
 			bullet = new Bullet(bulletPosition, bulletDirection, gameFigure);
+			bullet->setColor((*m_GameColorIds)[5]);
 			m_PlayerBulletCooldown = currentTime;
 		}
 
 		if (bullet != nullptr)
 		{
-			bullet->setColor((*m_GameColorIds)[2]);
 			bulletVector->push_back(bullet);
 		}
 	}
