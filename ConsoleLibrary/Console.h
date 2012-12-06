@@ -52,9 +52,6 @@ class Console
 private:
     bool running;
 
-    WORD width;
-    WORD height;
-
     keyEvent keyDown;
     timerEvent timer;
 
@@ -64,10 +61,25 @@ private:
     WORD color;
     WORD clearColor;
 
+
+#ifdef WIN32
+    vector<WORD>* colorPairs;
+    HANDLE wHnd;
+    HANDLE rHnd;
+    CONSOLE_CURSOR_INFO info;
+    SMALL_RECT windowSize;
+    COORD topLeft;
+    COORD bufferSize;
+    CHAR_INFO* buffer;
+#else
     int colors;
 
+    WORD width;
+    WORD height;
+    
     void drawBorder();
-
+#endif
+    
 public:
     // Konstruktor
     // Initialisiert die Konsole mit einem Titel und der Höhe und Breite des Fenster + Puffers

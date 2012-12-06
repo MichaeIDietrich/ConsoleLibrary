@@ -11,7 +11,6 @@ using namespace std;
 
 enum Direction {LEFT, RIGHT, NONE};
 
-
 struct Ball
 {
     int x, y;
