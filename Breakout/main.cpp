@@ -4,12 +4,15 @@
 #include "Breakout.h"
 
 #include <fstream>
+#include <sstream>
 #include <stdlib.h>
+#include <vector>
+using namespace std;
 
 #define WIDTH 50
-#define HEIGHT 50
+#define HEIGHT 40
 
-enum States { MENU, RUN, PAUSE };
+enum States { MENU, RUN, PAUSE, SCORES };
 
 void keyFunction(WORD keyCode);
 void timerFunction();
@@ -26,6 +29,8 @@ int pauseColor;
 States state = MENU;
 Menu* menu;
 
+vector<int> scores;
+
 
 // DEBUG
 //ofstream logFile;
@@ -34,16 +39,13 @@ int main(int argc, char **argv) {
     srand ( time_t(NULL) );
 
     //logFile.open("breakout.log");
+    scores = vector<int>();
 
     console = new Console("Breakout", WIDTH, HEIGHT, WHITE, BLACK);
 
     titleColor = console->createColor(BLUE, BLACK);
     pauseColor = console->createColor(WHITE, BLACK);
 
-    if(state == RUN) {
-        breakout = new Breakout(HEIGHT, WIDTH, console);
-        console->registerTimerEvent(&timerFunction, 50);
-    }
     initMenu();
     render();
 
@@ -78,19 +80,18 @@ void keyFunction(WORD keyCode)
             {
             case 0:
                 state = RUN;
-                breakout = new Breakout(30, 30, console);
+                breakout = new Breakout(HEIGHT, WIDTH, console);
                 console->registerTimerEvent(&timerFunction, 50);
                 break;
 
             case 1:
-                // fehlt;
+                state = SCORES;
                 break;
 
             case 2:
                 console->stop();
-                break;
+                return;
             }
-            return;
         }
         else if (keyCode == VK_ESCAPE)
         {
@@ -130,6 +131,14 @@ void keyFunction(WORD keyCode)
         }
         break;
 
+    case SCORES:
+        if (keyCode == VK_ESCAPE)
+        {
+            state = MENU;
+            render();
+        }
+        break;
+
     case PAUSE:
 
         if (keyCode == VK_SPACE)
@@ -143,6 +152,8 @@ void keyFunction(WORD keyCode)
 void timerFunction()
 {
     if(!breakout->running) {
+        if(breakout->score > 0)
+            scores.push_back(breakout->score);
         state = MENU;
         console->registerTimerEvent(NULL, 0);
     }
@@ -157,7 +168,7 @@ void initMenu()
     COLOR_ID itemColor = console->createColor(WHITE, BLACK);
     menu = new Menu(console, selColor);
     menu->addItem("Start", 22, 20, itemColor);
-    menu->addItem("Settings", 22, 25, itemColor);
+    menu->addItem("Scores", 22, 25, itemColor);
     menu->addItem("Quit", 22, 30, itemColor);
 
     menu->select(0);
@@ -183,6 +194,21 @@ void render()
         breakout->render();
         break;
 
+    case SCORES:
+        console->printText(10, 3, " ***  ***  ***  ***  ****  ***", titleColor);
+        console->printText(10, 4, "*    *    *   * *  * *    *   ");
+        console->printText(10, 5, " **  *    *   * ***  ****  ** ");
+        console->printText(10, 6, "   * *    *   * * *  *       *");
+        console->printText(10, 7, "***   ***  ***  *  * **** *** ");
+
+        for(int i=0; i<scores.size(); i++) {
+            console->setTile(15, 10 + i *2, 48 + (i + 1));
+            console->setTile(16, 10 + i *2, ':');
+            ostringstream outStream;
+            outStream << scores.at(i);
+            console->printText(18, 10 + i *2, outStream.str().c_str());
+        }
+        break;
 
     case PAUSE:
 

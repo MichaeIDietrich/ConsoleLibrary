@@ -4,7 +4,7 @@
 
 Breakout::Breakout(int height, int width, Console* console) : ball((width / 2), height - 3, console->createColor(GREEN, BLACK)), paddle((width / 2) - 2, height - 2, console->createColor(BLUE, BLACK))
 {
-    blockCount = 10;
+    blockCount = 30;
     this->console = console;
     this->height = height;
     this->width = width;
@@ -14,6 +14,7 @@ Breakout::Breakout(int height, int width, Console* console) : ball((width / 2), 
     ball.dirx = -0.5;
     ball.diry = -0.5;
     running = true;
+    block_color = console->createColor(YELLOW, BLACK);
 }
 
 void Breakout::setBlocks(int count)
@@ -21,7 +22,7 @@ void Breakout::setBlocks(int count)
     int x=0;
     while(x<count) {
         bool insert = true;
-        Block block = Block(rand() % width, rand() % (height / 2), console->createColor(YELLOW, BLACK), 1);
+        Block block = Block(rand() % width, rand() % (height / 2), block_color, 1);
         for(int i=0; i < blocks->size(); i++) {
             if(blocks->at(i).intersect(&block)){
                 insert = false;
@@ -49,7 +50,10 @@ void Breakout::tick()
     if(ball.y == 0)
         ball.diry *= -1;
     if(paddle.intersect(&ball)) {
+        ball.x -= ball.dirx;
+        ball.y -= ball.diry;
         ball.diry *= -1;
+        ball.nextPos();
     }
     if(ball.y >= height)
         running = false;
@@ -60,7 +64,10 @@ void Breakout::tick()
         if(blocks->at(i).intersect(&ball)) {
             score += blocks->at(i).points;
             blocks->erase(blocks->begin() + i);
+            ball.x -= ball.dirx;
+            ball.y -= ball.diry;
             ball.diry *= -1;
+            ball.nextPos();
             break;
         }
         i++;
