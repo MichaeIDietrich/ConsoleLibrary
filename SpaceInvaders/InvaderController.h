@@ -5,6 +5,8 @@
 #endif
 
 #include "Invader.h"
+#include <vector>
+using namespace std;
 
 using namespace Model;
 

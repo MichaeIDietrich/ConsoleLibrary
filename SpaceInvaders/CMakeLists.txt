@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.7)
 
 project(SpaceInvaders)
 
+SET(CMAKE_CXX_FLAGS "-std=c++0x")
+
 set(SOURCE
   main.cpp
   Bullet.cpp
@@ -16,9 +18,7 @@ set(SOURCE
   Player.cpp
   PlayerController.cpp
   Shield.cpp
-  SpaceInvaders.cpp
   Vector2D.cpp
-  SpaceInvaders.cpp
   ../ConsoleLibrary/Menu.cpp
   ../ConsoleLibrary/LinuxConsole.cpp
 )
