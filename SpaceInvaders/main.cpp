@@ -37,7 +37,7 @@ GameFieldController* gameFieldController;
 // 4 = LIGHTINVADERCOLOR
 std::vector<COLOR_ID>* gameColorIds;
 
-int timerInterval = 40;
+int timerInterval = 100;
 
 // Defining Prototypes
 void keyResponder(WORD keyCode);

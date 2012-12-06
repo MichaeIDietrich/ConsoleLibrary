@@ -71,6 +71,16 @@ namespace Model
 		return *this;
 	}
 
+	bool Vector2D::operator== (Vector2D& vector2D) {
+		int currentX = this->getX();
+		int currentY = this->getY();
+
+		int foreignX = vector2D.getX();
+		int foreignY = vector2D.getY();
+
+		return currentX == foreignX && currentY == foreignY;
+	}
+
 	Vector2D& Vector2D::operator+= (float scalar) {
 		setXY(m_x + scalar, m_y + scalar);
 		return *this;

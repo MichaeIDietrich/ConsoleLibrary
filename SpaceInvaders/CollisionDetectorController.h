@@ -3,11 +3,14 @@
 #ifndef COLLISIONDETECTORCONTROLLER_H
 #define COLLISIONDETECTORCONTROLLER_H
 
-#include "GameFigure.h"
-#include "Invader.h"
 #include "Bullet.h"
-#include "Player.h"
+#include "Invader.h"
+#include "GameFigure.h"
 #include "Shield.h"
+#include "Player.h"
+#include "Vector2D.h"
+
+#include <vector>
 
 using namespace Model;
 

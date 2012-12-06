@@ -5,6 +5,9 @@
 
 #include "GameField.h"
 #include "Invader.h"
+#include "Player.h"
+#include "Shield.h"
+#include "Bullet.h"
 #include "GameFigure.h"
 #include "../ConsoleLibrary/Console.h"
 
@@ -63,7 +66,16 @@ namespace Controller
 		
 		if (gameOver)
 		{
+			this->eraseAllCurrentBullets();
 			this->initializeGameField();
+			return;
+		}
+
+		// restart when no invaders are apparent
+		if (invaderVector->size() == 0)
+		{
+  			this->eraseAllCurrentBullets();
+        	this->initializeGameField();
 			return;
 		}
 
@@ -188,6 +200,19 @@ namespace Controller
 		{
 			bullet->setColor((*m_GameColorIds)[2]);
 			bulletVector->push_back(bullet);
+		}
+	}
+
+	void GameFieldController::eraseAllCurrentBullets()
+	{
+		std::vector<Bullet*>* bulletVector = &m_GameFieldModel->getBulletVector();
+
+		for (int bulletCounter = 0; bulletCounter < bulletVector->size(); bulletCounter++)
+		{
+			Bullet* currentBullet = (*bulletVector)[bulletCounter];
+			bulletVector->erase(bulletVector->begin() + bulletCounter);
+			delete currentBullet;
+			bulletCounter--;
 		}
 	}
 }

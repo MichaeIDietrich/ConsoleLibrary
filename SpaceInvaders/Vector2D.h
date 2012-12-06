@@ -31,6 +31,7 @@ namespace Model
 		Vector2D& operator-= (Vector2D& vector2D);
 		Vector2D& operator*= (Vector2D& vector2D);	
 		Vector2D& operator/= (Vector2D& vector2D);
+		bool operator== (Vector2D& vector2D);
 
 		// Scalar Operations
 		Vector2D& operator+= (float scalar);

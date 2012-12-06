@@ -8,7 +8,12 @@
 #include "CollisionDetectorController.h"
 
 #include "GameField.h"
+#include "Shield.h"
+#include "Bullet.h"
+#include "GameFigure.h"
 #include <vector>
+
+#include "../ConsoleLibrary/Console.h"
 
 using namespace Model;
 
@@ -46,6 +51,7 @@ namespace Controller
 
 		std::vector<Shield*>* getDefaultShieldVector();
 		void shootBullet(GameFigure* gameFigure);
+		void eraseAllCurrentBullets();
 	};
 }
 

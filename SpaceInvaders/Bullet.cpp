@@ -20,4 +20,9 @@ namespace Model
 	{
 		return *m_StartPosition;
 	}
+
+	GameFigure& Bullet::getBulletOwner()
+	{
+		return *m_BulletOwner;
+	}
 }
