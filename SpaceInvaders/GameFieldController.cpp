@@ -113,18 +113,19 @@ namespace Controller
 		Invader* currentInvader = dynamic_cast<Model::Invader*>(gameFigure);
 		Player* currentPlayer = dynamic_cast<Model::Player*>(gameFigure);
 
-
-
 		if (currentInvader != nullptr)
 		{
-			bulletVector->push_back(new Bullet(new Vector2D(
+			Vector2D* invaderPosition = &gameFigure->getPosition();
+			Vector2D* bulletPosition = new Vector2D(invaderPosition->getX(), invaderPosition->getY() + 1);
+			Vector2D* bulletDirection = new Vector2D(0, 1);
+			bulletVector->push_back(new Bullet(bulletPosition, bulletDirection, gameFigure));
 		}
 		else if (currentPlayer != nullptr)
 		{
+			Vector2D* playerPosition = &gameFigure->getPosition();
+			Vector2D* bulletPosition = new Vector2D(playerPosition->getX(), playerPosition->getY() - 1);
+			Vector2D* bulletDirection = new Vector2D(0, -1);
+			bulletVector->push_back(new Bullet(bulletPosition, bulletDirection, gameFigure));
 		}
-
-		
-		Bullet* currentBullet = new Bullet(
-		//bulletVector->push_back(
 	}
 }

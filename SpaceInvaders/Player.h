@@ -20,5 +20,7 @@ namespace Model
 		void setLives(int lives);
 
 		void decrementLives();
+
+		int isPolymorphic() { return 2; }; 
 	};
 }

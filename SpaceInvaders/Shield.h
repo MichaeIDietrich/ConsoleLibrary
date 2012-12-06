@@ -12,5 +12,7 @@ namespace Model
 	{
 	public:
 		Shield(Vector2D* position);
+
+		int isPolymorphic() { return 4; }; 
 	};
 }
