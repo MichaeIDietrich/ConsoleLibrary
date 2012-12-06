@@ -23,7 +23,7 @@ Breakout* breakout;
 int titleColor;
 int pauseColor;
 
-States state = RUN;
+States state = MENU;
 Menu* menu;
 
 
@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
     pauseColor = console->createColor(WHITE, BLACK);
 
     if(state == RUN) {
-        breakout = new Breakout(30, 30, console);
+        breakout = new Breakout(HEIGHT, WIDTH, console);
         console->registerTimerEvent(&timerFunction, 50);
     }
     initMenu();
@@ -97,7 +97,6 @@ void keyFunction(WORD keyCode)
             console->stop();
             return;
         }
-
         render();
 
         break;
@@ -117,11 +116,13 @@ void keyFunction(WORD keyCode)
         {
             state = MENU;
             console->registerTimerEvent(NULL, 0);
+            render();
         }
         else if (keyCode == VK_SPACE)
         {
             state = PAUSE;
             console->registerTimerEvent(NULL, 0);
+            render();
         }
         else
         {
@@ -137,12 +138,16 @@ void keyFunction(WORD keyCode)
         }
         break;
     }
-
 }
 
 void timerFunction()
 {
+    if(!breakout->running) {
+        state = MENU;
+        console->registerTimerEvent(NULL, 0);
+    }
     breakout->tick();
+    render();
 }
 
 
