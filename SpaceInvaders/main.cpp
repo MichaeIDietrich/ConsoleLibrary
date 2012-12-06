@@ -80,7 +80,7 @@ void keyResponder(WORD keyCode)
 	} 
 	else if (keyCode == VK_SPACE)
 	{
-
+		gameFieldController->shootBullet(&gameFieldModel->getPlayer());
 	}
 }
 

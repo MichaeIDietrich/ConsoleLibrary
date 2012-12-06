@@ -38,6 +38,6 @@ namespace Model
 		void setCharColor(Colors characterColor);
 		void setBackgroundColor(Colors backgroundColor);
 
-		virtual int isPolymorphic() = 1;
+		virtual int isPolymorphic() = 0;
 	};
 }

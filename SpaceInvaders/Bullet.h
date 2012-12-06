@@ -20,5 +20,7 @@ namespace Model
 		GameFigure& getBulletOwner();
 
 		Vector2D& getStartPosition();
+
+		int isPolymorphic() { return 1; }; 
 	};
 }

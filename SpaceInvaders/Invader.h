@@ -19,5 +19,7 @@ namespace Model
 		void setHitPoints(int hitpoints);
 
 		void decrementHitPoints();
+
+		int isPolymorphic() { return 3; };  
 	};
 }
