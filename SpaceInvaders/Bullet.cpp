@@ -25,4 +25,9 @@ namespace Model
 	{
 		return *m_BulletOwner;
 	}
+
+	void Bullet::setBulletOwner(GameFigure* bulletOwner)
+	{
+		m_BulletOwner = bulletOwner;
+	}
 }

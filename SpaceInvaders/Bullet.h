@@ -20,6 +20,8 @@ namespace Model
 
 		Vector2D& getStartPosition();
 
+		void setBulletOwner(GameFigure* bulletOwner);
+
 		int isPolymorphic() { return 1; }; 
 	};
 }

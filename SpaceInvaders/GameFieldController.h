@@ -45,7 +45,7 @@ namespace Controller
 		const static int SHIELDWIDTH = 4;
 		const static int SHIELDCOUNT = 5;
 
-		const static int INVADERMAXSHOOT = 5;
+		const static int INVADERMAXSHOOT = 1;
 
 		GameFieldController(std::vector<COLOR_ID>* gameColorIds);
 		~GameFieldController();

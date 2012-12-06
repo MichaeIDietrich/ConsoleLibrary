@@ -84,10 +84,20 @@ namespace Controller
 
 				GameFigure* bulletOwner = &(*currentBullet).getBulletOwner();
 				
-				Player* bulletOwnerPlayer = dynamic_cast<Model::Player*>(bulletOwner);;
+				Player* bulletOwnerPlayer = dynamic_cast<Model::Player*>(bulletOwner);
 
 				if (*bulletNewPosition == *futureInvaderPosition && bulletOwnerPlayer != nullptr)
 				{
+					// rewrite bulletowner to nullptr because owner is deleted
+					for (int bulletCounter = 0; bulletCounter < bulletVector->size(); bulletCounter++)
+					{
+						Bullet* tempCurrentBullet = (*bulletVector)[bulletCounter];
+						if (&tempCurrentBullet->getBulletOwner() == static_cast<Model::GameFigure*>(currentInvader))
+						{
+ 							tempCurrentBullet->setBulletOwner(nullptr);
+						}
+					}
+
 					bulletVector->erase(bulletVector->begin() + bulletCounter);
 					invaderVector->erase(invaderVector->begin() + invaderCounter);
 
