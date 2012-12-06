@@ -42,5 +42,6 @@ namespace Controller
 		void updateGameField();
 
 		std::vector<Shield*>* getDefaultShieldVector();
+		void shootBullet(GameFigure* gameFigure);
 	};
 }

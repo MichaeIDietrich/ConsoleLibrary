@@ -4,6 +4,7 @@
 
 #include "GameField.h"
 #include "Invader.h"
+#include "GameFigure.h"
 
 using namespace Model;
 
@@ -28,35 +29,13 @@ namespace Controller
 
 	void GameFieldController::initializeGameField()
 	{
-		// GameMatrix* gameMatrix = &m_GameFieldModel->getGameMatrix();
-
 		// Invader Initialisation
 		std::vector<Invader*>* invaderVector = m_InvaderController->getDefaultInvaderVector();
-
-		/*
-		for (int invaderCounter = 0; invaderCounter < InvaderController::INVADERARRAYLENGTH; invaderCounter++)
-		{
-			Invader* invader = (*invaderVector)[invaderCounter];
-			Vector2D* positionInvader = &(invader->getPosition());
-			gameMatrix->setGameFigure(invader, positionInvader->getX(), positionInvader->getY());
-		}
-		*/
 
 		m_GameFieldModel->setInvaderVector(invaderVector);
 
 		// Shield Initialisation
 		std::vector<Shield*>* shieldVector = this->getDefaultShieldVector();
-
-		//int shieldVectorLength = (*shieldVector).size();
-		
-		/*
-		for (int shieldCounter = 0; shieldCounter < shieldVectorLength; shieldCounter++)
-		{
-			Shield* shield = (*shieldVector)[shieldCounter];
-			Vector2D* positionShield = &(shield->getPosition());
-			gameMatrix->setGameFigure(shield, positionShield->getX(), positionShield->getY());
-		}
-		*/
 
 		m_GameFieldModel->setShieldVector(shieldVector);
 
@@ -64,22 +43,14 @@ namespace Controller
 		Vector2D* positionPlayer = new Vector2D(PLAYERPOSITIONX, PLAYERPOSITIONY);
 		Player* player = new Player(positionPlayer);
 		player->setCharColor(CYAN);
-		
-		// gameMatrix->setGameFigure((GameFigure*)player, positionPlayer->getX(), positionPlayer->getY());
 
 		m_GameFieldModel->setPlayer(player);
-
-		// for (
-
-		// Invader invaderArray[INVADERARRAYLENGTH];
-		// gameField->set
 	}
 
 	void GameFieldController::updateGameField()
 	{
 		std::vector<Invader*>* invaderVector = &m_GameFieldModel->getInvaderVector();
 		std::vector<Bullet*>* bulletVector = &m_GameFieldModel->getBulletVector();
-		// GameMatrix* gameMatrix = &m_GameFieldModel->getGameMatrix();
 
 		// Update according to direction vector
 		for (std::vector<Invader*>::iterator iterator = invaderVector->begin(); iterator != invaderVector->end(); ++iterator)
@@ -89,11 +60,15 @@ namespace Controller
 			Vector2D* invaderPosition = &invader->getPosition();
 
 			*invaderPosition += *invaderDirection;
+		}
 
-			// Vector2D* oldInvaderPosition = new Vector2D(invaderPosition->getX(), invaderPosition->getY());
+		for (std::vector<Bullet*>::iterator iterator = bulletVector->begin(); iterator != bulletVector->end(); ++iterator)
+		{
+			Bullet* bullet = *iterator;
+			Vector2D* bulletDirection = &bullet->getDirection();
+			Vector2D* bulletPosition = &bullet->getPosition();
 
-			// m_GameFigureController->moveGameFigureToMatrixAccordingToItsPosition(invader, gameMatrix, oldInvaderPosition);
-
+			*bulletPosition += *bulletDirection;
 		}
 	}
 
@@ -129,5 +104,27 @@ namespace Controller
 		}
 
 		return shieldVector;
+	}
+
+	void GameFieldController::shootBullet(GameFigure* gameFigure)
+	{
+		std::vector<Bullet*>* bulletVector = &m_GameFieldModel->getBulletVector();
+		
+		Invader* currentInvader = dynamic_cast<Model::Invader*>(gameFigure);
+		Player* currentPlayer = dynamic_cast<Model::Player*>(gameFigure);
+
+
+
+		if (currentInvader != nullptr)
+		{
+			bulletVector->push_back(new Bullet(new Vector2D(
+		}
+		else if (currentPlayer != nullptr)
+		{
+		}
+
+		
+		Bullet* currentBullet = new Bullet(
+		//bulletVector->push_back(
 	}
 }
