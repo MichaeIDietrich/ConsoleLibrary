@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.7)
 
+SET(CMAKE_CXX_FLAGS "-std=c++0x")
+
 project(Snake)
 
 set(SOURCE
@@ -13,7 +15,6 @@ set(HEADERS
   Snake.h
   ../ConsoleLibrary/Menu.h
   ../ConsoleLibrary/Console.h
-  ../ConsoleLibrary/LinuxConsole.h
 )
 
 add_executable(Snake ${SOURCE} ${HEADERS})

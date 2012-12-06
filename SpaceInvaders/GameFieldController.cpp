@@ -75,7 +75,7 @@ namespace Controller
 	std::vector<Shield*>* GameFieldController::getDefaultShieldVector()
 	{
 		int totalShieldPieces = SHIELDWIDTH * SHIELDCOUNT;
-		std::vector<Shield*>* shieldVector = new vector<Shield*>(totalShieldPieces);
+		std::vector<Shield*>* shieldVector = new std::vector<Shield*>(totalShieldPieces);
 
 		Colors charColor = BLUE;
 		Colors backgroundColor = MAGENTA; 

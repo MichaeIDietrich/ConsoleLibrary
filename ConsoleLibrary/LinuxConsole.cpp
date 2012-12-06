@@ -1,4 +1,4 @@
-#include "LinuxConsole.h"
+#include "Console.h"
 
 Console::Console(const char* title, int width, int height, Colors clearForeground, Colors clearBackground)
 {
