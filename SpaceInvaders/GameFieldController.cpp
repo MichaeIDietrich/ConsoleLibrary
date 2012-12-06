@@ -26,6 +26,7 @@ namespace Controller
 		m_GameColorIds = gameColorIds;
 		m_RandomDevice = new std::random_device();
 		m_RandomGenerator = new std::mt19937((*m_RandomDevice)());
+		m_PlayerBulletCooldown = clock();
 		m_IntDistribution = nullptr;
 	}
 
@@ -161,33 +162,38 @@ namespace Controller
 
 	std::vector<Shield*>* GameFieldController::getDefaultShieldVector()
 	{
-		int totalShieldPieces = SHIELDWIDTH * SHIELDCOUNT;
+		int totalShieldWidth = SHIELDWIDTH * SHIELDCOUNT;
+		int totalShieldPieces = totalShieldWidth * SHIELDMAXHEIGHT;
 		std::vector<Shield*>* shieldVector = new std::vector<Shield*>(totalShieldPieces);
 
 		Colors charColor = BLUE;
 		Colors backgroundColor = MAGENTA; 
 
-		int x = SHIELDOFFSETX;
-
-		for (int shieldCounter = 0; shieldCounter < totalShieldPieces; shieldCounter++)
+		for (int shieldY = 0; shieldY < SHIELDMAXHEIGHT; shieldY++)
 		{
-			// for cleaning up initialization values
-			delete (*shieldVector)[shieldCounter];
+			int x = SHIELDOFFSETX;
 
-			Vector2D* position = new Vector2D(x, SHIELDPOSITIONY);
-			Shield* tempShield = new Shield(position);
-			tempShield->setColor((*m_GameColorIds)[1]);
-			(*shieldVector)[shieldCounter] = tempShield;
+			for (int shieldCounter = 0; shieldCounter < totalShieldWidth; shieldCounter++)
+			{
+				// for cleaning up initialization values
+				delete (*shieldVector)[shieldCounter + (shieldY * totalShieldWidth)];
 
-			if (shieldCounter % SHIELDWIDTH == SHIELDWIDTH - 1)
-			{
-				x += SHIELDPADDINGX;
-			} 
-			else
-			{
-				x++;
+				Vector2D* position = new Vector2D(x, SHIELDPOSITIONY + shieldY);
+				Shield* tempShield = new Shield(position);
+				tempShield->setColor((*m_GameColorIds)[1]);
+				(*shieldVector)[shieldCounter + (shieldY * totalShieldWidth)] = tempShield;
+
+				if (shieldCounter % SHIELDWIDTH == SHIELDWIDTH - 1)
+				{
+					x += SHIELDPADDINGX;
+				} 
+				else
+				{
+					x++;
+				}
 			}
 		}
+
 
 		return shieldVector;
 	}
@@ -203,6 +209,7 @@ namespace Controller
 		Colors backgroundColor = BLACK;
 
 		Bullet* bullet = nullptr;
+		long currentTime = clock();
 
 		if (currentInvader != nullptr)
 		{
@@ -211,12 +218,13 @@ namespace Controller
 			Vector2D* bulletDirection = new Vector2D(0, 1);
 			bullet = new Bullet(bulletPosition, bulletDirection, gameFigure);
 		}
-		else if (currentPlayer != nullptr)
+		else if (currentPlayer != nullptr && (currentTime - m_PlayerBulletCooldown) > PLAYERBULLETCOOLDOWN)
 		{
 			Vector2D* playerPosition = &gameFigure->getPosition();
 			Vector2D* bulletPosition = new Vector2D(playerPosition->getX(), playerPosition->getY() - 1);
 			Vector2D* bulletDirection = new Vector2D(0, -1);
 			bullet = new Bullet(bulletPosition, bulletDirection, gameFigure);
+			m_PlayerBulletCooldown = currentTime;
 		}
 
 		if (bullet != nullptr)

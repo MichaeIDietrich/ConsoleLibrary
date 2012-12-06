@@ -9,7 +9,6 @@
 #include "Vector2D.h"
 
 #include <vector>
-#include <exception>
 
 using namespace Model;
 

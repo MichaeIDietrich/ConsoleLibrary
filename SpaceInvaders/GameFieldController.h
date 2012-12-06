@@ -32,14 +32,17 @@ namespace Controller
 		std::random_device* m_RandomDevice;
 		std::mt19937* m_RandomGenerator;
 		std::uniform_int_distribution<>* m_IntDistribution;
+		std::clock_t m_PlayerBulletCooldown;
 	public:
 		const static int GAMEMATRIXWIDTH = 50;
 		const static int GAMEMATRIXHEIGTH = 38;
 
 		const static int PLAYERPOSITIONY = GAMEMATRIXHEIGTH - 1;
 		const static int PLAYERPOSITIONX = 14;
+		const static long PLAYERBULLETCOOLDOWN = 150;
 
 		const static int SHIELDPOSITIONY = 33;
+		const static int SHIELDMAXHEIGHT = 3;
 		const static int SHIELDOFFSETX = 10;
 		const static int SHIELDPADDINGX = 3;
 		const static int SHIELDWIDTH = 4;
