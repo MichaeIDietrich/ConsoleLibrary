@@ -7,13 +7,13 @@ SET(CMAKE_CXX_FLAGS "-std=c++0x")
 set(SOURCE
   main.cpp
   Breakout.cpp
-  ../Snake/Menu.cpp
+  ../ConsoleLibrary/Menu.cpp
   ../ConsoleLibrary/LinuxConsole.cpp
 )
 
 set(HEADERS
   Breakout.h
-  ../Snake/Menu.h
+  ../ConsoleLibrary/Menu.h
   ../ConsoleLibrary/Console.h
   ../ConsoleLibrary/LinuxConsole.h
 )

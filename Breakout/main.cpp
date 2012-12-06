@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../ConsoleLibrary/Console.h"
-#include "../Snake/Menu.h"
+#include "../ConsoleLibrary/Menu.h"
 #include "Breakout.h"
 
 #define WIDTH 50
@@ -8,7 +8,7 @@
 
 enum States { MENU, RUN, PAUSE };
 
-void keyUpFunction(WORD keyCode, DWORD modifier);
+void keyFunction(WORD keyCode);
 void timerFunction();
 
 void initMenu();
@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
     initMenu();
     render();
 
-    console->registerKeyUpEvent(&keyUpFunction);
+    console->registerKeyEvent(&keyFunction);
     console->run();
     
     delete console;
@@ -47,12 +47,11 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-void keyUpFunction(WORD keyCode, DWORD modifier)
+void keyFunction(WORD keyCode)
 {
     switch (state)
     {
     case MENU:
-      console->fastUpdate = FALSE;
 
         if (keyCode == VK_UP)
         {
@@ -94,7 +93,6 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
 
 
     case RUN:
-      console->fastUpdate = TRUE;
 
         if (keyCode == VK_RIGHT)
         {
@@ -121,7 +119,6 @@ void keyUpFunction(WORD keyCode, DWORD modifier)
         break;
 
     case PAUSE:
-      console->fastUpdate = FALSE;
 
         if (keyCode == VK_SPACE)
         {
@@ -140,10 +137,12 @@ void timerFunction()
 
 void initMenu()
 {
-    menu = new Menu(console, YELLOW, RED);
-    menu->addItem("Start", 22, 20, WHITE, BLACK);
-    menu->addItem("Settings", 22, 25, WHITE, BLACK);
-    menu->addItem("Quit", 22, 30, WHITE, BLACK);
+    COLOR_ID selColor = console->createColor(YELLOW, RED);
+    COLOR_ID itemColor = console->createColor(WHITE, BLACK);
+    menu = new Menu(console, selColor);
+    menu->addItem("Start", 22, 20, itemColor);
+    menu->addItem("Settings", 22, 25, itemColor);
+    menu->addItem("Quit", 22, 30, itemColor);
 
     menu->select(0);
 }
