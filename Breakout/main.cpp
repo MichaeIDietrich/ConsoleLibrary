@@ -115,6 +115,8 @@ void keyFunction(WORD keyCode)
         }
         else if (keyCode == VK_ESCAPE)
         {
+            if(breakout->score > 0)
+                scores.push_back(breakout->score);
             state = MENU;
             console->registerTimerEvent(NULL, 0);
             render();
@@ -144,7 +146,9 @@ void keyFunction(WORD keyCode)
         if (keyCode == VK_SPACE)
         {
             state = RUN;
+            console->registerTimerEvent(&timerFunction, 50);
         }
+        render();
         break;
     }
 }
@@ -181,11 +185,11 @@ void render()
     {
     case MENU:
 
-        console->printText(10, 3, "***  ***  ****  **  *  *  ***  *   * *****", titleColor);
-        console->printText(10, 4, "*  * *  * *    *  * * *  *   * *   *   *  ");
-        console->printText(10, 5, "***  ***  **** **** **   *   * *   *   *  ");
-        console->printText(10, 6, "*  * * *  *    *  * * *  *   * *   *   *  ");
-        console->printText(10, 7, "***  *  * **** *  * *  *  ***   ***    *  ");
+        console->printText(7, 3, "***  ***  ****  **  *  *  ***  *   * *****", titleColor);
+        console->printText(7, 4, "*  * *  * *    *  * * *  *   * *   *   *  ");
+        console->printText(7, 5, "***  ***  **** **** **   *   * *   *   *  ");
+        console->printText(7, 6, "*  * * *  *    *  * * *  *   * *   *   *  ");
+        console->printText(7, 7, "***  *  * **** *  * *  *  ***   ***    *  ");
 
         menu->show();
         break;

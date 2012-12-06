@@ -10,11 +10,11 @@ Breakout::Breakout(int height, int width, Console* console) : ball((width / 2), 
     this->width = width;
     blocks = new vector<Block>();
     score = 0;
+    block_color = console->createColor(YELLOW, BLACK);
     setBlocks(blockCount);
     ball.dirx = -0.5;
     ball.diry = -0.5;
     running = true;
-    block_color = console->createColor(YELLOW, BLACK);
 }
 
 void Breakout::setBlocks(int count)
@@ -22,7 +22,7 @@ void Breakout::setBlocks(int count)
     int x=0;
     while(x<count) {
         bool insert = true;
-        Block block = Block(rand() % width, rand() % (height / 2), block_color, 1);
+        Block block = Block(rand() % (width - BLOCK_WIDTH), 5 + rand() % (height / 2), block_color, 1);
         for(int i=0; i < blocks->size(); i++) {
             if(blocks->at(i).intersect(&block)){
                 insert = false;
