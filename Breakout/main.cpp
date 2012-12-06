@@ -3,6 +3,9 @@
 #include "../ConsoleLibrary/Menu.h"
 #include "Breakout.h"
 
+#include <fstream>
+#include <stdlib.h>
+
 #define WIDTH 50
 #define HEIGHT 50
 
@@ -20,11 +23,17 @@ Breakout* breakout;
 int titleColor;
 int pauseColor;
 
-States state = RUN;
+States state = MENU;
 Menu* menu;
+
+
+// DEBUG
+//ofstream logFile;
 
 int main(int argc, char **argv) {
     srand ( time_t(NULL) );
+
+    //logFile.open("breakout.log");
 
     console = new Console("Breakout", WIDTH, HEIGHT, WHITE, BLACK);
 
@@ -32,7 +41,7 @@ int main(int argc, char **argv) {
     pauseColor = console->createColor(WHITE, BLACK);
 
     if(state == RUN) {
-        breakout = new Breakout(30, 30, console);
+        breakout = new Breakout(HEIGHT, WIDTH, console);
         console->registerTimerEvent(&timerFunction, 50);
     }
     initMenu();
@@ -40,6 +49,8 @@ int main(int argc, char **argv) {
 
     console->registerKeyEvent(&keyFunction);
     console->run();
+
+    //logFile.close();
     
     delete console;
     delete breakout;
@@ -86,7 +97,6 @@ void keyFunction(WORD keyCode)
             console->stop();
             return;
         }
-
         render();
 
         break;
@@ -106,11 +116,13 @@ void keyFunction(WORD keyCode)
         {
             state = MENU;
             console->registerTimerEvent(NULL, 0);
+            render();
         }
         else if (keyCode == VK_SPACE)
         {
             state = PAUSE;
             console->registerTimerEvent(NULL, 0);
+            render();
         }
         else
         {
@@ -126,12 +138,16 @@ void keyFunction(WORD keyCode)
         }
         break;
     }
-
 }
 
 void timerFunction()
 {
+    if(!breakout->running) {
+        state = MENU;
+        console->registerTimerEvent(NULL, 0);
+    }
     breakout->tick();
+    render();
 }
 
 

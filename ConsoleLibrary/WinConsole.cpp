@@ -1,4 +1,4 @@
-#include "WinConsole.h"
+#include "Console.h"
 
 #include <stdio.h>
 

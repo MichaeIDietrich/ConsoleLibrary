@@ -11,21 +11,20 @@ using namespace std;
 
 enum Direction {LEFT, RIGHT, NONE};
 
-
 struct Ball
 {
-    int x, y;
-    int dirx, diry;
+    float x, y;
+    float dirx, diry;
     int color;
 
-    Ball(int x, int y, int color)
+    Ball(float x, float y, int color)
     {
         this->x = x;
         this->y = y;
         this->color = color;
     }
 
-    void setDir(int x, int y)
+    void setDir(float x, float y)
     {
         this->dirx = x;
         this->diry = y;
@@ -50,11 +49,12 @@ struct Block
     int points;
     int color;
 
-    Block(int x, int y, int color)
+    Block(int x, int y, int color, int points)
     {
         this->x = x;
         this->y = y;
         this->color = color;
+        this->points = points;
 
         this->width = BLOCK_WIDTH;
     }
@@ -99,20 +99,29 @@ struct Paddle
         dir = NONE;
     }
 
-    void nextPos()
+    void nextPos(int max)
     {
         switch(dir)
         {
             case NONE:
                 break;
             case LEFT:
-                x -= 1;
+                if(x > 0)
+                    x -= 1;
                 break;
             case RIGHT:
-                x += 1;
+                if(x + width < max)
+                    x += 1;
                 break;
         }
         dir = NONE;
+    }
+
+    bool intersect(Ball* ball)
+    {
+        if(this->y == ball->y && (this->x <= ball->x && ball->x <= (this->x + this->width)))
+            return true;
+        else return false;
     }
 
     void render(Console* console)
@@ -134,8 +143,10 @@ private:
     Paddle paddle;
     int score;
     void setBlocks(int count);
+    int blockCount;
 
 public:
+    bool running;
     Breakout(int height, int width, Console* console);
     ~Breakout();
     void tick();

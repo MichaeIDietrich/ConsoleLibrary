@@ -15,7 +15,6 @@ set(HEADERS
   Breakout.h
   ../ConsoleLibrary/Menu.h
   ../ConsoleLibrary/Console.h
-  ../ConsoleLibrary/LinuxConsole.h
 )
 
 add_executable(breakout ${SOURCE} ${HEADERS})
