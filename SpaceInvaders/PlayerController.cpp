@@ -21,7 +21,7 @@ namespace Controller
 	}
 
 	// Player just can move left or right
-	void PlayerController::movePlayer(Player* player, GameFigureDirection direction, GameMatrix* gameMatrix)
+	void PlayerController::movePlayer(Player* player, GameFigureDirection direction)
 	{
 		Vector2D* currentPosition = &player->getPosition();
 
@@ -35,9 +35,9 @@ namespace Controller
 			return;
 		}
 
-		Vector2D* oldPosition = new Vector2D(currentX, currentY);
+		//Vector2D* oldPosition = new Vector2D(currentX, currentY);
 		currentPosition->setX(futureX);
 
-		m_GameFigureController->moveGameFigureToMatrixAccordingToItsPosition(player, gameMatrix, oldPosition);
+		//m_GameFigureController->moveGameFigureToMatrixAccordingToItsPosition(player, gameMatrix, oldPosition);
 	}
 }

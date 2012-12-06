@@ -7,6 +7,10 @@
 // Controller
 #include "GameFigure.h"
 #include "Player.h"
+#include "Bullet.h"
+#include "Invader.h"
+#include "Shield.h"
+
 #include "GameFieldController.h"
 #include "PlayerController.h"
 
@@ -25,7 +29,7 @@ GameField* gameFieldModel;
 PlayerController* playerController;
 GameFieldController* gameFieldController;
 
-int timerInterval = 100;
+int timerInterval = 200;
 
 // Defining Prototypes
 void keyResponder(WORD keyCode);
@@ -68,11 +72,11 @@ void keyResponder(WORD keyCode)
     }
     else if (keyCode == VK_LEFT)
     {
-		playerController->movePlayer(&gameFieldModel->getPlayer(), LEFT, &gameFieldModel->getGameMatrix());
+		playerController->movePlayer(&gameFieldModel->getPlayer(), LEFT);
     }
     else if (keyCode == VK_RIGHT)
     {
-		playerController->movePlayer(&gameFieldModel->getPlayer(), RIGHT, &gameFieldModel->getGameMatrix());
+		playerController->movePlayer(&gameFieldModel->getPlayer(), RIGHT);
 	} 
 	else if (keyCode == VK_SPACE)
 	{
@@ -86,6 +90,13 @@ void timerRoutine()
 	renderGameField();
 }
 
+inline void renderGameFigure(GameFigure* gameFigure)
+{
+	Vector2D* position = &gameFigure->getPosition();
+	COLOR_ID gameFigureColor = console->createColor(gameFigure->getCharColor(), gameFigure->getBackgroundColor());
+	console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+}
+
 inline void updateGameField()
 {
 	gameFieldController->updateGameField();
@@ -96,24 +107,33 @@ inline void renderGameField()
 	console->clearConsole();
 
 	GameField* gfmodel = gameFieldModel;
-	GameMatrix* gmmodel = &(gfmodel->getGameMatrix());
-	int gmwidth = gmmodel->getWidth();
-	int gmheigth = gmmodel->getHeigth();
+	// GameMatrix* gmmodel = &(gfmodel->getGameMatrix());
+	// int gmwidth = gmmodel->getWidth();
+	// int gmheigth = gmmodel->getHeigth();
 
 	// Setting the GameMatrix to the console
-	for (int x = 0; x < gmwidth; x++)
-	{
-		for (int y = 0; y < gmheigth; y++)
-		{
-			GameFigure* currentGameFigure = &(gmmodel->getGameFigure(x, y));
+	
+	std::vector<Invader*>* invaderVector = &gfmodel->getInvaderVector();
+	std::vector<Bullet*>* bulletVector = &gfmodel->getBulletVector();
+	std::vector<Shield*>* shieldVector = &gfmodel->getShieldVector();
+	Player* player = &gfmodel->getPlayer();
 
-			if (currentGameFigure != nullptr)
-			{
-				COLOR_ID currentGameFigureColor = console->createColor(currentGameFigure->getCharColor(), currentGameFigure->getBackgroundColor());
-				console->setTile(x, y, currentGameFigure->getChar(), currentGameFigureColor); 
-			}
-		}
+	for (std::vector<Invader*>::iterator iterator = invaderVector->begin(); iterator != invaderVector->end(); ++iterator)
+	{
+		renderGameFigure(*iterator);
 	}
+
+	for (std::vector<Bullet*>::iterator iterator = bulletVector->begin(); iterator != bulletVector->end(); ++iterator)
+	{
+		renderGameFigure(*iterator);
+	}
+
+	for (std::vector<Shield*>::iterator iterator = shieldVector->begin(); iterator != shieldVector->end(); ++iterator)
+	{
+		renderGameFigure(*iterator);
+	}
+
+	renderGameFigure(player);
 
 	// PlayerArea
 

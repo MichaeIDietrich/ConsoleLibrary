@@ -5,6 +5,7 @@
 #endif
 
 #include "InvaderController.h"
+#include "GameFigureController.h"
 
 #include "GameField.h"
 
@@ -17,6 +18,7 @@ namespace Controller
 	private:
 		GameField* m_GameFieldModel;
 		InvaderController* m_InvaderController;
+		GameFigureController* m_GameFigureController;
 	public:
 		const static int GAMEMATRIXWIDTH = 50;
 		const static int GAMEMATRIXHEIGTH = 38;

@@ -37,7 +37,7 @@ namespace Model
 
 	Vector2D& GameFigure::getDirection()
 	{
-		return *m_Position;
+		return *m_Direction;
 	}
 
 	char GameFigure::getChar()

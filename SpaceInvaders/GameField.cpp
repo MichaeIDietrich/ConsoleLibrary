@@ -31,7 +31,7 @@ namespace Model
 
 		m_Player = nullptr;
 
-		m_GameMatrix = new GameMatrix(gameMatrixWidth, gameMatrixHeigth, gameMatrixHeigth);
+		// m_GameMatrix = new GameMatrix(gameMatrixWidth, gameMatrixHeigth, gameMatrixHeigth);
 	}
 
 	GameField::~GameField()
@@ -61,7 +61,7 @@ namespace Model
 
 		delete m_Player;
 
-		delete m_GameMatrix;
+		// delete m_GameMatrix;
 	}
 
 	void GameField::resetToDefault()
@@ -112,10 +112,12 @@ namespace Model
 		return *m_Player;
 	}
 
+	/*
 	GameMatrix& GameField::getGameMatrix()
 	{
 		return *m_GameMatrix;
 	}
+	*/
 
 	// Setter
 
@@ -161,7 +163,7 @@ namespace Model
 
 	void GameField::setShieldVector(std::vector<Shield*>* shieldVector)
 	{
-		if (m_BulletVector != nullptr)
+		if (m_ShieldVector != nullptr)
 		{
 			for (std::vector<Shield*>::iterator iterator = m_ShieldVector->begin(); iterator != m_ShieldVector->end(); ++iterator)
 			{

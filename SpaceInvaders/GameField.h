@@ -34,7 +34,7 @@ namespace Model
 		std::vector<Bullet*>* m_BulletVector;
 		Player* m_Player;
 
-		GameMatrix* m_GameMatrix;
+		// GameMatrix* m_GameMatrix;
 	public:
 		GameField(int gameMatrixWidth, int gameMatrixHeigth);
 		~GameField();
@@ -53,7 +53,7 @@ namespace Model
 		std::vector<Bullet*>& getBulletVector();
 		Player& getPlayer();
 
-		GameMatrix& getGameMatrix();
+		// GameMatrix& getGameMatrix();
 
 		// Setter
 		void setScore(int score);

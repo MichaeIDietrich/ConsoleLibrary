@@ -29,7 +29,7 @@ namespace Controller
 			}
 
 			Vector2D* position = new Vector2D(x, y);
-			Vector2D* direction = new Vector2D(x, y);
+			Vector2D* direction = new Vector2D(1, 0);
 			Invader* tempInvader; 
 			
 			if (y == INVADEROFFSETY)

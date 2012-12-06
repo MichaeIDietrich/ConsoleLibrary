@@ -19,6 +19,6 @@ namespace Controller
 	public:
 		PlayerController();
 		~PlayerController();
-		void movePlayer(Player* player, GameFigureDirection direction, GameMatrix* gameMatrix);
+		void movePlayer(Player* player, GameFigureDirection direction);
 	};
 }

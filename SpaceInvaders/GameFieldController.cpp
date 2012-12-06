@@ -1,5 +1,6 @@
 #include "InvaderController.h"
 #include "GameFieldController.h"
+#include "GameFigureController.h"
 
 #include "GameField.h"
 #include "Invader.h"
@@ -11,6 +12,7 @@ namespace Controller
 	GameFieldController::GameFieldController()
 	{
 		m_InvaderController = new InvaderController();
+		m_GameFigureController = new GameFigureController();
 	}
 
 	GameFieldController::~GameFieldController()
@@ -26,39 +28,44 @@ namespace Controller
 
 	void GameFieldController::initializeGameField()
 	{
-		GameMatrix* gameMatrix = &m_GameFieldModel->getGameMatrix();
+		// GameMatrix* gameMatrix = &m_GameFieldModel->getGameMatrix();
 
 		// Invader Initialisation
-		std::vector<Invader*> invaderVector = *m_InvaderController->getDefaultInvaderVector();
+		std::vector<Invader*>* invaderVector = m_InvaderController->getDefaultInvaderVector();
 
+		/*
 		for (int invaderCounter = 0; invaderCounter < InvaderController::INVADERARRAYLENGTH; invaderCounter++)
 		{
-			Invader* invader = invaderVector[invaderCounter];
+			Invader* invader = (*invaderVector)[invaderCounter];
 			Vector2D* positionInvader = &(invader->getPosition());
 			gameMatrix->setGameFigure(invader, positionInvader->getX(), positionInvader->getY());
 		}
+		*/
 
-		m_GameFieldModel->setInvaderVector(&invaderVector);
+		m_GameFieldModel->setInvaderVector(invaderVector);
 
 		// Shield Initialisation
-		std::vector<Shield*> shieldVector = *this->getDefaultShieldVector();
+		std::vector<Shield*>* shieldVector = this->getDefaultShieldVector();
 
-		int shieldVectorLength = shieldVector.size();
+		//int shieldVectorLength = (*shieldVector).size();
+		
+		/*
 		for (int shieldCounter = 0; shieldCounter < shieldVectorLength; shieldCounter++)
 		{
-			Shield* shield = shieldVector[shieldCounter];
+			Shield* shield = (*shieldVector)[shieldCounter];
 			Vector2D* positionShield = &(shield->getPosition());
 			gameMatrix->setGameFigure(shield, positionShield->getX(), positionShield->getY());
 		}
+		*/
 
-		m_GameFieldModel->setShieldVector(&shieldVector);
+		m_GameFieldModel->setShieldVector(shieldVector);
 
 		// Player Initialisation
 		Vector2D* positionPlayer = new Vector2D(PLAYERPOSITIONX, PLAYERPOSITIONY);
 		Player* player = new Player(positionPlayer);
 		player->setCharColor(CYAN);
 		
-		gameMatrix->setGameFigure((GameFigure*)player, positionPlayer->getX(), positionPlayer->getY());
+		// gameMatrix->setGameFigure((GameFigure*)player, positionPlayer->getX(), positionPlayer->getY());
 
 		m_GameFieldModel->setPlayer(player);
 
@@ -70,7 +77,24 @@ namespace Controller
 
 	void GameFieldController::updateGameField()
 	{
+		std::vector<Invader*>* invaderVector = &m_GameFieldModel->getInvaderVector();
+		std::vector<Bullet*>* bulletVector = &m_GameFieldModel->getBulletVector();
+		// GameMatrix* gameMatrix = &m_GameFieldModel->getGameMatrix();
 
+		// Update according to direction vector
+		for (std::vector<Invader*>::iterator iterator = invaderVector->begin(); iterator != invaderVector->end(); ++iterator)
+		{
+			Invader* invader = *iterator;
+			Vector2D* invaderDirection = &invader->getDirection();
+			Vector2D* invaderPosition = &invader->getPosition();
+
+			*invaderPosition += *invaderDirection;
+
+			// Vector2D* oldInvaderPosition = new Vector2D(invaderPosition->getX(), invaderPosition->getY());
+
+			// m_GameFigureController->moveGameFigureToMatrixAccordingToItsPosition(invader, gameMatrix, oldInvaderPosition);
+
+		}
 	}
 
 	std::vector<Shield*>* GameFieldController::getDefaultShieldVector()
