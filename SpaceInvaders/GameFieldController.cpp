@@ -27,6 +27,7 @@ namespace Controller
 		m_RandomDevice = new std::random_device();
 		m_RandomGenerator = new std::mt19937((*m_RandomDevice)());
 		m_PlayerBulletCooldown = clock();
+		m_InvaderBulletCooldown = clock(); 
 		m_IntDistribution = nullptr;
 	}
 
@@ -72,6 +73,8 @@ namespace Controller
 		std::vector<Invader*>* invaderVector = &m_GameFieldModel->getInvaderVector();
 		std::vector<Bullet*>* bulletVector = &m_GameFieldModel->getBulletVector();
 
+		std::clock_t currentTime = clock();
+
 		// Compute Collisions
 		bool gameOver = m_CollisionDetectorController->computeCollisionOfGameFigure(&m_GameFieldModel->getInvaderVector(), &m_GameFieldModel->getShieldVector(), &m_GameFieldModel->getBulletVector(), &m_GameFieldModel->getPlayer());
 		
@@ -90,17 +93,21 @@ namespace Controller
 			return;
 		}
 
-		// Let some random invaders shoot some bullets
-		int invaderCount = invaderVector->size();
-		m_IntDistribution = new std::uniform_int_distribution<>(0, invaderCount - 1);
-
-		for (int invaderShoot = 0; invaderShoot < INVADERMAXSHOOT; invaderShoot++)
+		if (currentTime - m_InvaderBulletCooldown > INVADERBULLETCOOLDOWN)
 		{
-			int randomShoot = (*m_IntDistribution)(*m_RandomGenerator);
-			this->shootBullet((*invaderVector)[randomShoot]);
-		}
+			m_InvaderBulletCooldown = currentTime;
+			// Let some random invaders shoot some bullets
+			int invaderCount = invaderVector->size();
+			m_IntDistribution = new std::uniform_int_distribution<>(0, invaderCount - 1);
 
-		delete m_IntDistribution;
+			for (int invaderShoot = 0; invaderShoot < INVADERMAXSHOOT; invaderShoot++)
+			{
+				int randomShoot = (*m_IntDistribution)(*m_RandomGenerator);
+				this->shootBullet((*invaderVector)[randomShoot]);
+			}
+
+			delete m_IntDistribution;
+		}
 
 		// Update according to direction vector
 		for (std::vector<Invader*>::iterator iterator = invaderVector->begin(); iterator != invaderVector->end(); ++iterator)

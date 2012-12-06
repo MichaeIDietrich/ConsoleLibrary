@@ -33,13 +33,14 @@ namespace Controller
 		std::mt19937* m_RandomGenerator;
 		std::uniform_int_distribution<>* m_IntDistribution;
 		std::clock_t m_PlayerBulletCooldown;
+		std::clock_t m_InvaderBulletCooldown;
 	public:
 		const static int GAMEMATRIXWIDTH = 50;
 		const static int GAMEMATRIXHEIGTH = 38;
 
 		const static int PLAYERPOSITIONY = GAMEMATRIXHEIGTH - 1;
 		const static int PLAYERPOSITIONX = 14;
-		const static long PLAYERBULLETCOOLDOWN = 150;
+		const static long PLAYERBULLETCOOLDOWN = 200;
 
 		const static int SHIELDPOSITIONY = 33;
 		const static int SHIELDMAXHEIGHT = 3;
@@ -48,7 +49,8 @@ namespace Controller
 		const static int SHIELDWIDTH = 4;
 		const static int SHIELDCOUNT = 5;
 
-		const static int INVADERMAXSHOOT = 1;
+		const static int INVADERMAXSHOOT = 4;
+		const static long INVADERBULLETCOOLDOWN = 300;
 
 		GameFieldController(std::vector<COLOR_ID>* gameColorIds);
 		~GameFieldController();
