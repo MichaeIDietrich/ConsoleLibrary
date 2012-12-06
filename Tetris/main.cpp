@@ -18,7 +18,7 @@ void keyFunction(WORD keyCode);
 void timerFunction();
 
 void render();
-void checkCollision();
+void checkForFullLines();
 
 
 Console* console;
@@ -57,7 +57,7 @@ void keyFunction(WORD keyCode)
     }
     else if (keyCode == VK_DOWN)
     {
-        //shape->
+        shape->moveDown();
     }
     else if (keyCode == VK_UP)
     {
@@ -76,12 +76,59 @@ void keyFunction(WORD keyCode)
 
 void timerFunction()
 {
+    // is shape already placed on the matrix
+    if (shape->checkForCollision(shape->x, shape->y))
+    {
+        matrix->reset();
+        shape = new Shape(matrix, 10);
+        return;
+    }
+
     if (!shape->update())
     {
         shape = new Shape(matrix, 10);
     }
 
+    checkForFullLines();
+
     render();
+}
+
+
+void checkForFullLines()
+{
+    for (int y = MATRIX_HEIGHT - 1; y >= 0; y--)
+    {
+        // search for a full line
+        int x;
+        for (x = 0; x < MATRIX_WIDTH; x++)
+        {
+            if (!matrix->field[y][x])
+            {
+                break;
+            }
+        }
+
+        // delete the found line and move all bricks above downwards
+        if (x == MATRIX_WIDTH)
+        {
+            for (int cy = y - 1; cy > 0; cy--)
+            {
+                for (int cx = 0; cx < MATRIX_WIDTH; cx++)
+                {
+                    matrix->field[cy + 1][cx] = matrix->field[cy][cx];
+                }
+            }
+
+            for (x = 0; x < MATRIX_WIDTH; x++)
+            {
+                matrix->field[0][x] = false;
+            }
+
+            // do not ignore the next line
+            y++;
+        }
+    }
 }
 
 
@@ -102,11 +149,6 @@ void render()
             }
         }
     }
-
-    /*for (vector<Point>::iterator it = shape->blocks.begin(); it != shape->blocks.end(); it++)
-    {
-        console->setTile(shape->x + it->x, shape->y + it->y, '+');
-    }*/
 
     for (Point &point : *shape->blocks)
     {

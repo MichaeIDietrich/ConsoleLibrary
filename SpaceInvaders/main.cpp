@@ -73,6 +73,8 @@ int main(int argc, char* argv[])
 	console->registerKeyEvent(&keyResponder);
 
 	console->run();
+	delete gameFieldController;
+	delete playerController;
 
 	delete console;
 
@@ -83,9 +85,6 @@ void keyResponder(WORD keyCode)
 {
     if (keyCode == VK_ESCAPE)
     {
-		delete gameFieldModel;
-		delete gameFieldController;
-
         console->stop();
     }
     else if (keyCode == VK_LEFT)
@@ -110,9 +109,12 @@ void timerRoutine()
 
 inline void renderGameFigure(GameFigure* gameFigure)
 {
-	Vector2D* position = &gameFigure->getPosition();
-	COLOR_ID gameFigureColor = gameFigure->getColor();
-	console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+	if (gameFigure != nullptr)
+	{
+		Vector2D* position = &gameFigure->getPosition();
+		COLOR_ID gameFigureColor = gameFigure->getColor();
+		console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+	}
 }
 
 inline void updateGameField()

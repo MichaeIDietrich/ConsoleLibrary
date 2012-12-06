@@ -1,6 +1,7 @@
 #include "InvaderController.h"
 #include "GameFieldController.h"
 #include "GameFigureController.h"
+#include "CollisionDetectorController.h"
 
 #include "GameField.h"
 #include "Invader.h"
@@ -15,11 +16,13 @@ namespace Controller
 	{
 		m_InvaderController = new InvaderController();
 		m_GameFigureController = new GameFigureController();
+		m_CollisionDetectorController = new CollisionDetectorController();
 		m_GameColorIds = gameColorIds;
 	}
 
 	GameFieldController::~GameFieldController()
 	{
+		delete m_CollisionDetectorController;
 		delete m_GameFieldModel;
 		delete m_InvaderController;
 		delete m_GameColorIds;
@@ -55,6 +58,14 @@ namespace Controller
 		std::vector<Invader*>* invaderVector = &m_GameFieldModel->getInvaderVector();
 		std::vector<Bullet*>* bulletVector = &m_GameFieldModel->getBulletVector();
 
+		// Compute Collisions
+		bool gameOver = m_CollisionDetectorController->computeCollisionOfGameFigure(&m_GameFieldModel->getInvaderVector(), &m_GameFieldModel->getShieldVector(), &m_GameFieldModel->getBulletVector(), &m_GameFieldModel->getPlayer());
+		
+		if (gameOver)
+		{
+			this->initializeGameField();
+		}
+
 		// Update according to direction vector
 		for (std::vector<Invader*>::iterator iterator = invaderVector->begin(); iterator != invaderVector->end(); ++iterator)
 		{
@@ -65,13 +76,24 @@ namespace Controller
 			*invaderPosition += *invaderDirection;
 		}
 
-		for (std::vector<Bullet*>::iterator iterator = bulletVector->begin(); iterator != bulletVector->end(); ++iterator)
+		for (int bulletCounter = 0; bulletCounter < bulletVector->size(); bulletCounter++)
 		{
-			Bullet* bullet = *iterator;
+			Bullet* bullet = (*bulletVector)[bulletCounter];
 			Vector2D* bulletDirection = &bullet->getDirection();
 			Vector2D* bulletPosition = &bullet->getPosition();
 
-			*bulletPosition += *bulletDirection;
+			// Bullet out of bounds
+			if (bulletPosition->getY() - 1 < 0 || bulletPosition->getY() + 1 > GAMEMATRIXHEIGTH)
+			{
+				bulletVector->erase(bulletVector->begin() + bulletCounter);
+				delete bullet;
+
+				bulletCounter--;
+			} 
+			else
+			{
+				*bulletPosition += *bulletDirection;
+			}
 		}
 	}
 

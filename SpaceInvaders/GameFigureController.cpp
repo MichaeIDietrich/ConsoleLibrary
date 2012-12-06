@@ -7,6 +7,7 @@ using namespace Model;
 
 namespace Controller
 {
+	/*
 	void GameFigureController::moveGameFigureToMatrixAccordingToItsPosition(GameFigure* gameFigure, GameMatrix* gameMatrix, Vector2D* oldPosition)
 	{
 		Vector2D* currentGameFigurePosition = &gameFigure->getPosition();
@@ -15,13 +16,14 @@ namespace Controller
 		int currentX = currentGameFigurePosition->getX();
 		int currentY = currentGameFigurePosition->getY();
 
-		int oldX = oldGameFigurePosition->getX();
+		//int oldX = oldGameFigurePosition->getX();
 		int oldY = oldGameFigurePosition->getY();
 
-		gameMatrix->setGameFigure(gameFigure, currentX, currentY);
+		//gameMatrix->setGameFigure(gameFigure, currentX, currentY);
 
 		// clean up
-		gameMatrix->setGameFigure(nullptr, oldX, oldY);
-		delete oldPosition;
+		//gameMatrix->setGameFigure(nullptr, oldX, oldY);
+		//delete oldPosition;
 	}
+	*/
 }

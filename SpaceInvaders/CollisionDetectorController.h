@@ -4,6 +4,10 @@
 #define COLLISIONDETECTORCONTROLLER_H
 
 #include "GameFigure.h"
+#include "Invader.h"
+#include "Bullet.h"
+#include "Player.h"
+#include "Shield.h"
 
 using namespace Model;
 
@@ -12,7 +16,7 @@ namespace Controller
 	class CollisionDetectorController
 	{
 	public:
-		void computeCollisionOfGameFigure(GameFigure* gameFigure);
+		bool computeCollisionOfGameFigure(std::vector<Invader*>* invaderVector, std::vector<Shield*>* shieldVector, std::vector<Bullet*>* bulletVector, Player* player);
 	};
 }
 
