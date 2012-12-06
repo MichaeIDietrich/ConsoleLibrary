@@ -2,12 +2,13 @@
 
 #ifndef GAMEFIELDCONTROLLER_H
 #define GAMEFIELDCONTROLLER_H
-#endif
 
 #include "InvaderController.h"
 #include "GameFigureController.h"
+#include "CollisionDetectorController.h"
 
 #include "GameField.h"
+#include <vector>
 
 using namespace Model;
 
@@ -19,6 +20,8 @@ namespace Controller
 		GameField* m_GameFieldModel;
 		InvaderController* m_InvaderController;
 		GameFigureController* m_GameFigureController;
+		CollisionDetectorController* m_CollisionDetectorController;
+		std::vector<COLOR_ID>* m_GameColorIds;
 	public:
 		const static int GAMEMATRIXWIDTH = 50;
 		const static int GAMEMATRIXHEIGTH = 38;
@@ -32,7 +35,7 @@ namespace Controller
 		const static int SHIELDWIDTH = 4;
 		const static int SHIELDCOUNT = 5;
 
-		GameFieldController();
+		GameFieldController(std::vector<COLOR_ID>* gameColorIds);
 		~GameFieldController();
 		
 		// Setter
@@ -45,3 +48,5 @@ namespace Controller
 		void shootBullet(GameFigure* gameFigure);
 	};
 }
+
+#endif

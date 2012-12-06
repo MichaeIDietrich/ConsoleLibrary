@@ -141,11 +141,12 @@ private:
     vector<Block>* blocks;
     Ball ball;
     Paddle paddle;
-    int score;
     void setBlocks(int count);
     int blockCount;
+    int block_color;
 
 public:
+    int score;
     bool running;
     Breakout(int height, int width, Console* console);
     ~Breakout();

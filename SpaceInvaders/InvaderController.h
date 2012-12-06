@@ -2,9 +2,9 @@
 
 #ifndef INVADERCONTROLLER_H
 #define INVADERCONTROLLER_H
-#endif
 
 #include "Invader.h"
+#include "../ConsoleLibrary/Console.h"
 #include <vector>
 using namespace std;
 
@@ -20,6 +20,8 @@ namespace Controller
 		static const int INVADEROFFSETY = 3;
 		static const int INVADERPADDING = 3;
 		static const int INVADERMAXPERROW = 10;
-		std::vector<Invader*>* getDefaultInvaderVector();
+		std::vector<Invader*>* getDefaultInvaderVector(std::vector<COLOR_ID>* gameColorIds);
 	};
 }
+
+#endif

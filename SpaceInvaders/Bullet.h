@@ -2,7 +2,6 @@
 
 #ifndef BULLET_H
 #define BULLET_H
-#endif
 
 #include "GameFigure.h"
 
@@ -24,3 +23,5 @@ namespace Model
 		int isPolymorphic() { return 1; }; 
 	};
 }
+
+#endif

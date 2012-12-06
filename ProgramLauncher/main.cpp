@@ -65,14 +65,14 @@ int main(int argc, char* argv[])
 
             if (index != string::npos)
             {
-                menu->addItem(copyString(line.substr(0, index).c_str()), 20, 15 + i++ * 4, defaultColor);
+                menu->addItem(copyString(line.substr(0, index).c_str()), 20, 15 + i++ * 3, defaultColor);
                 programPaths.push_back(new string(line.substr(index + 1)));
             }
         }
 
         manifestFile.close();
 
-        menu->addItem("Exit", 20, 15 + menu->getLength() * 4, defaultColor);
+        menu->addItem("Exit", 20, 15 + menu->getLength() * 3, defaultColor);
         menu->select(0);
 
         console->registerKeyEvent(&keyFunction);

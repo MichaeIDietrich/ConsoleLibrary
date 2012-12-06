@@ -2,7 +2,6 @@
 
 #ifndef SHIELD_H
 #define SHIELD_H
-#endif
 
 #include "GameFigure.h"
 
@@ -16,3 +15,5 @@ namespace Model
 		int isPolymorphic() { return 4; }; 
 	};
 }
+
+#endif

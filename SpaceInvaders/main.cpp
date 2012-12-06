@@ -15,6 +15,7 @@
 #include "PlayerController.h"
 
 #include <stdlib.h>
+#include <vector>
 
 #define WIDTH 50
 #define HEIGHT 40
@@ -29,6 +30,13 @@ GameField* gameFieldModel;
 PlayerController* playerController;
 GameFieldController* gameFieldController;
 
+// 0 = PLAYERCOLOR
+// 1 = SHIELDCOLOR
+// 2 = BULLETCOLOR
+// 3 = HEAVYINVADERCOLOR
+// 4 = LIGHTINVADERCOLOR
+std::vector<COLOR_ID>* gameColorIds;
+
 int timerInterval = 200;
 
 // Defining Prototypes
@@ -41,14 +49,24 @@ void renderGameField();
 int main(int argc, char* argv[])
 {
 	console = new Console("Space Invaders", WIDTH, HEIGHT, WHITE, BLACK);
+	gameColorIds = new std::vector<COLOR_ID>(5);
+
+	(*gameColorIds)[0] = console->createColor(CYAN, BLACK);
+	(*gameColorIds)[1] = console->createColor(BLUE, MAGENTA);
+	(*gameColorIds)[2] = console->createColor(WHITE, BLACK);
+	(*gameColorIds)[3] = console->createColor(RED, BLACK);
+	(*gameColorIds)[4] = console->createColor(GREEN, BLACK);
 
 	// Initialize Controller
-	gameFieldController = new GameFieldController();
+	gameFieldController = new GameFieldController(gameColorIds);
 	playerController = new PlayerController();
+
+
 
 	// Initialize Model
 	gameFieldModel = new GameField(GameFieldController::GAMEMATRIXWIDTH, GameFieldController::GAMEMATRIXHEIGTH);
 	gameFieldController->setGameFieldModel(gameFieldModel);
+
 	gameFieldController->initializeGameField();
 
 	console->registerTimerEvent(&timerRoutine, gameFieldModel->getSpeed());
@@ -92,9 +110,12 @@ void timerRoutine()
 
 inline void renderGameFigure(GameFigure* gameFigure)
 {
-	Vector2D* position = &gameFigure->getPosition();
-	COLOR_ID gameFigureColor = console->createColor(gameFigure->getCharColor(), gameFigure->getBackgroundColor());
-	console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+	if (gameFigure != nullptr)
+	{
+		Vector2D* position = &gameFigure->getPosition();
+		COLOR_ID gameFigureColor = gameFigure->getColor();
+		console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+	}
 }
 
 inline void updateGameField()

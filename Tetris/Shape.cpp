@@ -71,10 +71,10 @@ Shape::Shape(Matrix* matrix, int speed, int type)
         break;
 
     case 6:
-        blocks->push_back(Point(0, 0)); //
-        blocks->push_back(Point(0, 0)); //  *
-        blocks->push_back(Point(0, 0)); // *°*
-        blocks->push_back(Point(0, 0)); //
+        blocks->push_back(Point(1, 0)); //
+        blocks->push_back(Point(0, 1)); //  *
+        blocks->push_back(Point(1, 1)); // *°*
+        blocks->push_back(Point(2, 1)); //
         center = Point(1, 1);
         x = matrix->width / 2 - 1;
         break;

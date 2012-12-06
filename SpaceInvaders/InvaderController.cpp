@@ -10,7 +10,7 @@ using namespace Model;
 
 namespace Controller
 {
-	std::vector<Invader*>* InvaderController::getDefaultInvaderVector()
+	std::vector<Invader*>* InvaderController::getDefaultInvaderVector(std::vector<COLOR_ID>* gameColorIds)
 	{
 		vector<Invader*>* invaderVector = new vector<Invader*>(INVADERARRAYLENGTH);
 
@@ -34,11 +34,11 @@ namespace Controller
 			
 			if (y == INVADEROFFSETY)
 			{
-				tempInvader = new Invader(position, direction, 2); 
-				tempInvader->GameFigure::setCharColor(RED);
+				tempInvader = new Invader(position, direction, 2);
+				tempInvader->setColor((*gameColorIds)[3]);
 			} else {
 				tempInvader = new Invader(position, direction, 1); 
-				tempInvader->setCharColor(GREEN);
+				tempInvader->setColor((*gameColorIds)[4]);
 			}
 
 			(*invaderVector)[invaderCounter] = tempInvader;

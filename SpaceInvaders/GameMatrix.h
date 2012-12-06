@@ -2,7 +2,6 @@
 
 #ifndef GAMEMATRIX_H
 #define GAMEMATRIX_H
-#endif
 
 #include "GameFigure.h"
 
@@ -35,3 +34,5 @@ namespace Model
 		void setGameFigure(GameFigure* gameFigure, int x, int y);
 	};
 }
+
+#endif
