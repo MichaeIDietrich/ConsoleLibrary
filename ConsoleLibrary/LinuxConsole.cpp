@@ -8,18 +8,14 @@ Console::Console(const char* title, int width, int height, Colors clearForegroun
     colors = 1;
     initscr();
     
-    //resizeterm(width, height);
-    //resize_term(width, height);
     noecho();
     curs_set(0);
     keypad(stdscr, TRUE);
-    //raw();
-    //nonl();
     start_color();
     
     COLOR_ID id = this->createColor(clearForeground, clearBackground);
-    
-    bkgd(COLOR_PAIR(id));
+
+    setBgColor(id);
     
     setTitle(title);
 }

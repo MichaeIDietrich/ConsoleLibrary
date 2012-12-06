@@ -3,6 +3,9 @@
 #include "../ConsoleLibrary/Menu.h"
 #include "Breakout.h"
 
+#include <fstream>
+#include <stdlib.h>
+
 #define WIDTH 50
 #define HEIGHT 50
 
@@ -23,8 +26,14 @@ int pauseColor;
 States state = RUN;
 Menu* menu;
 
+
+// DEBUG
+//ofstream logFile;
+
 int main(int argc, char **argv) {
     srand ( time_t(NULL) );
+
+    //logFile.open("breakout.log");
 
     console = new Console("Breakout", WIDTH, HEIGHT, WHITE, BLACK);
 
@@ -40,6 +49,8 @@ int main(int argc, char **argv) {
 
     console->registerKeyEvent(&keyFunction);
     console->run();
+
+    //logFile.close();
     
     delete console;
     delete breakout;
