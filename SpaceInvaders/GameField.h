@@ -2,7 +2,6 @@
 
 #ifndef GAMEFIELD_H
 #define GAMEFIELD_H
-#endif
 
 #include "GameMatrix.h"
 #include "Invader.h"
@@ -68,3 +67,5 @@ namespace Model
 		void setPlayer(Player* player);
 	};
 }
+
+#endif

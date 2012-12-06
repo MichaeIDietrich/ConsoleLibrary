@@ -2,7 +2,6 @@
 
 #ifndef PLAYERCONTROLLER_H
 #define PLAYERCONTROLLER_H
-#endif
 
 #include "GameFigureController.h"
 
@@ -22,3 +21,5 @@ namespace Controller
 		void movePlayer(Player* player, GameFigureDirection direction);
 	};
 }
+
+#endif

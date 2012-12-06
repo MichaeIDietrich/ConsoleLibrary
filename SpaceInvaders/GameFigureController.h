@@ -2,7 +2,6 @@
 
 #ifndef GAMEFIGURECONTROLLER_H
 #define GAMEFIGURECONTROLLER_H
-#endif
 
 #include "GameFigure.h"
 #include "GameMatrix.h"
@@ -17,3 +16,5 @@ namespace Controller
 		void moveGameFigureToMatrixAccordingToItsPosition(GameFigure* gameFigure, GameMatrix* gameMatrix, Vector2D* oldPosition);
 	};
 }
+
+#endif

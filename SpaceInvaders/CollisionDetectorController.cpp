@@ -7,5 +7,8 @@ using namespace Model;
 
 namespace Controller
 {
+	void CollisionDetectorController::computeCollisionOfGameFigure(GameFigure* gameFigure)
+	{
 
+	}
 }

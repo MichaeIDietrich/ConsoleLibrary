@@ -2,7 +2,6 @@
 
 #ifndef PLAYER_H
 #define PLAYER_H
-#endif
 
 #include "GameFigure.h"
 
@@ -24,3 +23,5 @@ namespace Model
 		int isPolymorphic() { return 2; }; 
 	};
 }
+
+#endif

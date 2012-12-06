@@ -2,7 +2,6 @@
 
 #ifndef VECTOR2D_H
 #define VECTOR2D_H
-#endif
 
 namespace Model
 {
@@ -40,3 +39,5 @@ namespace Model
 		Vector2D& operator/= (float scalar);
 	};
 }
+
+#endif

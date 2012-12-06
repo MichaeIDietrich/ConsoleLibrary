@@ -2,7 +2,6 @@
 
 #ifndef INVADER_H
 #define INVADER_H
-#endif
 
 #include "GameFigure.h"
 
@@ -23,3 +22,5 @@ namespace Model
 		int isPolymorphic() { return 3; };  
 	};
 }
+
+#endif

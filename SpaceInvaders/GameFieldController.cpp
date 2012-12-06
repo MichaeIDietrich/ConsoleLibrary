@@ -1,25 +1,29 @@
 #include "InvaderController.h"
 #include "GameFieldController.h"
 #include "GameFigureController.h"
+#include "Configurator.h"
 
 #include "GameField.h"
 #include "Invader.h"
 #include "GameFigure.h"
+#include "../ConsoleLibrary/Console.h"
 
 using namespace Model;
 
 namespace Controller
 {
-	GameFieldController::GameFieldController()
+	GameFieldController::GameFieldController(std::vector<COLOR_ID>* gameColorIds)
 	{
 		m_InvaderController = new InvaderController();
 		m_GameFigureController = new GameFigureController();
+		m_GameColorIds = gameColorIds;
 	}
 
 	GameFieldController::~GameFieldController()
 	{
 		delete m_GameFieldModel;
 		delete m_InvaderController;
+		delete m_GameColorIds;
 	}
 	
 	void GameFieldController::setGameFieldModel(GameField* gameField)
@@ -30,7 +34,7 @@ namespace Controller
 	void GameFieldController::initializeGameField()
 	{
 		// Invader Initialisation
-		std::vector<Invader*>* invaderVector = m_InvaderController->getDefaultInvaderVector();
+		std::vector<Invader*>* invaderVector = m_InvaderController->getDefaultInvaderVector(m_GameColorIds);
 
 		m_GameFieldModel->setInvaderVector(invaderVector);
 
@@ -42,7 +46,7 @@ namespace Controller
 		// Player Initialisation
 		Vector2D* positionPlayer = new Vector2D(PLAYERPOSITIONX, PLAYERPOSITIONY);
 		Player* player = new Player(positionPlayer);
-		player->setCharColor(CYAN);
+		player->setColor((*m_GameColorIds)[0]);
 
 		m_GameFieldModel->setPlayer(player);
 	}
@@ -89,8 +93,7 @@ namespace Controller
 
 			Vector2D* position = new Vector2D(x, SHIELDPOSITIONY);
 			Shield* tempShield = new Shield(position);
-			tempShield->setCharColor(charColor);
-			tempShield->setBackgroundColor(backgroundColor);
+			tempShield->setColor((*m_GameColorIds)[1]);
 			(*shieldVector)[shieldCounter] = tempShield;
 
 			if (shieldCounter % SHIELDWIDTH == SHIELDWIDTH - 1)
@@ -113,19 +116,30 @@ namespace Controller
 		Invader* currentInvader = dynamic_cast<Model::Invader*>(gameFigure);
 		Player* currentPlayer = dynamic_cast<Model::Player*>(gameFigure);
 
+		Colors charColor = WHITE;
+		Colors backgroundColor = BLACK;
+
+		Bullet* bullet = nullptr;
+
 		if (currentInvader != nullptr)
 		{
 			Vector2D* invaderPosition = &gameFigure->getPosition();
 			Vector2D* bulletPosition = new Vector2D(invaderPosition->getX(), invaderPosition->getY() + 1);
 			Vector2D* bulletDirection = new Vector2D(0, 1);
-			bulletVector->push_back(new Bullet(bulletPosition, bulletDirection, gameFigure));
+			bullet = new Bullet(bulletPosition, bulletDirection, gameFigure);
 		}
 		else if (currentPlayer != nullptr)
 		{
 			Vector2D* playerPosition = &gameFigure->getPosition();
 			Vector2D* bulletPosition = new Vector2D(playerPosition->getX(), playerPosition->getY() - 1);
 			Vector2D* bulletDirection = new Vector2D(0, -1);
-			bulletVector->push_back(new Bullet(bulletPosition, bulletDirection, gameFigure));
+			bullet = new Bullet(bulletPosition, bulletDirection, gameFigure);
+		}
+
+		if (bullet != nullptr)
+		{
+			bullet->setColor((*m_GameColorIds)[2]);
+			bulletVector->push_back(bullet);
 		}
 	}
 }

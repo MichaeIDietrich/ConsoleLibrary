@@ -2,7 +2,6 @@
 
 #ifndef GAMEFIGURE_H
 #define GAMEFIGURE_H
-#endif
 
 #include "../ConsoleLibrary/Console.h"
 
@@ -17,8 +16,7 @@ namespace Model
 	protected:
 		Vector2D* m_Position;
 		Vector2D* m_Direction;
-		Colors m_CharColor;
-		Colors m_BackgroundColor;
+		COLOR_ID m_Color;
 
 		char m_Character;
 	public:
@@ -29,15 +27,15 @@ namespace Model
 		Vector2D& getPosition();
 		Vector2D& getDirection();
 		char getChar();
-		Colors getCharColor();
-		Colors getBackgroundColor();
+		COLOR_ID getColor();
 
 		void setPosition(Vector2D* position);
 		void setDirection(Vector2D* direction);
 		void setChar(char character);
-		void setCharColor(Colors characterColor);
-		void setBackgroundColor(Colors backgroundColor);
+		void setColor(COLOR_ID characterColor);
 
 		virtual int isPolymorphic() = 0;
 	};
 }
+
+#endif
