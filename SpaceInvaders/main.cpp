@@ -37,7 +37,7 @@ GameFieldController* gameFieldController;
 // 4 = LIGHTINVADERCOLOR
 std::vector<COLOR_ID>* gameColorIds;
 
-int timerInterval = 100;
+int timerInterval = 120;
 
 // Defining Prototypes
 void keyResponder(WORD keyCode);
@@ -112,7 +112,7 @@ inline void renderGameFigure(GameFigure* gameFigure)
 	{
 		Vector2D* position = &gameFigure->getPosition();
 		COLOR_ID gameFigureColor = gameFigure->getColor();
-		console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+		console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor);
 	}
 }
 

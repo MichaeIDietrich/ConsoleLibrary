@@ -40,7 +40,7 @@ namespace Controller
 
 		const static int PLAYERPOSITIONY = GAMEMATRIXHEIGTH - 1;
 		const static int PLAYERPOSITIONX = 14;
-		const static long PLAYERBULLETCOOLDOWN = 200;
+		const static long PLAYERBULLETCOOLDOWN = 300;
 
 		const static int SHIELDPOSITIONY = 33;
 		const static int SHIELDMAXHEIGHT = 3;
@@ -50,7 +50,7 @@ namespace Controller
 		const static int SHIELDCOUNT = 5;
 
 		const static int INVADERMAXSHOOT = 4;
-		const static long INVADERBULLETCOOLDOWN = 300;
+		const static long INVADERBULLETCOOLDOWN = 400;
 
 		GameFieldController(std::vector<COLOR_ID>* gameColorIds);
 		~GameFieldController();

@@ -107,6 +107,7 @@ namespace Controller
 			}
 
 			delete m_IntDistribution;
+			m_IntDistribution = nullptr;
 		}
 
 		// Update according to direction vector
