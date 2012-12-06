@@ -15,7 +15,6 @@ set(HEADERS
   Snake.h
   ../ConsoleLibrary/Menu.h
   ../ConsoleLibrary/Console.h
-  ../ConsoleLibrary/LinuxConsole.h
 )
 
 add_executable(Snake ${SOURCE} ${HEADERS})
