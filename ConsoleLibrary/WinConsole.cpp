@@ -165,9 +165,14 @@ void Console::setTile(int x, int y, char c, COLOR_ID colorId)
 void Console::setTile(int x, int y, char c)
 {
     int index = y * bufferSize.X + x;
+    int max = bufferSize.X * bufferSize.Y;
 
-    buffer[index].Char.AsciiChar = c;
-    buffer[index].Attributes = color;
+    if (index >= 0 && index < max)
+    {
+        buffer[index].Char.AsciiChar = c;
+        buffer[index].Attributes = color;
+    }
+
 }
 
 void Console::redraw()
@@ -187,7 +192,7 @@ void Console::printText(int x, int y, const char* text)
     int max = bufferSize.X * bufferSize.Y;
     char* c = (char*) text;
 
-    while (*c != 0 && index < max)
+    while (*c != 0 && index >= 0 && index < max)
     {
         buffer[index].Char.AsciiChar = *c;
         buffer[index].Attributes = color;

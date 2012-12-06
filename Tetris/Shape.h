@@ -31,6 +31,11 @@ struct Matrix
         this->width = width;
         this->height = height;
 
+        reset();
+    }
+
+    void reset()
+    {
         for (int y = 0; y < height; y++)
         {
             field.push_back(vector<bool>());
@@ -57,12 +62,13 @@ public:
     vector<Point>* blocks;
     Point center;
 
-    Shape(Matrix* matrix, int speed);
-    bool checkForCollision(vector<Point>* blocks, int x, int y);
+    Shape(Matrix* matrix, int speed, int type = -1);
+    bool checkForCollision(int x, int y, vector<Point>* blocks = nullptr);
     bool update();
     bool rotateLeft();
     bool rotateRight();
     bool moveLeft();
     bool moveRight();
+    bool moveDown();
     ~Shape();
 };
