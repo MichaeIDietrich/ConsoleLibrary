@@ -11,6 +11,9 @@
 #include "GameFigure.h"
 #include "../ConsoleLibrary/Console.h"
 
+#include <ctime>
+#include <random>
+
 using namespace Model;
 
 namespace Controller
@@ -21,6 +24,9 @@ namespace Controller
 		m_GameFigureController = new GameFigureController();
 		m_CollisionDetectorController = new CollisionDetectorController();
 		m_GameColorIds = gameColorIds;
+		m_RandomDevice = new std::random_device();
+		m_RandomGenerator = new std::mt19937((*m_RandomDevice)());
+		m_IntDistribution = nullptr;
 	}
 
 	GameFieldController::~GameFieldController()
@@ -29,6 +35,10 @@ namespace Controller
 		delete m_GameFieldModel;
 		delete m_InvaderController;
 		delete m_GameColorIds;
+
+		delete m_RandomDevice;
+		delete m_RandomGenerator;
+		delete m_IntDistribution;
 	}
 	
 	void GameFieldController::setGameFieldModel(GameField* gameField)
@@ -74,10 +84,22 @@ namespace Controller
 		// restart when no invaders are apparent
 		if (invaderVector->size() == 0)
 		{
-  			this->eraseAllCurrentBullets();
+   			this->eraseAllCurrentBullets();
         	this->initializeGameField();
 			return;
 		}
+
+		// Let some random invaders shoot some bullets
+		int invaderCount = invaderVector->size();
+		m_IntDistribution = new std::uniform_int_distribution<>(0, invaderCount - 1);
+
+		for (int invaderShoot = 0; invaderShoot < INVADERMAXSHOOT; invaderShoot++)
+		{
+			int randomShoot = (*m_IntDistribution)(*m_RandomGenerator);
+			this->shootBullet((*invaderVector)[randomShoot]);
+		}
+
+		delete m_IntDistribution;
 
 		// Update according to direction vector
 		for (std::vector<Invader*>::iterator iterator = invaderVector->begin(); iterator != invaderVector->end(); ++iterator)
@@ -92,8 +114,9 @@ namespace Controller
 				int positionDown = invaderPosition->getY() + 1;
 
 				// Game Over
-				if (positionDown > GAMEMATRIXHEIGTH - 2)
+				if (positionDown > SHIELDPOSITIONY - 1)
 				{
+					this->eraseAllCurrentBullets();
 					this->initializeGameField();
 					return;
 				}

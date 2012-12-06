@@ -12,6 +12,8 @@
 #include "Bullet.h"
 #include "GameFigure.h"
 #include <vector>
+#include <ctime>
+#include <random>
 
 #include "../ConsoleLibrary/Console.h"
 
@@ -27,6 +29,9 @@ namespace Controller
 		GameFigureController* m_GameFigureController;
 		CollisionDetectorController* m_CollisionDetectorController;
 		std::vector<COLOR_ID>* m_GameColorIds;
+		std::random_device* m_RandomDevice;
+		std::mt19937* m_RandomGenerator;
+		std::uniform_int_distribution<>* m_IntDistribution;
 	public:
 		const static int GAMEMATRIXWIDTH = 50;
 		const static int GAMEMATRIXHEIGTH = 38;
@@ -39,6 +44,8 @@ namespace Controller
 		const static int SHIELDPADDINGX = 3;
 		const static int SHIELDWIDTH = 4;
 		const static int SHIELDCOUNT = 5;
+
+		const static int INVADERMAXSHOOT = 5;
 
 		GameFieldController(std::vector<COLOR_ID>* gameColorIds);
 		~GameFieldController();
