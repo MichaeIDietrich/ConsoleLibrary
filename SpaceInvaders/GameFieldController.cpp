@@ -64,6 +64,7 @@ namespace Controller
 		if (gameOver)
 		{
 			this->initializeGameField();
+			return;
 		}
 
 		// Update according to direction vector
@@ -72,6 +73,32 @@ namespace Controller
 			Invader* invader = *iterator;
 			Vector2D* invaderDirection = &invader->getDirection();
 			Vector2D* invaderPosition = &invader->getPosition();
+
+			// Invader out of bounds
+			if (invaderPosition->getX() - 1 < 0 || invaderPosition->getX() + 1 > GAMEMATRIXWIDTH - 1)
+			{
+				int positionDown = invaderPosition->getY() + 1;
+
+				// Game Over
+				if (positionDown > GAMEMATRIXHEIGTH - 2)
+				{
+					this->initializeGameField();
+					return;
+				}
+
+				invaderPosition->setY(positionDown);
+				
+				int directionSidewards = invaderDirection->getX();
+
+				if (directionSidewards > 0)
+				{
+					invaderDirection->setX(-1);
+				}
+				else
+				{
+					invaderDirection->setX(1);
+				}
+			}
 
 			*invaderPosition += *invaderDirection;
 		}
