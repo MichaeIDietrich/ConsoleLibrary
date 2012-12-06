@@ -72,6 +72,9 @@
     <ClCompile Include="PlayerController.cpp">
       <Filter>Quelldateien\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="GameFigureController.cpp">
+      <Filter>Quelldateien\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ConsoleLibrary\WinConsole.h">
@@ -117,6 +120,9 @@
       <Filter>Headerdateien\Controller</Filter>
     </ClInclude>
     <ClInclude Include="CollisionDetectorController.h">
+      <Filter>Headerdateien\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="GameFigureController.h">
       <Filter>Headerdateien\Controller</Filter>
     </ClInclude>
   </ItemGroup>

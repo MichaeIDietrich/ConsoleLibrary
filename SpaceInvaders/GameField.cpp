@@ -13,10 +13,10 @@ using namespace Model;
 
 namespace Model
 {
-	GameField::GameField()
+	GameField::GameField(int gameMatrixWidth, int gameMatrixHeigth)
 	{
 		m_DefaultScore = 0;
-		m_DefaultSpeed = 200; 
+		m_DefaultSpeed = 200;
 
 		m_Score = 0;
 		m_Speed = m_DefaultSpeed;
@@ -24,6 +24,14 @@ namespace Model
 		m_ScorePosition = new Vector2D(0, 40);
 		m_GameMatrixPosition = new Vector2D(0, 0);
 		m_LivesPosition = new Vector2D(40, 40);
+
+		m_InvaderVector = new std::vector<Invader*>();
+		m_ShieldVector = new std::vector<Shield*>();
+		m_BulletVector = new std::vector<Bullet*>();
+
+		m_Player = nullptr;
+
+		// m_GameMatrix = new GameMatrix(gameMatrixWidth, gameMatrixHeigth, gameMatrixHeigth);
 	}
 
 	GameField::~GameField()
@@ -31,23 +39,29 @@ namespace Model
 		delete m_ScorePosition;
 		delete m_GameMatrixPosition;
 		delete m_LivesPosition;
-
-		delete m_InvaderArray;
-		delete m_ShieldArray;
-
-
-		delete m_BulletVector;
 		
+		for (std::vector<Invader*>::iterator iterator = m_InvaderVector->begin(); iterator != m_InvaderVector->end(); ++iterator)
+		{
+			delete *iterator;
+		}
+
+		for (std::vector<Shield*>::iterator iterator = m_ShieldVector->begin(); iterator != m_ShieldVector->end(); ++iterator)
+		{
+			delete *iterator;
+		}
+
 		for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
 		{
 			delete *iterator;
 		}
 
+		delete m_ShieldVector;
+		delete m_InvaderVector;
 		delete m_BulletVector;
 
 		delete m_Player;
 
-		delete m_GameMatrix;
+		// delete m_GameMatrix;
 	}
 
 	void GameField::resetToDefault()
@@ -78,14 +92,14 @@ namespace Model
 		return *m_GameMatrixPosition;
 	}
 
-	Invader* GameField::getInvaderArray()
+	std::vector<Invader*>& GameField::getInvaderVector()
 	{
-		return m_InvaderArray;
+		return *m_InvaderVector;
 	}
 
-	Shield* GameField::getShieldArray()
+	std::vector<Shield*>& GameField::getShieldVector()
 	{
-		return m_ShieldArray;
+		return *m_ShieldVector;
 	}
 
 	std::vector<Bullet*>& GameField::getBulletVector()
@@ -98,10 +112,12 @@ namespace Model
 		return *m_Player;
 	}
 
+	/*
 	GameMatrix& GameField::getGameMatrix()
 	{
 		return *m_GameMatrix;
 	}
+	*/
 
 	// Setter
 
@@ -130,33 +146,58 @@ namespace Model
 		m_LivesPosition->setXY(x, y);
 	}
 
-	void GameField::setInvaderArray(Invader* invaderArray)
+	void GameField::setInvaderVector(std::vector<Invader*>*  invaderVector)
 	{
-		delete [] m_InvaderArray;
-		m_InvaderArray = invaderArray;
+		if (m_InvaderVector != nullptr)
+		{
+			for (std::vector<Invader*>::iterator iterator = m_InvaderVector->begin(); iterator != m_InvaderVector->end(); ++iterator)
+			{
+				delete *iterator;
+			}
+
+			delete m_InvaderVector;
+		}
+
+		m_InvaderVector = invaderVector;
 	}
 
-	void GameField::setShieldArray(Shield* shieldArray)
+	void GameField::setShieldVector(std::vector<Shield*>* shieldVector)
 	{
-		delete [] m_ShieldArray;
-		m_ShieldArray = shieldArray;
+		if (m_ShieldVector != nullptr)
+		{
+			for (std::vector<Shield*>::iterator iterator = m_ShieldVector->begin(); iterator != m_ShieldVector->end(); ++iterator)
+			{
+				delete *iterator;
+			}
+
+			delete m_ShieldVector;
+		}
+
+		m_ShieldVector = shieldVector;
 	}
 
 	void GameField::setBulletVector(std::vector<Bullet*>* bulletVector)
 	{
-		for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
+		if (m_BulletVector != nullptr)
 		{
-			delete *iterator;
-		}
+			for (std::vector<Bullet*>::iterator iterator = m_BulletVector->begin(); iterator != m_BulletVector->end(); ++iterator)
+			{
+				delete *iterator;
+			}
 
-		delete m_BulletVector;
+			delete m_BulletVector;
+		}
 
 		m_BulletVector = bulletVector;
 	}
 
 	void GameField::setPlayer(Player* player)
 	{
-		delete m_Player;
+		if (m_Player != nullptr)
+		{
+			delete m_Player;
+		}
+
 		m_Player = player;
 	}
 }

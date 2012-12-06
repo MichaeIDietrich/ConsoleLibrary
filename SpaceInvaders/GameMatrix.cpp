@@ -11,7 +11,7 @@ namespace Model
 		m_Height = heigth;
 		m_TotalLength = width * heigth;
 
-		m_GameFigureMatrix = new std::vector<GameFigure*>();
+		m_GameFigureMatrix = new std::vector<GameFigure*>(m_TotalLength);
 
 		for (int i = 0; i < m_TotalLength; i++)
 		{
@@ -41,7 +41,7 @@ namespace Model
 
 	GameFigure& GameMatrix::getGameFigure(int x, int y)
 	{
-		return *((*m_GameFigureMatrix)[x + (y * m_Height)]);
+		return *((*m_GameFigureMatrix)[x + (y * m_Width)]);
 	}
 
 	int GameMatrix::getHeigth()
@@ -54,14 +54,18 @@ namespace Model
 		return m_Width;
 	}
 
-	int GameMatrix::getPlayerZone()
-	{
-		return m_PlayerZone;
-	}
-
 	void GameMatrix::setGameFigure(GameFigure* gameFigure, int x, int y)
 	{
-		delete (*m_GameFigureMatrix)[x + (y * m_Height)];
-		(*m_GameFigureMatrix)[x + (y * m_Height)] = gameFigure;
+		if (gameFigure == nullptr)
+		{
+			(*m_GameFigureMatrix)[x + (y * m_Width)] = nullptr;
+		}
+
+		if ((*m_GameFigureMatrix)[x + (y * m_Width)] != nullptr)
+		{
+			delete (*m_GameFigureMatrix)[x + (y * m_Width)];
+		}
+
+		(*m_GameFigureMatrix)[x + (y * m_Width)] = gameFigure;
 	}
 }

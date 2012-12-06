@@ -4,7 +4,7 @@
 #define COLLISIONDETECTORCONTROLLER_H
 #endif
 
-namespace Model
+namespace Controller
 {
 	class CollisionDetectorController
 	{

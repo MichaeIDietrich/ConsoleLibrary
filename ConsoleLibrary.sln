@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProgramLauncher", "ProgramL
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpaceInvaders", "SpaceInvaders\SpaceInvaders.vcxproj", "{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tetris", "Tetris\Tetris.vcxproj", "{6A1C2FFA-266C-4C78-9719-17EF0FAE5F9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,10 @@ Global
 		{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}.Debug|Win32.Build.0 = Debug|Win32
 		{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}.Release|Win32.ActiveCfg = Release|Win32
 		{4EA345F4-C89A-4EDD-9B58-A4E94F19F212}.Release|Win32.Build.0 = Release|Win32
+		{6A1C2FFA-266C-4C78-9719-17EF0FAE5F9D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6A1C2FFA-266C-4C78-9719-17EF0FAE5F9D}.Debug|Win32.Build.0 = Debug|Win32
+		{6A1C2FFA-266C-4C78-9719-17EF0FAE5F9D}.Release|Win32.ActiveCfg = Release|Win32
+		{6A1C2FFA-266C-4C78-9719-17EF0FAE5F9D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

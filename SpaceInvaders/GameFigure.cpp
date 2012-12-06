@@ -1,3 +1,5 @@
+#include "../ConsoleLibrary/Console.h"
+
 #include "GameFigure.h"
 
 using namespace Model;
@@ -8,6 +10,8 @@ namespace Model
 	{
 		m_Position = new Vector2D();
 		m_Direction = new Vector2D();
+		m_CharColor = BLUE;
+		m_BackgroundColor = BLACK;
 		m_Character = '#';
 	}
 
@@ -16,6 +20,8 @@ namespace Model
 		m_Position = position;
 		m_Direction = direction;
 		m_Character = character;
+		m_CharColor = GREEN;
+		m_BackgroundColor = BLACK;
 	}
 
 	GameFigure::~GameFigure()
@@ -31,12 +37,22 @@ namespace Model
 
 	Vector2D& GameFigure::getDirection()
 	{
-		return *m_Position;
+		return *m_Direction;
 	}
 
 	char GameFigure::getChar()
 	{
 		return m_Character;
+	}
+
+	Colors GameFigure::getCharColor()
+	{
+		return m_CharColor;
+	}
+
+	Colors GameFigure::getBackgroundColor()
+	{
+		return m_BackgroundColor;
 	}
 
 	void GameFigure::setPosition(Vector2D* vector)
@@ -54,5 +70,15 @@ namespace Model
 	void GameFigure::setChar(char character)
 	{
 		m_Character = character;
+	}
+
+	void GameFigure::setCharColor(Colors characterColor)
+	{
+		m_CharColor = characterColor;
+	}
+
+	void GameFigure::setBackgroundColor(Colors backgroundColor)
+	{
+		m_BackgroundColor = backgroundColor;
 	}
 }
