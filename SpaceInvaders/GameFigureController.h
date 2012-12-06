@@ -13,7 +13,7 @@ namespace Controller
 	class GameFigureController
 	{
 	public:
-		void moveGameFigureToMatrixAccordingToItsPosition(GameFigure* gameFigure, GameMatrix* gameMatrix, Vector2D* oldPosition);
+		//void moveGameFigureToMatrixAccordingToItsPosition(GameMatrix* gameMatrix, Vector2D* oldPosition);
 	};
 }
 

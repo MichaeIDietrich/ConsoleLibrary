@@ -110,9 +110,12 @@ void timerRoutine()
 
 inline void renderGameFigure(GameFigure* gameFigure)
 {
-	Vector2D* position = &gameFigure->getPosition();
-	COLOR_ID gameFigureColor = gameFigure->getColor();
-	console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+	if (gameFigure != nullptr)
+	{
+		Vector2D* position = &gameFigure->getPosition();
+		COLOR_ID gameFigureColor = gameFigure->getColor();
+		console->setTile(position->getX(), position->getY(), gameFigure->getChar(), gameFigureColor); 
+	}
 }
 
 inline void updateGameField()

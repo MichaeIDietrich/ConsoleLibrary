@@ -5,6 +5,7 @@
 
 #include "InvaderController.h"
 #include "GameFigureController.h"
+#include "CollisionDetectorController.h"
 
 #include "GameField.h"
 #include <vector>
@@ -19,6 +20,7 @@ namespace Controller
 		GameField* m_GameFieldModel;
 		InvaderController* m_InvaderController;
 		GameFigureController* m_GameFigureController;
+		CollisionDetectorController* m_CollisionDetectorController;
 		std::vector<COLOR_ID>* m_GameColorIds;
 	public:
 		const static int GAMEMATRIXWIDTH = 50;
