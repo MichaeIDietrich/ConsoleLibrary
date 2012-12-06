@@ -1,7 +1,6 @@
 #include "../ConsoleLibrary/Console.h"
 
 #include "InvaderController.h"
-#include "Configurator.h"
 
 #include "Invader.h"
 #include "Vector2D.h"

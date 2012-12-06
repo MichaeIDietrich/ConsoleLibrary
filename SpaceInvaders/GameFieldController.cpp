@@ -1,7 +1,6 @@
 #include "InvaderController.h"
 #include "GameFieldController.h"
 #include "GameFigureController.h"
-#include "Configurator.h"
 
 #include "GameField.h"
 #include "Invader.h"

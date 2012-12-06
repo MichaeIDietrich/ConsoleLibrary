@@ -13,7 +13,6 @@
 
 #include "GameFieldController.h"
 #include "PlayerController.h"
-#include "Configurator.h"
 
 #include <stdlib.h>
 #include <vector>
