@@ -31,6 +31,8 @@ vector<string*> programPaths;
 Console* console;
 Menu* menu;
 
+COLOR_ID defaultColor;
+
 
 int main(int argc, char* argv[])
 {
@@ -47,7 +49,7 @@ int main(int argc, char* argv[])
     {
         console = new Console("Program Launcher", WIDTH, HEIGHT, WHITE, BLACK);
 
-        COLOR_ID itemColor = console->createColor(WHITE, BLACK);
+        COLOR_ID defaultColor = console->createColor(WHITE, BLACK);
         COLOR_ID selectedItemColor = console->createColor(YELLOW, RED);
 
         menu = new Menu(console, selectedItemColor);
@@ -63,14 +65,14 @@ int main(int argc, char* argv[])
 
             if (index != string::npos)
             {
-                menu->addItem(copyString(line.substr(0, index).c_str()), 20, 15 + i++ * 4, itemColor);
-                programPaths.insert(programPaths.begin(), new string(line.substr(index + 1)));
+                menu->addItem(copyString(line.substr(0, index).c_str()), 20, 15 + i++ * 3, defaultColor);
+                programPaths.push_back(new string(line.substr(index + 1)));
             }
         }
 
         manifestFile.close();
 
-        menu->addItem("Exit", 20, 15 + menu->getLength() * 4, itemColor);
+        menu->addItem("Exit", 20, 15 + menu->getLength() * 3, defaultColor);
         menu->select(0);
 
         console->registerKeyEvent(&keyFunction);
@@ -128,7 +130,7 @@ void timerFunction()
 {
     console->clearConsole();
 
-    console->printText(6, 4, "#    ##  #  # #  #  ## #  # #### ###");
+    console->printText(6, 4, "#    ##  #  # #  #  ## #  # #### ###", defaultColor);
     console->printText(6, 5, "#   #  # #  # ## # #   #  # #    #  #");
     console->printText(6, 6, "#   #### #  # ## # #   #### ###  ###");
     console->printText(6, 7, "#   #  # #  # # ## #   #  # #    # #");

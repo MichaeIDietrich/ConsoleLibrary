@@ -1,7 +1,7 @@
 #include "Shape.h"
 
 
-Shape::Shape(Matrix* matrix, int speed) 
+Shape::Shape(Matrix* matrix, int speed, int type) 
     : center(-1, -1)
 {
     this->matrix = matrix;
@@ -10,7 +10,7 @@ Shape::Shape(Matrix* matrix, int speed)
 
     blocks = new vector<Point>();
 
-    int type = rand() % 6;
+    type = type == -1 ? rand() % 7 : type;
     y = 0;
 
     switch (type)
@@ -71,10 +71,10 @@ Shape::Shape(Matrix* matrix, int speed)
         break;
 
     case 6:
-        blocks->push_back(Point(0, 0)); //
-        blocks->push_back(Point(0, 0)); //  *
-        blocks->push_back(Point(0, 0)); // *°*
-        blocks->push_back(Point(0, 0)); //
+        blocks->push_back(Point(1, 0)); //
+        blocks->push_back(Point(0, 1)); //  *
+        blocks->push_back(Point(1, 1)); // *°*
+        blocks->push_back(Point(2, 1)); //
         center = Point(1, 1);
         x = matrix->width / 2 - 1;
         break;
@@ -82,8 +82,13 @@ Shape::Shape(Matrix* matrix, int speed)
 }
 
 
-bool Shape::checkForCollision(vector<Point>* blocks, int x, int y)
+bool Shape::checkForCollision(int x, int y, vector<Point>* blocks)
 {
+    if (blocks == nullptr)
+    {
+        blocks = this->blocks;
+    }
+
     for (Point &point : *blocks)
     {
         if (x + point.x < 0 || x + point.x >= matrix->width ||  // left right collsion
@@ -105,7 +110,7 @@ bool Shape::update()
         moveCounter -= STEPS_TO_MOVE;
 
         // check for collision, if the shape moves downwards
-        if (checkForCollision(blocks, x, y + 1))
+        if (checkForCollision(x, y + 1))
         {
             // copy shape into matrix
             for (Point &point : *blocks)
@@ -150,7 +155,7 @@ bool Shape::rotateLeft()
         blocks->push_back(Point(x, -y));
     }
 
-    if (checkForCollision(blocks, x, y))
+    if (checkForCollision(x, y, blocks))
     {
         delete blocks;
         return false;
@@ -187,7 +192,7 @@ bool Shape::rotateRight()
         blocks->push_back(Point(x, -y));
     }
 
-    if (checkForCollision(blocks, x, y))
+    if (checkForCollision(x, y, blocks))
     {
         delete blocks;
         return false;
@@ -203,9 +208,10 @@ bool Shape::rotateRight()
 
 bool Shape::moveLeft()
 {
-    if (!checkForCollision(blocks, x - 1, y))
+    if (!checkForCollision(x - 1, y))
     {
         x--;
+
         return true;
     }
 
@@ -215,9 +221,23 @@ bool Shape::moveLeft()
 
 bool Shape::moveRight()
 {
-    if (!checkForCollision(blocks, x + 1, y))
+    if (!checkForCollision(x + 1, y))
     {
         x++;
+
+        return true;
+    }
+
+    return false;
+}
+
+
+bool Shape::moveDown()
+{
+    if (!checkForCollision(x, y + 1))
+    {
+        y++;
+        moveCounter = 0;
 
         return true;
     }

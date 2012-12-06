@@ -1,2 +1,5 @@
 Snake:"C:\Users\Michael\Documents\Visual Studio 2012\Projects\ConsoleLibrary\Debug\Snake.exe"
 Pong:"C:\Users\Michael\Documents\Visual Studio 2012\Projects\ConsoleLibrary\Debug\Pong.exe"
+Tetris:"C:\Users\Michael\Documents\Visual Studio 2012\Projects\ConsoleLibrary\Debug\Tetris.exe"
+Breakout:"C:\Users\Michael\Documents\Visual Studio 2012\Projects\ConsoleLibrary\Debug\Breakout.exe"
+Space Invaders:"C:\Users\Michael\Documents\Visual Studio 2012\Projects\ConsoleLibrary\Debug\SpaceInvaders.exe"

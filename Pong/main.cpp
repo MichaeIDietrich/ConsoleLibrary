@@ -160,7 +160,7 @@ inline void update()
         }
     }
 
-    if (lostCounter == 0)
+    else
     {
         if (++speedCounter == 20)
         {
@@ -193,6 +193,7 @@ inline void update()
                 ball->dirX = 0;
                 ball->dirY = 0;
                 ball->x = 0;
+                return;
             }
         }
 
@@ -213,6 +214,7 @@ inline void update()
                 ball->dirX = 0;
                 ball->dirY = 0;
                 ball->x = WIDTH - 1;
+                return;
             }
         }
 
@@ -233,6 +235,7 @@ inline void render()
     console->setTile(15, 1, 48 + botScore, scoreColor);
     console->setTile(WIDTH - 17, 1, 48 + playerScore, scoreColor);
 
+    //if (ball->getX() >= 0 && ball->getY() >= 0 && ball->getX() < WIDTH && ball->getY() < HEIGHT)
     console->setTile(ball->getX(), ball->getY(), 'o', ballColor);
 
     console->redraw();
