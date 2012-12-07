@@ -30,10 +30,10 @@ Menu* menu;
 Snake* snake;
 Point* food;
 
-int titleColor;
-int pauseColor;
-int foodColor;
-int snakeColor;
+COLOR_ID titleColor;
+COLOR_ID pauseColor;
+COLOR_ID foodColor;
+COLOR_ID snakeColor;
 
 // DEBUG
 ofstream logFile;
