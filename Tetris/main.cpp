@@ -6,6 +6,7 @@
 #include <vector>
 #include <time.h>
 #include <stdlib.h>
+#include <cstdio>
 
 
 #define WIDTH 50
@@ -15,6 +16,9 @@
 #define MATRIX_HEIGHT 20
 
 #define DEFAULT_SPEED 10
+#define SPEED_INCREASE_PER_LEVEL 2
+
+#define LINES_TO_INCREASE_LEVEL 10
 
 enum States { RUN, PAUSE };
 
@@ -22,12 +26,12 @@ enum States { RUN, PAUSE };
 void keyFunction(WORD keyCode);
 void timerFunction();
 
-void render();
+void initLevel();
 void checkForFullLines();
 void calcScore(int combinedLines);
 void createNewBrick();
-void renderNextBrick();
-void renderScore();
+void render();
+void renderPanel();
 
 
 Console* console;
@@ -40,14 +44,16 @@ COLOR_ID infoColor;
 COLOR_ID textColor;
 
 States state;
+
+int currentLevel;
 int currentSpeed;
 int score;
-int speedCounter;
+int deletedLines;
 
 
 int main(int argc, char* argv[])
 {
-    srand( time_t(NULL) );
+    srand( (unsigned int) time(NULL) );
 
     console = new Console("Tetris", WIDTH, HEIGHT, WHITE, BLACK);
     matrix = new Matrix(MATRIX_WIDTH, MATRIX_HEIGHT);
@@ -61,19 +67,29 @@ int main(int argc, char* argv[])
     console->registerKeyEvent(&keyFunction);
     console->registerTimerEvent(&timerFunction, 50);
 
-    currentSpeed = DEFAULT_SPEED;
-    speedCounter = 0;
-    score = 0;
-
-    // init current and next shape
-    createNewBrick();
-    createNewBrick();
+    initLevel();
 
     console->run();
 
     delete nextShape;
     delete matrix;
     delete console;
+}
+
+
+void initLevel()
+{
+    currentSpeed = DEFAULT_SPEED;
+    currentLevel = 1;
+
+    deletedLines = 0;
+    score = 0;
+
+    matrix->reset();
+
+    // init current and next shape
+    createNewBrick();
+    createNewBrick();
 }
 
 
@@ -125,19 +141,11 @@ void keyFunction(WORD keyCode)
 
 void timerFunction()
 {
-    // increase speed
-    if (++speedCounter > 400)
-    {
-        speedCounter = 0;
-        currentSpeed++;
-    }
-
     // is shape already placed on the matrix
     if (shape->checkForCollision(shape->x, shape->y))
     {
-        matrix->reset();
-        createNewBrick();
-        return;
+        delete shape;
+        initLevel();
     }
 
     // if the brick wasn't updated create a new one
@@ -189,18 +197,30 @@ void checkForFullLines()
             // do not ignore the next line
             y++;
         }
+        
+        // update score and level
         else if (combinedLineCounter > 0)
         {
+            deletedLines += combinedLineCounter;
             calcScore(combinedLineCounter);
             combinedLineCounter = 0;
         }
     }
 
+    // cgeck again, update score and level
     if (combinedLineCounter > 0)
     {
+        deletedLines += combinedLineCounter;
         calcScore(combinedLineCounter);
+        combinedLineCounter = 0;
     }
 
+    // every x removed lines increase the level
+    if (deletedLines >= currentLevel * LINES_TO_INCREASE_LEVEL)
+    {
+        currentLevel++;
+        currentSpeed += SPEED_INCREASE_PER_LEVEL;
+    }
 }
 
 
@@ -209,19 +229,19 @@ void calcScore(int combinedLines)
     switch (combinedLines)
     {
     case 1:
-        score += 100;
+        score += currentLevel * 40;
         break;
 
     case 2:
-        score += 400;
+        score += currentLevel * 100;
         break;
 
     case 3:
-        score += 800;
+        score += currentLevel * 300;
         break;
 
     case 4:
-        score += 1600;
+        score += currentLevel * 1200;
         break;
     }
 }
@@ -253,7 +273,6 @@ void render()
         }
 
 
-
         // brick matrix
         console->setColor(defaultColor);
         for (int y = 0; y < MATRIX_HEIGHT; y++)
@@ -280,9 +299,7 @@ void render()
             console->setTile(x + 1, y + 1, '+');
         }
 
-        renderNextBrick();
-
-        renderScore();
+        renderPanel();
     }
     else
     {
@@ -302,27 +319,30 @@ void createNewBrick()
 }
 
 
-void renderNextBrick()
+void renderPanel()
 {
     int rightPanel = WIDTH - (WIDTH / 2 - MATRIX_WIDTH);
 
+    // render next brick
     console->printText(rightPanel + 2, 2, "NEXT:", textColor);
 
     for (Point &point : *nextShape->blocks)
     {
         console->setTile(rightPanel + 2 + point.x, 4 + point.y, '#');
     }
-}
 
 
-void renderScore()
-{
-    int rightPanel = WIDTH - (WIDTH / 2 - MATRIX_WIDTH);
-
-    console->printText(rightPanel + 2, 10, "SCORE:", textColor);
+    // render score
+    console->printText(rightPanel + 2, 10, "SCORE:");
 
     char scoreString[20];
-    _itoa(score, scoreString, 19);
+    sprintf_s<20>(scoreString, "%d", score);
 
     console->printText(rightPanel + 2, 12, scoreString);
+
+
+    // render level
+    char levelString[20];
+    sprintf_s<20>(levelString, "Level: %d", currentLevel);
+    console->printText(rightPanel + 2, 15, levelString);
 }

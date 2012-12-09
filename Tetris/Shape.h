@@ -37,6 +37,8 @@ struct Matrix
 
     void reset()
     {
+        field.clear();
+
         for (int y = 0; y < height; y++)
         {
             field.push_back(vector<bool>());

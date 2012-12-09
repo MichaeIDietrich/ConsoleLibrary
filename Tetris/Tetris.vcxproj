@@ -12,7 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ConsoleLibrary\Console.h" />
-    <ClInclude Include="..\ConsoleLibrary\WinConsole.h" />
     <ClInclude Include="Shape.h" />
   </ItemGroup>
   <ItemGroup>
